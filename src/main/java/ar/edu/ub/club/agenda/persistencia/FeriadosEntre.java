@@ -21,6 +21,16 @@ public class FeriadosEntre extends ConsultaEntidades<Feriado> {
     private LocalDate hasta;
 
     /**
+     * TEMPORAL (rama reservas): constructor que implementa el agente del módulo; se descarta al unir.
+     *
+     * <p>Casos de uso: CU-27
+     */
+    public FeriadosEntre(LocalDate desde, LocalDate hasta) {
+        this.desde = desde;
+        this.hasta = hasta;
+    }
+
+    /**
      * PENDIENTE: documentar.
      *
      * <p>Casos de uso: todos

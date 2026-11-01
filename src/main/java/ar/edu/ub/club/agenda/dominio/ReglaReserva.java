@@ -31,7 +31,7 @@ public class ReglaReserva extends EntidadPersistente {
     private Integer anticipacionMinimaModificacionHoras;
 
     /** Identificador de la única fila. */
-    private Long ID_UNICO;
+    public static final Long ID_UNICO = 1L;
 
     /**
      * Aplica y valida los seis parámetros (CU-25).

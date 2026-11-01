@@ -26,7 +26,7 @@ public class DisponibilidadClub extends EntidadPersistente {
     private LocalTime horaCierre;
 
     /** Identificador de la única fila. */
-    private Long ID_UNICO;
+    public static final Long ID_UNICO = 1L;
 
     /**
      * Valida al menos un día, cierre posterior a apertura y lugar para un turno (CU-24).

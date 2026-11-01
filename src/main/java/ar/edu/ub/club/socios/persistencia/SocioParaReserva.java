@@ -17,6 +17,15 @@ public class SocioParaReserva extends ConsultaEntidades<Socio> {
     private Long idSocio;
 
     /**
+     * TEMPORAL (rama reservas): constructor que implementa el agente del módulo; se descarta al unir.
+     *
+     * <p>Casos de uso: CU-27
+     */
+    public SocioParaReserva(Long idSocio) {
+        this.idSocio = idSocio;
+    }
+
+    /**
      * PENDIENTE: documentar.
      *
      * <p>Casos de uso: todos
