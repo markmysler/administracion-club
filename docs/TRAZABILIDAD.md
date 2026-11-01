@@ -8,6 +8,18 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-01 -->
 
+**Implementación (socios y grupos)**
+
+**CU-01 Registrar socio** (`sec_cu01_p1.puml`, `sec_cu01_p2.puml`, `sec_cu01_p3.puml`, `sec_cu09_p2.puml` grupo, `col_cu01.puml`)
+1. `VistaListadoSocios` botón «Registrar socio» → `PresentadorListadoSocios.alNuevo` → `navegarA("socios/formulario")`
+2. `VistaFormularioSocio.alEntrar` → `PresentadorFormularioSocio.cargar(null)` → `ServicioSocios.listarCategorias` → `FachadaPersistencia.buscar(CategoriasSocio)` → `BrokerCategoriaSocio` (tabla `categoria_socio`) → `mostrarCategorias` / `mostrarFormulario(new DatosSocio(), true)`
+3. Guardar: `FormularioEntidad.leer()` → `PresentadorFormularioSocio.alGuardar(datos)` → `ServicioSocios.registrarSocio(datos)`:
+   `UsuarioActual.obtener` → `ControlAcceso.verificar(GESTIONAR_SOCIOS)` → `PoliticaContrasenas.validar` → `FachadaPersistencia.contar(SocioPorDni)` → `get(idCategoria, CategoriaSocio)` → `contar(UsuarioPorUsername)` → `contar(UsuarioPorEmail)` → `CodificadorClave.codificar` → `new Socio(datos, categoria, hash)` →
+   `ServicioGruposFamiliares.crearGrupoUnipersonal(s)` → `new GrupoFamiliar(hoy)`, `agregarIntegrante(s)`, `cambiarTitular(s)` → `FachadaPersistencia.put(g)` → `BrokerGrupoFamiliar.insertar` (INSERT `grupo_familiar` sin titular) → `guardarPartes` → `put(s)` → `BrokerSocio.insertar` (INSERT `usuario`, `BrokerUsuario.guardarPartes` INSERT `socio`) → UPDATE `grupo_familiar` titular/vigente →
+   `ServicioAuditoria.registrar("ALTA", "Socio")` → `navegarA("socios/ficha/" + id)`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu01_p1.puml` — CU-01 Administrador registra socio (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -56,6 +68,15 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-02 -->
 
+**Implementación (socios y grupos)**
+
+**CU-02 Modificar socio** (`sec_cu02_p1.puml`, `sec_cu02_p2.puml`)
+1. `VistaFichaSocio` «Modificar» → `PresentadorFichaSocio.alModificar` → `navegarA("socios/formulario/" + id)`
+2. `PresentadorFormularioSocio.cargar(id)` → `ServicioSocios.listarCategorias` + `ServicioSocios.consultarSocio(id)` → `DatosSocio.desde(ficha.socio)` → `mostrarFormulario(datos, false)`
+3. `alGuardar(datos)` → `ServicioSocios.modificarSocio(id, datos)` → `get(id, Socio)` (`BrokerSocio`, `usuario JOIN socio`) → `contar(SocioPorDni)` si cambió → `get(idCategoria, CategoriaSocio)` si cambió → `Socio.actualizarDatos` → `put(s)` (UPDATE `usuario` y `socio`) → `ServicioAuditoria.registrar("MODIFICACION")`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu02_p1.puml` — CU-02 Administrador modifica datos de socio (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -94,6 +115,12 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-03 Administrador desactiva socio
 
 <!-- NOTAS:CU-03 -->
+
+**Implementación (socios y grupos)**
+
+**CU-03 Desactivar socio** (`sec_cu03_p1.puml` … `sec_cu03_p4.puml`, `col_cu03.puml`, `est_dialogo_baja.puml`, `sec_comun_cancelar_baja.puml`, `pat_observer_dominio.puml`)
+1. `VistaFichaSocio` «Desactivar socio» → `PresentadorFichaSocio.alDesactivar` → `PantallaFichaSocio.abrirDesactivacion(id, nombre, dni, candidatosTitular)` → `new DialogoDesactivarSocio(presentador).abrir(...)` → `PresentadorDesactivarSocio.alAbrir` → `ServicioSocios.desactivarSocio(id, null, false)` → `get(id, Socio)`, `Socio.estaActiva`, `buscarUno(GrupoVigenteDeSocio)` (`BrokerGrupoFamiliar`, `grupo_familiar`), `GrupoFamiliar.integrantesActivos` (proxy `SociosDeGrupo`), `ConsultaReservasFuturas.buscarFuturasDeSocio` → `ResultadoBaja.pendiente` → `mostrarAfectadas(FilaResumenReserva.desde…)`
+2. Confirmar → `PresentadorDesactivarSocio.alConfirmar(idNuevoTitular)` → `ServicioSocios.desactivarSocio(id, idNuevoTitular, true)` → [titular con otros] `get(idNuevoTitular, Socio)`, `GrupoFamiliar.cambiarTitular`, `put(g)` → `Socio.desactivar` → `ApplicationEventPublisher.publishEvent(SocioDesactivadoEvento)` → (`CanceladorReservasPorBaja`, módulo reservas) → `put(s)` (UPDATE `usuario`) → `GestorSesiones.revocarTokensDe`, `invalidarSesionesDe` → `ServicioAuditoria.registrar("BAJA")` → `ResultadoBaja.realizada` → `cerrarConExito` → `DialogoResueltoEvento` → `PresentadorFichaSocio.cargar`
 
 **Implementación (reservas y notificaciones) — Cancelación por bajas (sec_comun_cancelar_baja; CU-03, CU-20, CU-23)**
 
@@ -163,6 +190,14 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 
 <!-- NOTAS:CU-04 -->
 
+**Implementación (socios y grupos)**
+
+**CU-04 Consultar socio** (`sec_cu04_p1.puml`, `sec_cu04_p2.puml`)
+1. `VistaListadoSocios` «Buscar» → `PresentadorListadoSocios.alBuscar(criterio)` → `ServicioSocios.buscarSocios` → `buscar(SociosPorCriterio)` (`BrokerSocio`, `usuario JOIN socio`) → `FilaSocio.desde` → `mostrarSocios`
+2. «Ver ficha» → `alSeleccionar(id)` → `navegarA("socios/ficha/" + id)` → `VistaFichaSocio.alEntrar` → `PresentadorFichaSocio.cargar(id)` → `ServicioSocios.consultarSocio(id)` → `get(id, Socio)` → `buscarUno(GrupoVigenteDeSocio)` → `integrantesActivos` → `ConsultaReservasFuturas.buscarFuturasDeSocio` → `grupo.getCuotas()` (proxy `CuotasDeGrupo`, tabla `cuota`) → `new FichaSocio` → `DetalleSocio.desde(ficha)` → `mostrarFicha`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu04_p1.puml` — CU-04 Administrador consulta socio (parte 1: búsqueda y ficha, de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -197,6 +232,14 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-05 Socio consulta perfil e historial propio
 
 <!-- NOTAS:CU-05 -->
+
+**Implementación (socios y grupos)**
+
+**CU-05 Perfil propio** (`sec_cu05_p1.puml`, `sec_cu05_p2.puml`, `sec_cu05_p3.puml`)
+1. P-05: `VistaInicioSocio.alEntrar` → `PresentadorInicioSocio.cargar` → `SocioActualSesion.obtener` (`SecurityContextHolder` → `get(id, Socio)`) → `ServicioSocios.consultarPerfilPropio(socio)` → `ControlAcceso.verificar(CONSULTAR_PERFIL_PROPIO)` → `buscarUno(GrupoVigenteDeSocio)` → `integrantesActivos` → cuota vigente (última de `getCuotas()`) → `buscarFuturasDeSocio` → `new PerfilSocio` → `ResumenPerfil.desde` → `mostrarResumen`
+2. P-24: `VistaMiPerfil.alEntrar` → `PresentadorMiPerfil.cargar` → igual que 1 → `ServicioCuotas.consultarSaldo(perfil.grupo.id)` → `ResumenSaldo.desde` → `mostrarPerfil`, `mostrarSaldo`
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu05_p1.puml` — CU-05 Socio consulta perfil e historial propio (parte 1: perfil)
 
@@ -244,6 +287,14 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 
 <!-- NOTAS:CU-06 -->
 
+**Implementación (socios y grupos)**
+
+**CU-06 Categorías** (`sec_cu06_p1.puml`, `sec_cu06_p2.puml`, `sec_cu06_p3.puml`)
+1. `VistaCategorias.alEntrar` → `PresentadorCategorias.cargar` → `ServicioSocios.listarCategorias` → `buscar(CategoriasSocio)` → `FilaCategoria.desde` → `mostrarCategorias`
+2. «Nueva categoría»/«Editar» → `alEditar(fila)` → `editar(DatosCategoria, id)` → Guardar → `alGuardar(id, datos)` → `registrarCategoria` (`buscar(CategoriaPorNombre)`, `new CategoriaSocio`, `put` INSERT `categoria_socio`) o `modificarCategoria` (`buscar(CategoriaPorNombre)`, `get`, `contar(SociosActivosDeCategoria)`, `CategoriaSocio.modificar`, `put` UPDATE) → `ServicioAuditoria.registrar` → `cargar()`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu06_p1.puml` — CU-06 Administrador configura categorías de socio (parte 1: listado y formulario)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -287,6 +338,16 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-07 Administrador asocia socio a grupo familiar
 
 <!-- NOTAS:CU-07 -->
+
+**Implementación (socios y grupos)**
+
+**CU-07 Asociar socio a grupo** (`sec_cu07_p1.puml`, `sec_cu07_p2.puml`, `sec_cu07_p3.puml`)
+1. `VistaFichaSocio` «Asociar a grupo familiar» → `PresentadorFichaSocio.alAsociarAGrupo` → `abrirAsociacion(..., null)` → `new DialogoAsociarSocio(p).abrir(...)` → `PresentadorAsociarSocio.alAbrir` → `mostrarSocio`
+   (desde P-11: `PresentadorGrupoFamiliar.alBuscarSocio` → `ServicioSocios.buscarSocios` → `alElegirSocioParaAsociar` → `abrirAsociacion(..., idGrupo)` → `preseleccionar`)
+2. «Buscar» → `alBuscar(texto)` → `ServicioGruposFamiliares.buscarGrupos(new CriterioBusquedaGrupo(texto, true))` → `buscar(GruposPorCriterio)` (`grupo_familiar` + EXISTS `socio`) → `ResumenGrupo` → `FilaGrupo.desde` → `mostrarGrupos`
+3. «Confirmar» → `alConfirmar(idGrupoDestino)` → `ServicioGruposFamiliares.asociarSocio` → `get(idSocio, Socio)`, `buscarUno(GrupoVigenteDeSocio)`, `get(idGrupoDestino, GrupoFamiliar)` → controles FA2 → `origen.integrantesActivos`, FA3 → `origen.quitarIntegrante(s)` → `destino.agregarIntegrante(s)` (`Socio.asignarGrupoFamiliar`) → `put(origen)`, `put(destino)` (`guardarPartes` → `put(s)` UPDATE `socio.grupo_familiar_id`) → `ServicioAuditoria.registrar` → `cerrarConExito`, `navegarA("grupos/" + id)`
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu07_p1.puml` — CU-07 Administrador asocia socio a grupo familiar (parte 1: búsqueda del grupo destino)
 
@@ -337,6 +398,13 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 
 <!-- NOTAS:CU-08 -->
 
+**Implementación (socios y grupos)**
+
+**CU-08 Cambiar titular** (`sec_cu08_p1.puml`, `sec_cu08_p2.puml`)
+`VistaGrupoFamiliar` fila «Designar titular» → `DialogoConfirmacion` → `PresentadorGrupoFamiliar.alCambiarTitular(id)` → `ServicioGruposFamiliares.cambiarTitular(idGrupo, id)` → `get(idGrupo, GrupoFamiliar)`, `get(id, Socio)` → `GrupoFamiliar.cambiarTitular` (→ `integrantesActivos`) → `put(g)` (UPDATE `grupo_familiar`) → `ServicioAuditoria.registrar` → `FichaGrupo.desde` → `mostrarGrupo`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu08_p1.puml` — CU-08 Administrador cambia titular de grupo familiar (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -368,6 +436,13 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-09 Administrador quita socio de grupo familiar
 
 <!-- NOTAS:CU-09 -->
+
+**Implementación (socios y grupos)**
+
+**CU-09 Quitar integrante** (`sec_cu09_p1.puml`, `sec_cu09_p2.puml`)
+`VistaGrupoFamiliar` fila «Quitar del grupo» → `DialogoConfirmacion` → `PresentadorGrupoFamiliar.alQuitar(id)` → `ServicioGruposFamiliares.quitarSocio(idGrupo, id)` → `get` grupo y socio → `integrantesActivos` → FA1/FA2 → `GrupoFamiliar.quitarIntegrante` → `crearGrupoUnipersonal(s)` (`new GrupoFamiliar`, `agregarIntegrante`, `cambiarTitular`, `put(nuevo)` INSERT `grupo_familiar`, UPDATE `socio`) → `put(g)` → `ServicioAuditoria.registrar` → `mostrarGrupo`
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu09_p1.puml` — CU-09 Administrador quita socio de grupo familiar (parte 1: de la vista a la fachada)
 
@@ -402,6 +477,13 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-10 Administrador consulta grupo familiar
 
 <!-- NOTAS:CU-10 -->
+
+**Implementación (socios y grupos)**
+
+**CU-10 Consultar grupo** (`sec_cu10_p1.puml`, `sec_cu10_p2.puml`, `pat_consulta_proxy.puml`)
+`VistaGrupoFamiliar` «Buscar» → `PresentadorGrupoFamiliar.alBuscarGrupo(texto)` → `ServicioGruposFamiliares.buscarGrupos(new CriterioBusquedaGrupo(texto, null))` → `buscar(GruposPorCriterio)` → `FilaGrupo.desde` → `mostrarGrupos`; «Ver detalle» (o ruta `grupos/:id`) → `cargar(id)` → `consultarGrupo` → `get(id, GrupoFamiliar)` (`BrokerGrupoFamiliar.crearObjeto` con 3 `ProxyListaVirtual`) → `integrantesActivos` (proxy → `SociosDeGrupo`) → `calcularImporteCuota` → `DetalleGrupo` → `FichaGrupo.desde` → `mostrarGrupo`
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu10_p1.puml` — CU-10 Administrador consulta grupo familiar (parte 1: búsqueda)
 
@@ -780,6 +862,19 @@ Incluido en CU-14: `ServicioAccesos.crearAdministrador` → `contar(UsuarioPorUs
 
 <!-- NOTAS:CU-18 -->
 
+**Implementación (recursos y agenda)**
+
+**CU-18 Registrar deporte** — `sec_cu18.puml`
+1. `VistaDeportes` botón «Nuevo deporte» → `PresentadorDeportes.alEditar(null)` → `PantallaDeportes.editar(new DatosDeporte(), null)` (`VistaDeportes.editar`)
+2. Guardar → `FormularioEntidad.leer()` (Binder: nombre 1..40, descripción ≤ 200; FA2) → `PresentadorDeportes.alGuardar(null, datos)` → `PresentadorBase.ejecutar`
+3. `ServicioRecursos.registrarDeporte(datos)` → `UsuarioActual.obtener()` → `ControlAcceso.verificar(usuario, GESTIONAR_RECURSOS)`
+4. `FP.contar(new DeportePorNombre(nombre, null))` → `ConsultaEntidades.contarCon` → `BrokerDeporte.contar` [deporte] (FA3 → `ErrorNegocio("nombre")` → `VistaDeportes.marcarCampo`)
+5. `new Deporte(nombre, descripcion)` (activo) → `FP.put(d)` → `BrokerBaseDatos.insertar` → `BrokerDeporte.valoresInsercion` [INSERT deporte]
+6. `ServicioAuditoria.registrar(usuario, "ALTA", "Deporte", id, detalle)`
+7. `PresentadorDeportes.cargar()` → `ServicioRecursos.listarCanchas(null)` (`CanchasDeDeporte`, [cancha]) + `listarDeportes()` (`Deportes`, [deporte]) → `FilaDeporte.desde(d, n)` → `VistaDeportes.mostrarDeportes` + `mostrarMensaje`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu18.puml` — CU-18 Administrador registra deporte
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -802,6 +897,18 @@ Incluido en CU-14: `ServicioAccesos.crearAdministrador` → `contar(UsuarioPorUs
 ## CU-19 Administrador modifica deporte
 
 <!-- NOTAS:CU-19 -->
+
+**Implementación (recursos y agenda)**
+
+**CU-19 Modificar deporte** — `sec_cu19.puml`
+1. `VistaDeportes` acción «Modificar» → `PresentadorDeportes.alEditar(fila)` → `VistaDeportes.editar(new DatosDeporte(fila.nombre(), fila.descripcion(), fila.activo()), fila.id())`
+2. Guardar → `PresentadorDeportes.alGuardar(id, datos)` → `ServicioRecursos.modificarDeporte(id, datos)` → `ControlAcceso.verificar`
+3. `FP.get(id, Deporte)` → `BrokerDeporte.materializar` → `crearObjeto` → `Deporte.reconstituir` [deporte]
+4. `FP.contar(new DeportePorNombre(nombre, id))` (FA4) → `Deporte.modificar(nombre, descripcion)`; si `datos.activo` y estaba inactivo → `Deporte.activar()` (FA1)
+5. `FP.put(d)` → `BrokerDeporte.valoresActualizacion` [UPDATE deporte] → `ServicioAuditoria.registrar(..., "MODIFICACION", "Deporte", ...)`
+6. `PresentadorDeportes.cargar()` → `VistaDeportes.mostrarDeportes`
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu19.puml` — CU-19 Administrador modifica deporte
 
@@ -828,6 +935,17 @@ Incluido en CU-14: `ServicioAccesos.crearAdministrador` → `contar(UsuarioPorUs
 ## CU-20 Administrador desactiva deporte
 
 <!-- NOTAS:CU-20 -->
+
+**Implementación (recursos y agenda)**
+
+**CU-20 Desactivar deporte** — `sec_cu20_p1.puml`, `sec_cu20_p2.puml`, `sec_cu20_p3.puml`, `sec_comun_cancelar_baja.puml`
+1. `VistaDeportes` acción «Desactivar» → `PresentadorDeportes.alDesactivar(id)` → `ServicioRecursos.desactivarDeporte(id, false)`
+2. `ControlAcceso.verificar` → `FP.get(id, Deporte)` → `Deporte.estaActivo()` (FA1 → `ErrorNegocio` → `mostrarError`)
+3. `ConsultaReservasFuturas.buscarFuturasDeDeporte(id)` (impl. reservas) → `ResultadoBaja.pendiente(afectadas)`
+4. `FilaResumenReserva.desde(r)` → `VistaDeportes.pedirConfirmacionBaja(id, afectadas)` → `DialogoConfirmacion.mostrarAdvertencias` / `abrir`
+5. Confirmar → `PresentadorDeportes.alConfirmarDesactivacion(id)` → `ServicioRecursos.desactivarDeporte(id, true)` → `Deporte.desactivar()` → `FP.put(d)` [UPDATE deporte]
+6. `ApplicationEventPublisher.publishEvent(new DeporteDesactivadoEvento(id, usuario, ahora))` → `CanceladorReservasPorBaja.alDesactivarDeporte` (reservas, misma transacción) [reserva]
+7. `ServicioAuditoria.registrar(..., "BAJA", "Deporte", ...)` → `ResultadoBaja.realizada(afectadas)` → `PresentadorDeportes.informarBaja` → `cargar()` + `mostrarMensaje`
 
 **Implementación (reservas y notificaciones) — Cancelación por bajas (sec_comun_cancelar_baja; CU-03, CU-20, CU-23)**
 
@@ -882,6 +1000,18 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 
 <!-- NOTAS:CU-21 -->
 
+**Implementación (recursos y agenda)**
+
+**CU-21 Registrar cancha** — `sec_cu21_p1.puml`, `sec_cu21_p2.puml`
+1. `VistaCanchas.alEntrar` → `PresentadorCanchas.cargar(null)` → `ServicioRecursos.listarDeportes()` (activos → `OpcionSeleccion`) → `VistaCanchas.mostrarDeportes`; `listarCanchas(null)` → `FilaCancha.desde` → `mostrarCanchas`
+2. «Nueva cancha» → `PresentadorCanchas.alEditar(null)` (FA1 sin deportes activos → `mostrarMensaje`) → `VistaCanchas.editar(new DatosCancha(), null)`
+3. Guardar → `VistaCanchas.enviar` (`confirmar = false`) → `PresentadorCanchas.alGuardar(null, datos)` → `ServicioRecursos.registrarCancha(datos)` → `ControlAcceso.verificar`
+4. `FP.contar(new CanchaPorNombre(nombre, null))` [cancha] (FA4) → `ServicioRecursos.deporteActivo(idDeporte)` → `FP.get(idDeporte, Deporte)` → `Deporte.estaActivo()` (FA5 → `ErrorNegocio("idDeporte")`; el presentador recarga los deportes)
+5. `new Cancha(nombre, d, ubicacion, caracteristicas)` → `FP.put(c)` → `BrokerCancha.valoresInsercion` [INSERT cancha] → `ServicioAuditoria.registrar(..., "ALTA", "Cancha", ...)`
+6. `PresentadorCanchas.cargar(filtro)` → `VistaCanchas.mostrarCanchas` + `mostrarMensaje`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu21_p1.puml` — CU-21 Administrador registra cancha (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -914,6 +1044,19 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-22 Administrador modifica cancha
 
 <!-- NOTAS:CU-22 -->
+
+**Implementación (recursos y agenda)**
+
+**CU-22 Modificar cancha** — `sec_cu22_p1.puml`, `sec_cu22_p2.puml`
+1. «Modificar» → `PresentadorCanchas.alEditar(fila)` → `VistaCanchas.editar(new DatosCancha(fila..., false), fila.id())`
+2. Guardar → `VistaCanchas.enviar` → `PresentadorCanchas.alGuardar(id, datos)` → `ServicioRecursos.modificarCancha(id, datos)` → `ControlAcceso.verificar`
+3. `FP.get(id, Cancha)` → `BrokerCancha.crearObjeto` + `cargarAsociaciones` → `FP.get(deporte_id, Deporte)` → `Cancha.restaurarAsociaciones` [cancha, deporte]
+4. `FP.contar(new CanchaPorNombre(nombre, id))` (FA4); si cambió el deporte: `deporteActivo(idDeporte)` (FA5) y `ConsultaReservasFuturas.buscarFuturasDeCancha(id)`; con reservas y sin `confirmar` → `ConfirmacionRequeridaException`
+5. FA6: `PresentadorBase.consultar` → `PresentadorCanchas.alRequerirConfirmacion(ex)` → `VistaCanchas.pedirConfirmacionCambio(afectadas)` → `DialogoConfirmacion` → reenvía `PresentadorCanchas.alGuardar(id, datos)` con `datos.confirmar = true`
+6. `Cancha.modificar(...)`; si `datos.activa` y estaba inactiva → `Cancha.activar()` (exige deporte activo, FA1) → `FP.put(c)` [UPDATE cancha] → `ServicioAuditoria.registrar(..., "MODIFICACION", "Cancha", ...)`
+7. `PresentadorCanchas.cargar(filtro)` → `VistaCanchas.mostrarCanchas`
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu22_p1.puml` — CU-22 Administrador modifica cancha (parte 1: de la vista a la fachada)
 
@@ -953,6 +1096,15 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-23 Administrador desactiva cancha
 
 <!-- NOTAS:CU-23 -->
+
+**Implementación (recursos y agenda)**
+
+**CU-23 Desactivar cancha** — `sec_cu23_p1.puml`, `sec_cu23_p2.puml`, `sec_cu23_p3.puml`, `sec_comun_cancelar_baja.puml`
+1. «Desactivar» → `PresentadorCanchas.alDesactivar(id)` → `ServicioRecursos.desactivarCancha(id, false)` → `ControlAcceso.verificar` → `FP.get(id, Cancha)` → `Cancha.estaActivo()` (FA1)
+2. `ConsultaReservasFuturas.buscarFuturasDeCancha(id)` → `ResultadoBaja.pendiente` → `VistaCanchas.pedirConfirmacionBaja(id, afectadas)` → `DialogoConfirmacion`
+3. Confirmar → `PresentadorCanchas.alConfirmarDesactivacion(id)` → `ServicioRecursos.desactivarCancha(id, true)` → `Cancha.desactivar()` → `FP.put(c)` [UPDATE cancha]
+4. `ApplicationEventPublisher.publishEvent(new CanchaDesactivadaEvento(id, usuario, ahora))` → `CanceladorReservasPorBaja.alDesactivarCancha` (reservas) [reserva]
+5. `ServicioAuditoria.registrar(..., "BAJA", "Cancha", ...)` → `ResultadoBaja.realizada` → `PresentadorCanchas.informarBaja` → `cargar` + `mostrarMensaje`
 
 **Implementación (reservas y notificaciones) — Cancelación por bajas (sec_comun_cancelar_baja; CU-03, CU-20, CU-23)**
 
@@ -1006,6 +1158,19 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-24 Administrador configura disponibilidad del club
 
 <!-- NOTAS:CU-24 -->
+
+**Implementación (recursos y agenda)**
+
+**CU-24 Configurar disponibilidad del club** — `sec_cu24_p1.puml` … `sec_cu24_p5.puml`
+1. `VistaDisponibilidadClub.alEntrar` → `PresentadorDisponibilidadClub.cargar()` → `ServicioAgenda.consultarDisponibilidadClub()` → `FP.get(DisponibilidadClub.ID_UNICO, DisponibilidadClub)` → `BrokerDisponibilidadClub.crearObjeto` + `cargarAsociaciones` → `FP.buscar(new DiasAtencion(1))` [dia_atencion] y `FP.buscar(new Feriados())` (`BrokerFeriado`) [feriado] → `DisponibilidadClub.restaurarAsociaciones` [disponibilidad_club]
+2. → `DatosDisponibilidad.desde(d)` + `FilaFeriado.desde(f)` → `VistaDisponibilidadClub.mostrarDisponibilidad`; `ServicioAgenda.consultarReglas()` (`FP.get(ReglaReserva.ID_UNICO, ...)` [regla_reserva]) → `mostrarRangoCalendario`
+3. Horario: `VistaDisponibilidadClub.guardarHorario` → `PresentadorDisponibilidadClub.alGuardarHorario(datos)` → `ServicioAgenda.configurarDisponibilidad(datos)` → `ControlAcceso.verificar(CONFIGURAR_AGENDA)` → `FP.get(ReglaReserva)` → `FP.get(DisponibilidadClub)` → `DisponibilidadClub.modificar(dias, apertura, cierre, duracion)` (FA3/FA4)
+4. `ConsultaReservasFuturas.buscarFuturasDesde(reloj.ahora())` → `new Turno(...)` → `DisponibilidadClub.atiende` / `dentroDelHorario` → si hay fuera y no `confirmar` → `ConfirmacionRequeridaException` → `PresentadorDisponibilidadClub.alRequerirConfirmacion` → `VistaDisponibilidadClub.pedirConfirmacion` → reenvío con `confirmar = true`
+5. `FP.put(d)` → `BrokerDisponibilidadClub.valoresActualizacion` [UPDATE disponibilidad_club] + `guardarPartes` [DELETE/INSERT dia_atencion] → `ServicioAuditoria.registrar(..., "MODIFICACION", "DisponibilidadClub", ...)` → `cargar()`
+6. Feriado (FA1, p3/p4): `VistaDisponibilidadClub.agregarFeriado` → `PresentadorDisponibilidadClub.alAgregarFeriado` → `ServicioAgenda.registrarFeriado(datos)` → fecha futura → `FP.contar(new FeriadosEntre(fecha, fecha))` → `ConsultaReservasFuturas.buscarDeFecha(fecha)` (confirmación) → `new Feriado(fecha, descripcion)` → `FP.put(f)` → `BrokerFeriado` [INSERT feriado] → auditoría ALTA
+7. Eliminar feriado (FA2, p5): `VistaDisponibilidadClub.confirmarEliminacion` → `DialogoConfirmacion` → `PresentadorDisponibilidadClub.alEliminarFeriado(id)` → `ServicioAgenda.eliminarFeriado(id)` → `FP.get(id, Feriado)` → `FP.eliminar(f)` → `BrokerBaseDatos.borrar` [DELETE feriado] → auditoría BAJA
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu24_p1.puml` — CU-24 Administrador configura disponibilidad del club (parte 1: días y horario)
 
@@ -1086,6 +1251,15 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 
 <!-- NOTAS:CU-25 -->
 
+**Implementación (recursos y agenda)**
+
+**CU-25 Configurar reglas de reserva** — `sec_cu25_p1.puml`, `sec_cu25_p2.puml`
+1. `VistaReglasReserva.alEntrar` → `PresentadorReglasReserva.cargar()` → `ServicioAgenda.consultarReglas()` → `FP.get(ReglaReserva.ID_UNICO, ReglaReserva)` → `BrokerReglaReserva.crearObjeto` → `ReglaReserva.reconstituir` [regla_reserva] → `DatosReglaReserva.desde` → `VistaReglasReserva.mostrarReglas`
+2. Guardar (Binder: enteros > 0, FA2) → `PresentadorReglasReserva.alGuardar(datos)` → `ServicioAgenda.configurarReglas(datos)` → `ControlAcceso.verificar` → `FP.get(ReglaReserva)` → `FP.get(DisponibilidadClub)` → `ReglaReserva.modificar(datos, d)` (FA2/FA3 → `ErrorNegocio(campo)` → `marcarCampo`)
+3. `FP.put(regla)` → `BrokerReglaReserva.valoresActualizacion` [UPDATE regla_reserva] → `ServicioAuditoria.registrar(..., "MODIFICACION", "ReglaReserva", ...)` → `mostrarReglas` + `mostrarMensaje`
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu25_p1.puml` — CU-25 Administrador configura reglas de reserva (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1110,6 +1284,16 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 ## CU-26 Socio o Administrador consulta disponibilidad de canchas
 
 <!-- NOTAS:CU-26 -->
+
+**Implementación (recursos y agenda)**
+
+**CU-26 Consultar disponibilidad (parte agenda)** — `sec_cu26_p1.puml` (vista/presentador de reservas), `sec_cu26_p2.puml`, `sec_cu26_p3.puml`
+1. `PresentadorDisponibilidadCanchas` (reservas) → `ServicioRecursos.listarDeportes()` / `listarCanchas(null)` → … → `ServicioAgenda.consultarDisponibilidad(filtro)`
+2. `ControlAcceso.verificar(CONSULTAR_DISPONIBILIDAD)` → `FP.get(ReglaReserva.ID_UNICO, ...)` → `ReglaReserva.fechaConsultable(fecha, reloj.hoy())` (FA2)
+3. `FP.get(DisponibilidadClub.ID_UNICO, ...)` (con días y feriados) → `DisponibilidadClub.atiende(fecha)` (FA3)
+4. `FP.buscar(new CanchasDeDeporte(idDeporte))` → `BrokerCancha` [cancha, deporte] → filtro `Cancha.estaDisponibleParaReservar()` y cancha del filtro (FA4)
+5. Por cancha: `ConsultaTurnosOcupados.turnosOcupados(idCancha, fecha)` (impl. `ConsultaTurnosOcupadosReservas` → `TurnosOcupadosDeCancha` [reserva]) → `CalendarioTurnos.generarTurnos(cancha, fecha, d, regla, ocupados)`
+6. `CalendarioTurnos.generarTurnos` → `DisponibilidadClub.getHoraApertura/getHoraCierre` → `ReglaReserva.getDuracionTurnoMinutos` → `Reloj.ahora()` → por turno `new Turno(...)`, `Turno.seSuperponeCon(o)` (OCUPADO), `ReglaReserva.cumpleAnticipacionMinima(t, ahora)` (NO_DISPONIBLE) → `new TurnoDisponible(cancha, t, estado)`
 
 **Implementación (reservas y notificaciones) — CU-26 Consultar disponibilidad (sec_cu26_p1, sec_cu26_p2, sec_cu26_p3)**
 
@@ -1584,6 +1768,16 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 
 <!-- NOTAS:CU-34 -->
 
+**Implementación (cuotas y pagos (servidor))**
+
+**CU-34** (sec_cu34_p1..p3): `VistaMediosPago` → `PresentadorMediosPago.cargar` → `ServicioPagos.consultarMediosYPasarela` → `FachadaPersistencia.buscar(MediosPago)` → `BrokerMedioPago` (medio_pago) y `FachadaPersistencia.get(ConfiguracionPasarela.ID_UNICO)` → `BrokerConfiguracionPasarela` (configuracion_pasarela) → `new ConfiguracionPagos`. Guardar: `PresentadorMediosPago.alGuardar` → `ServicioPagos.configurarMediosYPasarela` → `contar(MedioPagoPorNombre)` / `put(new MedioPago)` / `get(id, MedioPago)` + `MedioPago.cambiarHabilitado` + `put` → `get(ConfiguracionPasarela)` → `pasarelaActiva/adaptadorDe` → `PasarelaPago.validarConfiguracion` (Adapter) → `ConfiguracionPasarela.configurar` → `put` → `ServicioAuditoria.registrar`.
+
+**Implementación (pagos.ui y reportes)**
+
+**CU-34** (sec_cu34_p1, sec_cu34_p2, sec_cu34_p3): `VistaMediosPago.alEntrar` → `PresentadorMediosPago.cargar` → `ServicioPagos.consultarMediosYPasarela` → `FachadaPersistencia.buscar(MediosPago)` / `get(ConfiguracionPasarela.ID_UNICO)` (tablas medio_pago, configuracion_pasarela) → `DatosConfiguracionPagos.desde` + `ResumenPasarela.desde` → `VistaMediosPago.mostrarConfiguracion`. Guardar: `FormularioEntidad.alEnviar` → `PresentadorMediosPago.alGuardar` → `ServicioPagos.configurarMediosYPasarela` → (`PasarelaPago.validarConfiguracion`, `put`) → `consultarMediosYPasarela` → `mostrarConfiguracion` + `mostrarMensaje`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu34_p1.puml` — CU-34 Configura medios y pasarela de pago\n(parte 1: consulta de la configuración, pasos 1-2)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1630,6 +1824,22 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 ## CU-35 Socio (titular) paga cuota societaria online
 
 <!-- NOTAS:CU-35 -->
+
+**Implementación (cuotas y pagos (servidor))**
+
+**CU-35**
+- p1 (P-25): `VistaEstadoCuenta.alEntrar` → `PresentadorEstadoCuenta.cargar` → `SocioActual.obtener` → `ServicioSocios.consultarPerfilPropio` → `ServicioCuotas.pagoOnlineHabilitado` → `get(ConfiguracionPasarela)` → `ServicioCuotas.consultarCuotasDeGrupo` → `verificarAlcance` (`GrupoVigenteDeSocio`) → `buscar(CuotasDeGrupo)` → `BrokerCuota` (cuota) + `ProxyListaVirtual(ItemsDeCuota)` → `BrokerItemCuota` (item_cuota) → `FilaCuota.desde` (`Cuota.admitePago`, `importeAPagar`) → `VistaEstadoCuenta.mostrarCuotas`; `ServicioCuotas.consultarSaldo` → `GrupoFamiliar.saldoAFavor` + `buscar(MovimientosDeGrupo)` → `ResumenSaldo.desde` → `mostrarSaldo`.
+- p2-p4: botón «Pagar online» → `PresentadorEstadoCuenta.alPagar` → `ServicioPagos.iniciarPagoOnline` → `get(ConfiguracionPasarela)` → `get(idCuota, Cuota)` → `get(idGrupo, GrupoFamiliar).getTitular` (RN-09/20) → `Cuota.admitePago` → `ProcesadorPagoOnline.registrar` (Template Method de `ProcesadorPago`) → `crearPago` (Factory Method) → `new PagoOnline` (EstadoPagoPendiente) → `put` → `BrokerPagoOnline` (pago + pago_online) → `new SolicitudPagoOnline` → `PasarelaSimuladaAdapter.crearIntencionPago` (o `MercadoPagoAdapter`) → `IntencionPago` → `VistaEstadoCuenta.redirigirA` (`Page.setLocation`). FA6: `PagoOnline.rechazar` + `put` + auditoría + `ErrorNegocio` (noRollbackFor).
+- p5 (simulador): `VistaSimuladorPasarela` → `PresentadorSimuladorPasarela.cargar/alResolver` → `PasarelaSimuladaAdapter.obtenerIntencion` / `resolverPago` → `ServicioPagos.confirmarResultadoPasarela`.
+- p6-p8 (webhook MP): `WebhookPasarelaController.recibirNotificacion` (`firmaValida`, errores en `ManejadorErroresWebhook`) → `ServicioPagos.confirmarResultadoPasarela` → `PasarelaPago.obtenerResultado` → `buscarUno(PagoPorReferenciaExterna(ref, true))` (FOR UPDATE, `BrokerPagoOnline`) → `EstadoPago.esFinal` (idempotencia) → `aplicarResultado` → `PagoOnline.registrarRespuestaPasarela` → aprobado y `Cuota.admitePago`: `Pago.aprobar` (`EstadoPagoPendiente/Vencido.aprobar` → `cambiarEstado`) → `put(pago)` → `Cuota.registrarPagoAprobado` (`EstadoCuotaPendiente/Vencida` → Pagada) → `put(cuota)` → `GeneradorComprobante.generar` (`SiguienteNumeroComprobante` → `nextval`, `BrokerComprobante`) → auditoría; cuota ya pagada: `Pago.acreditar` → `put` → `generar` → `ServicioCuotas.registrarCredito` (sec_tmp_aplicar_saldo) → auditoría; rechazado: `Pago.rechazar` → `put`.
+- p9 (retorno): `RetornoPasarelaController.retornar` (HTML meta refresh + `location.replace`) → `VistaResultadoPago` → `PresentadorResultadoPago.alEntrar/consultar` → `ServicioPagos.consultarPagoOnline` → `buscarUno(PagoPorReferenciaExterna(ref, false))` → `GrupoVigenteDeSocio` (RN-20).
+
+**Implementación (pagos.ui y reportes)**
+
+**CU-35** P-27 (sec_cu35_p5): `RegistradorRutaSimulador.serviceInit` (registra la ruta) → `VistaSimuladorPasarela.beforeEnter` → `PresentadorSimuladorPasarela.cargar` → `PasarelaSimuladaAdapter.obtenerIntencion` → `ResumenIntencionSimulada.desde` → `mostrarIntencion`; Aprobar/Rechazar → `PresentadorSimuladorPasarela.alResolver` → `PasarelaSimuladaAdapter.resolverPago` (→ webhook → `ServicioPagos.confirmarResultadoPasarela`, sec_cu35_p7/p8) → `VistaSimuladorPasarela.redirigirA(urlRetorno)`.
+P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago.alEntrar` → `PresentadorResultadoPago.alEntrar` → `consultar()` → `ServicioPagos.consultarPagoOnline` → `FachadaPersistencia.buscarUno(PagoPorReferenciaExterna)` (tablas pago, pago_online) → `ResumenPagoOnline.desde` → `VistaResultadoPago.mostrarEstado` (`UI.access`) → [pendiente] `TaskScheduler.schedule(this::consultar, 3 s)` … → `mostrarEsperaConfirmacion`; `alSalir` al desprender.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu35_p1.puml` — CU-35 Socio (titular) paga cuota online\n(parte 1: estado de cuenta del grupo, pasos 1-6)
 
@@ -1762,6 +1972,16 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 
 <!-- NOTAS:CU-36 -->
 
+**Implementación (cuotas y pagos (servidor))**
+
+**CU-36** (sec_cu36_p1..p3): `PresentadorPagoManual.cargar` → `ServicioPagos.consultarMediosYPasarela`; `alElegirGrupo` → `ServicioCuotas.consultarCuotasDeGrupo`; `alRegistrar` → `UsuarioActual.obtenerAdministrador` → `ServicioPagos.registrarPagoManual` → `get(idMedio, MedioPago)` → `get(idCuota, Cuota)` → `importeAPagar` → `admitePago` → `ProcesadorPagoManual.registrar` → `crearPago` → `new PagoManual` (Aprobado) → `put` → `BrokerPagoManual` (pago + pago_manual; índice `ux_pago_aprobado_por_cuota` → `esViolacionUnica` → `ErrorNegocio`) → `Cuota.registrarPagoAprobado` → `put(cuota)` → `GeneradorComprobante.generar` → `ServicioAuditoria.registrar`.
+
+**Implementación (pagos.ui y reportes)**
+
+**CU-36** (sec_cu36_p1, sec_cu36_p2): `VistaPagoManual.alEntrar` → `PresentadorPagoManual.cargar` → `ServicioPagos.consultarMediosYPasarela` → `mostrarMedios`; Buscar → `alBuscarGrupo` → `ServicioGruposFamiliares.buscarGrupos` → `FilaGrupo.desde` → `mostrarGrupos`; selección → `alElegirGrupo` → `ServicioCuotas.consultarCuotasDeGrupo` → `FilaCuota.desde(c, false)` → `mostrarCuotas`; Registrar → `DialogoConfirmacion` → `alRegistrar` → `UsuarioActual.obtenerAdministrador` → `ServicioPagos.registrarPagoManual` (tablas pago, pago_manual, cuota, comprobante) → `navegarA("pagos/comprobante/" + id)` → CU-37 parte 3.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu36_p1.puml` — CU-36 Administrador registra pago manual\n(parte 1: medios, búsqueda del grupo y cuotas impagas, pasos 1-4)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1814,6 +2034,16 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 
 <!-- NOTAS:CU-37 -->
 
+**Implementación (cuotas y pagos (servidor))**
+
+**CU-37** (sec_cu37_p1..p3): `PresentadorPagosComprobantes.cargar` → `ServicioPagos.consultarPagos` → `ControlAcceso.tienePermiso(CONSULTAR_PAGOS_CLUB)` → `buscar(PagosPorFiltro)` (o `GrupoVigenteDeSocio` + `buscar(PagosDeGrupo)`) → `ConsultaEntidades.resolver` en `BrokerPagoOnline/Manual/ConSaldo` (JOIN con tabla hija) → `comparador()` fecha desc → `FilaPago.desde` (`origen`, `descripcionMedio`). Saldo: `cargarSaldo` → `ServicioCuotas.consultarSaldo` → `get(GrupoFamiliar).saldoAFavor` + `buscar(MovimientosDeGrupo)` → `BrokerMovimientoSaldo`. Comprobante: `PresentadorComprobante.cargar` → `ServicioPagos.obtenerComprobante` → `get(id, Comprobante)` → `BrokerComprobante.cargarAsociaciones` → `get(idPago, Pago)` (polimórfico) → `BrokerPago.cargarAsociaciones` (cuota + `ComprobanteDePago`) → verificación de alcance.
+
+**Implementación (pagos.ui y reportes)**
+
+**CU-37** (sec_cu37_p1, sec_cu37_p2, sec_cu37_p3): `VistaPagosComprobantes.alEntrar/alFiltrar` (`FiltroFechas.valor`) → `PresentadorPagosComprobantes.cargar` → `UsuarioActual.obtener` → `ServicioPagos.consultarPagos` (`PagosPorFiltro` / `PagosDeGrupo`; tablas pago y subtablas) → `FilaPago.desde` → `mostrarPagos`; saldo: `ServicioSocios.consultarPerfilPropio` → `cargarSaldo` → `ServicioCuotas.consultarSaldo` (grupo_familiar, movimiento_saldo) → `ResumenSaldo.desde` → `mostrarSaldo`; comprobante: `alVerComprobante` → `navegarA` → `VistaComprobante.alEntrar` → `PresentadorComprobante.cargar` → `ServicioPagos.obtenerComprobante` (`get(id, Comprobante)`; tabla comprobante) + `ServicioConfiguracionClub.consultar` → `DetalleComprobante.desde` → `mostrarComprobante`; `alImprimir` → `imprimir`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu37_p1.puml` — CU-37 Consulta pagos y comprobantes\n(parte 1: listado de pagos, pasos 1-4 y 6-7)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1859,6 +2089,12 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 ## CU-38 Administrador genera reporte de uso de canchas
 
 <!-- NOTAS:CU-38 -->
+
+**Implementación (pagos.ui y reportes)**
+
+**CU-38** (sec_cu38_p1 … p4, col_cu38, pat_reportes): `VistaReporteUsoCanchas.alEntrar` → `PresentadorReporteUsoCanchas.cargar` → `ServicioRecursos.listarDeportes/listarCanchas(null)` → `mostrarFiltros`; Generar → `FiltroFechas.valor` → `PresentadorReporteUsoCanchas.alGenerar` → `ServicioReportes.generarReporte(USO_CANCHAS, filtro)` → `ControlAcceso.verificar` → `Reporte.generar` (Template Method) → `validarFiltro` → `ReporteUsoCanchas.obtenerDatos` → `ConsultasReportes.usoCanchas` → `FachadaPersistencia.buscar(UsoDeCanchas)` (tablas reserva, cancha, deporte, disponibilidad_club, dia_atencion, feriado) → `ReporteUsoCanchas.calcularTotales` → `Reporte.armarResultado` → `TablaReporte.desde` → `mostrarResultado`. Exportar → `alExportar` → `ServicioReportes.exportarReporte` → `Reporte.generar` → `exportadores.get(formato).exportar` (`ExportadorExcel` / `ExportadorPdf`, Strategy) → `ArchivoExportado` → `VistaReporteUsoCanchas.descargar` (`StreamResource` + `Anchor`).
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu38_p1.puml` — CU-38 Administrador genera reporte de uso de canchas\n(parte 1: generación, de la vista a la fachada, pasos 1-7)
 
@@ -1917,6 +2153,12 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 
 <!-- NOTAS:CU-39 -->
 
+**Implementación (pagos.ui y reportes)**
+
+**CU-39** (sec_cu39_p1, sec_cu39_p2): igual que CU-38 con `VistaReporteCuotas` → `PresentadorReporteCuotas.alGenerar/alExportar` → `ServicioReportes` → `ReporteCuotasDeudores.obtenerDatos` → `ConsultasReportes.cuotasYDeudores` → `buscar(CuotasYDeudores)` (tablas cuota, grupo_familiar, socio) → `calcularTotales` → `armarResultado` (redefinido, deudores) → `TablaReporte.desde` → `mostrarResultado` / `descargar`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu39_p1.puml` — CU-39 Administrador genera reporte de cuotas y deudores\n(parte 1: de la vista a la fachada, pasos 1-11)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1947,6 +2189,12 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 ## CU-40 Administrador consulta panel de administración
 
 <!-- NOTAS:CU-40 -->
+
+**Implementación (pagos.ui y reportes)**
+
+**CU-40** (sec_cu40): `VistaPanelAdministracion.alEntrar` → `PresentadorPanelAdministracion.cargar` → `Reloj.hoy` → `ServicioDashboard.obtenerIndicadores(hoy)` → `ControlAcceso.verificar` → `ConsultasReportes.indicadores` → `buscarUno(ReservasEntre)` ×2, `buscarUno(RecaudacionEntre)`, `buscarUno(CuotasPagadasEntre)`, `buscarUno(SociosActivos)`, `buscarUno(CuotasEnEstado)` ×2, `buscar(CanchasMasUsadas)` (tablas reserva, pago, socio, usuario, cuota, cancha, deporte…) → `Indicadores` → `ResumenIndicadores.desde` → `mostrarIndicadores`; tarjeta → `alIrAReporte(tipo)` → `navegarA("reportes/uso-canchas" | "reportes/cuotas")`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu40.puml` — CU-40 Administrador consulta panel de administración\n(ServicioDashboard.obtenerIndicadores)
 
@@ -2018,6 +2266,19 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 `@Scheduled` → `PlanificadorReservas.finalizarReservas` → `ServicioReservas.finalizarReservasCumplidas` (readOnly) →
 `buscar(new ReservasCumplidas(ahora))` → por reserva `TransactionTemplate.execute` (REQUIRES_NEW) → `finalizarEnTransaccion` →
 `get(id, Reserva)` → `Reserva.finalizar` → `EstadoReservaConfirmada.finalizar` → `cambiarEstado(FINALIZADA)` → `put`.
+
+**Implementación (cuotas y pagos (servidor))**
+
+**Emisión mensual** (sec_tmp_disparo, sec_tmp_emision_p1/p2): `PlanificadorCuotas.emitirCuotasMensuales` (cron `0 0 0 1 * *`) → `ServicioCuotas.emitirCuotasDelMes` → `buscar(GruposVigentesSinCuota)` → por grupo (REQUIRES_NEW) `emitirCuotaDeGrupo` → `get(GrupoFamiliar)` → `buscarUno(SaldoDeGrupo)` (movimiento_saldo) → `GrupoFamiliar.emitirCuota` (Creator: `new Cuota`, `agregarItem`, `aplicarCredito`) → `put(c)` → `BrokerCuota.guardarPartes` (item_cuota) → `put(new MovimientoSaldo(DEBITO))` → `publishEvent(CuotaCubiertaConSaldoEvento)` → `RegistradorPagoConSaldo.alCubrirCuotaConSaldo` (Observer) → `get(Cuota)` → `ProcesadorPagoConSaldo.registrar` → `new PagoConSaldo` → `put` (pago + pago_con_saldo) → `Cuota.registrarPagoAprobado` → `put` → `GeneradorComprobante.generar`.
+**Aplicar saldo** (sec_tmp_aplicar_saldo): `ServicioCuotas.registrarCredito` → `new MovimientoSaldo(CREDITO)` + `asignarGrupo` → `put` → `aplicarSaldoAPendientes` → `SaldoDeGrupo` → `buscar(CuotasImpagasDeGrupo)` → `put(DEBITO)` → evento → `RegistradorPagoConSaldo`.
+
+**Implementación (cuotas y pagos (servidor))**
+
+**Vencimiento de cuotas** (sec_tmp_vencer_cuotas): `PlanificadorCuotas.vencerCuotas` (`0 0 0 11 * *`) → `ServicioCuotas.marcarCuotasVencidas` → `buscar(CuotasPendientesVencidas)` → `Cuota.vencer` → `EstadoCuotaPendiente.vencer` → `cambiarEstado(Vencida)` → `put`.
+
+**Implementación (cuotas y pagos (servidor))**
+
+**Vencimiento de pagos** (sec_tmp_vencer_pagos): `PlanificadorPagos.vencerPagosPendientes` (`0 0 * * * *`) → `ServicioPagos.vencerPagosPendientes` → `buscar(PagosOnlinePendientesAnterioresA(ahora − 24 h))` → `consultarSinFallar` (`PasarelaPago.obtenerResultado`) → aprobado/rechazado: `aplicarResultado`; si no `Pago.vencer("Abandonado")` → `EstadoPagoPendiente.vencer` → `put` → auditoría `VENCIMIENTO`.
 
 **Diagramas de secuencia del diseño:**
 
