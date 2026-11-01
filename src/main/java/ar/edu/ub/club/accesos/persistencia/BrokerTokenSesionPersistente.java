@@ -1,24 +1,34 @@
 package ar.edu.ub.club.accesos.persistencia;
 
 import ar.edu.ub.club.accesos.dominio.TokenSesionPersistente;
+import ar.edu.ub.club.accesos.dominio.Usuario;
 import ar.edu.ub.club.compartido.persistencia.BrokerBaseDatos;
 import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import ar.edu.ub.club.compartido.persistencia.ProveedorConexiones;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Broker concreto de {@code TokenSesionPersistente} (tabla {@code token_sesion_persistente}). Database Broker
+ * (Larman, cap. 34): completa los ganchos del Template Method de {@code BrokerBaseDatos}; su particularidad es la
+ * clave natural {@code serie} ({@code columnaClave()} y {@code asignarClave} redefinidos, 07C).
  *
- * <p>Broker concreto del patrón Database Broker (Larman, cap. 34); completa los ganchos del Template Method de {@code BrokerBaseDatos}.
- *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-11, CU-12, CU-13, CU-15, CU-17
  */
+@Component
 public class BrokerTokenSesionPersistente extends BrokerBaseDatos<TokenSesionPersistente> {
+
+    /** Id de la cuenta leído en {@code crearObjeto}, pendiente de resolver en {@code cargarAsociaciones}. */
+    private final Map<TokenSesionPersistente, Long> usuariosPendientes =
+            Collections.synchronizedMap(new IdentityHashMap<>());
 
     /**
      * Crea el broker con el proveedor de conexiones.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-11
      * @param proveedor proveedor de conexiones
      */
     public BrokerTokenSesionPersistente(ProveedorConexiones proveedor) {
@@ -26,91 +36,111 @@ public class BrokerTokenSesionPersistente extends BrokerBaseDatos<TokenSesionPer
     }
 
     /**
-     * PENDIENTE: documentar.
+     * La clave de la tabla es la serie.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @return {@code "serie"}
      */
+    @Override
     protected String columnaClave() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "serie";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Tras el INSERT la serie ya la tenía el objeto: solo lo marca persistido ({@code token.marcarPersistido()}),
+     * así el próximo {@code put} es un UPDATE.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param t valor de {@code t}
-     * @param valor valor de {@code valor}
+     * <p>Casos de uso: CU-11
+     * @param t token insertado
+     * @param valor serie devuelta por {@code RETURNING}
      */
+    @Override
     protected void asignarClave(TokenSesionPersistente t, Object valor) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        t.marcarPersistido();
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Resuelve la cuenta dueña con {@code fachada().get(usuarioId, Usuario)}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param t valor de {@code t}
+     * <p>Casos de uso: CU-11
+     * @param t token recién creado
      */
+    @Override
     protected void cargarAsociaciones(TokenSesionPersistente t) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Long idUsuario = usuariosPendientes.remove(t);
+        if (idUsuario != null) {
+            t.restaurarAsociaciones(fachada().get(idUsuario, Usuario.class));
+        }
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que maneja.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @return {@code TokenSesionPersistente.class}
      */
     @Override
     public Class<TokenSesionPersistente> claseObjeto() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return TokenSesionPersistente.class;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Tabla: {@code token_sesion_persistente}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @return nombre de la tabla
      */
     @Override
     protected String tabla() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "token_sesion_persistente";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Desmaterializa con {@code TokenSesionPersistente.reconstituir(...)} y guarda el {@code usuario_id}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @param fila fila del resultado
+     * @return token sin asociaciones
      */
     @Override
     protected TokenSesionPersistente crearObjeto(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        TokenSesionPersistente t = TokenSesionPersistente.reconstituir(fila.texto("serie"), fila.texto("token_hash"),
+                fila.fechaHora("ultimo_uso"), fila.fechaHora("expira_en"));
+        usuariosPendientes.put(t, fila.largo("usuario_id"));
+        return t;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del INSERT (incluye la serie, que es la clave).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @param objeto token nuevo
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresInsercion(TokenSesionPersistente objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> valores = new LinkedHashMap<>();
+        valores.put("serie", objeto.getSerie());
+        valores.put("usuario_id", objeto.getUsuario());
+        valores.put("token_hash", objeto.getTokenHash());
+        valores.put("ultimo_uso", objeto.getUltimoUso());
+        valores.put("expira_en", objeto.getExpiraEn());
+        return valores;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del UPDATE de la rotación: hash, último uso y vencimiento.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @param objeto token persistido
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresActualizacion(TokenSesionPersistente objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> valores = new LinkedHashMap<>();
+        valores.put("token_hash", objeto.getTokenHash());
+        valores.put("ultimo_uso", objeto.getUltimoUso());
+        valores.put("expira_en", objeto.getExpiraEn());
+        return valores;
     }
 }

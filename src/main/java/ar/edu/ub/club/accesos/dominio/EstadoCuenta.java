@@ -1,14 +1,16 @@
 package ar.edu.ub.club.accesos.dominio;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Estado persistido de una cuenta de acceso ({@code usuario.estado}). El bloqueo temporal no es un valor de este
+ * enumerado: se deriva de {@code bloqueadoHasta} ({@code Usuario.estaBloqueada}). INACTIVA es final
+ * ({@code est_cuenta.puml}).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-03, CU-11, CU-15, CU-17
  */
 public enum EstadoCuenta {
 
-    /** Valor ACTIVA. */
+    /** Cuenta habilitada para iniciar sesión. */
     ACTIVA,
-    /** Valor INACTIVA. */
+    /** Cuenta dada de baja (estado final; conserva el historial). */
     INACTIVA;
 }

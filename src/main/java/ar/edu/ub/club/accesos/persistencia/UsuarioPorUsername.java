@@ -5,46 +5,59 @@ import ar.edu.ub.club.compartido.persistencia.ConsultaEntidades;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Cuenta (Socio o Administrador) con ese nombre de usuario exacto. Consulta polimórfica: la resuelve cada broker de la jerarquía {@code Usuario} (INNER JOIN con su tabla hija) y se unen los resultados. Se usa con {@code buscarUno} para iniciar sesión (CU-11 paso 4) y con {@code contar} para verificar la unicidad (CU-01, CU-14, CU-15, CU-16).
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado (no es un bean: se crea con {@code new}).
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-01, CU-11, CU-14, CU-15, CU-16
  */
 public class UsuarioPorUsername extends ConsultaEntidades<Usuario> {
 
-    /** Atributo username. */
-    private String username;
+    /** Nombre de usuario buscado. */
+    private final String username;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta con sus parámetros.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Agregado en la implementación: el esqueleto no tenía constructor.
+     *
+     * <p>Casos de uso: CU-01, CU-11, CU-14, CU-15, CU-16
+     * @param username nombre de usuario buscado.
      */
-    public Class<Usuario> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public UsuarioPorUsername(String username) {
+        this.username = username;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de resultado; elige el broker (o los brokers de la jerarquía) que la resuelve.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-01, CU-11, CU-14, CU-15, CU-16
+     * @return {@code Usuario.class}
+     */
+    @Override
+    public Class<Usuario> claseResultado() {
+        return Usuario.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code consultaBase()} del broker.
+     *
+     * <p>Casos de uso: CU-01, CU-11, CU-14, CU-15, CU-16
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE usuario.username = ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los {@code ?} en el orden del SQL.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-01, CU-11, CU-14, CU-15, CU-16
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(username);
     }
 }

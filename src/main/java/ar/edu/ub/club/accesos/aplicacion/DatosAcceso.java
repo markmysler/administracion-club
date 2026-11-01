@@ -3,7 +3,9 @@ package ar.edu.ub.club.accesos.aplicacion;
 import ar.edu.ub.club.accesos.dominio.Usuario;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Datos de acceso editables de cualquier cuenta en P-14 (CU-15): usuario, correo y, opcionalmente, una nueva
+ * contraseña. Lo vincula el {@code FormularioEntidad} de {@code VistaFormularioCuenta} y lo recibe
+ * {@code ServicioAccesos.modificarDatosAcceso}. La clave nunca se precarga.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -11,28 +13,42 @@ import ar.edu.ub.club.accesos.dominio.Usuario;
  */
 public class DatosAcceso {
 
-    /** Atributo username. */
+    /** Nombre de usuario (4 a 50 caracteres; único). */
     private String username;
 
-    /** Atributo email. */
+    /** Correo (único). */
     private String email;
 
-    /** Atributo nuevaClave. */
+    /** Nueva contraseña; vacía o nula si no se cambia. */
     private String nuevaClave;
 
     /**
-     * PENDIENTE: documentar.
+     * Constructor vacío que requiere el {@code Binder} de Vaadin.
+     *
+     * <p>Agregado en la implementación (el esqueleto lo omitía porque tenía {@code desde}).
      *
      * <p>Casos de uso: CU-15
-     * @param usuario valor de {@code usuario}
-     * @return el resultado
      */
-    public static DatosAcceso desde(Usuario usuario) {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public DatosAcceso() {
     }
 
     /**
-     * Devuelve {@code username}: username.
+     * Precarga usuario y correo de la cuenta (la nueva clave queda vacía).
+     *
+     * <p>Casos de uso: CU-15
+     * @param usuario cuenta de cualquier tipo
+     * @return datos para el formulario
+     */
+    public static DatosAcceso desde(Usuario usuario) {
+        DatosAcceso datos = new DatosAcceso();
+        datos.username = usuario.getUsername();
+        datos.email = usuario.getEmail();
+        datos.nuevaClave = "";
+        return datos;
+    }
+
+    /**
+     * Devuelve {@code username}.
      *
      * <p>Casos de uso: CU-15
      * @return el valor del atributo
@@ -42,7 +58,7 @@ public class DatosAcceso {
     }
 
     /**
-     * Asigna {@code username} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code username}.
      *
      * <p>Casos de uso: CU-15
      * @param username nuevo valor
@@ -52,7 +68,7 @@ public class DatosAcceso {
     }
 
     /**
-     * Devuelve {@code email}: email.
+     * Devuelve {@code email}.
      *
      * <p>Casos de uso: CU-15
      * @return el valor del atributo
@@ -62,7 +78,7 @@ public class DatosAcceso {
     }
 
     /**
-     * Asigna {@code email} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code email}.
      *
      * <p>Casos de uso: CU-15
      * @param email nuevo valor
@@ -72,7 +88,7 @@ public class DatosAcceso {
     }
 
     /**
-     * Devuelve {@code nuevaClave}: nuevaClave.
+     * Devuelve {@code nuevaClave}.
      *
      * <p>Casos de uso: CU-15
      * @return el valor del atributo
@@ -82,7 +98,7 @@ public class DatosAcceso {
     }
 
     /**
-     * Asigna {@code nuevaClave} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code nuevaClave}.
      *
      * <p>Casos de uso: CU-15
      * @param nuevaClave nuevo valor

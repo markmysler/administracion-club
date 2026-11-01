@@ -4,17 +4,17 @@ import ar.edu.ub.club.compartido.ui.PantallaBase;
 import ar.edu.ub.club.configuracion.aplicacion.DatosConfiguracionClub;
 
 /**
- * Interfaz pasiva de la pantalla P-34: Formulario de datos institucionales del club.
+ * Interfaz pasiva de la pantalla P-34: Formulario de datos institucionales del club (MVP, Vista Pasiva).
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-41
  */
 public interface PantallaConfiguracionClub extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Carga los datos del club en el formulario.
      *
      * <p>Casos de uso: CU-41
-     * @param datos valor de {@code datos}
+     * @param datos datos a mostrar
      */
     void mostrarDatos(DatosConfiguracionClub datos);
 }

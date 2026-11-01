@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 /**
  * Token de un solo uso para restablecer la contraseña (CU-13). Navega a su cuenta por la asociación {@code
- * usuario}.
+ * usuario}. Solo se guarda el hash SHA-256 del valor enviado por correo; vence a los 30 minutos (RN-05).
  *
- * <p>Entidad del dominio; la persiste su broker.
+ * <p>Entidad del dominio; la persiste {@code BrokerTokenRecuperacion}.
  *
  * <p>Casos de uso: CU-13
  */
@@ -26,59 +26,77 @@ public class TokenRecuperacion extends EntidadPersistente {
     private boolean usado;
 
     /**
-     * Crea una instancia de {@code TokenRecuperacion}.
+     * Crea un token nuevo, sin usar (CU-13 paso 6, {@code sec_cu13_p2.puml}).
      *
      * <p>Casos de uso: CU-13
-     * @param usuario valor de {@code usuario}
-     * @param tokenHash valor de {@code tokenHash}
-     * @param expiraEn valor de {@code expiraEn}
+     * @param usuario Cuenta que solicitó la recuperación.
+     * @param tokenHash Hash SHA-256 del token enviado.
+     * @param expiraEn Vencimiento (solicitud + 30 minutos).
      */
     public TokenRecuperacion(Usuario usuario, String tokenHash, LocalDateTime expiraEn) {
-        // PENDIENTE
+        this.usuario = usuario;
+        this.tokenHash = tokenHash;
+        this.expiraEn = expiraEn;
+        this.usado = false;
     }
 
     /**
-     * No usado y no vencido.
+     * Constructor vacío que usa {@code reconstituir}.
+     *
+     * <p>Casos de uso: CU-13
+     */
+    private TokenRecuperacion() {
+        // lo completa reconstituir
+    }
+
+    /**
+     * No usado y no vencido (CU-13 paso 11; FA4 si es falso).
      *
      * <p>Casos de uso: CU-13
      * @param ahora Momento actual.
      * @return true si es válido.
      */
     public boolean esValido(LocalDateTime ahora) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return !usado && expiraEn.isAfter(ahora);
     }
 
     /**
-     * Lo marca como usado.
+     * Lo marca como usado (un solo uso; también invalida los tokens anteriores al pedir uno nuevo).
      *
      * <p>Casos de uso: CU-13
      */
     public void marcarUsado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        this.usado = true;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reconstituye el token desde la fila de {@code token_recuperacion} (la cuenta llega luego por
+     * {@code restaurarAsociaciones}).
      *
      * <p>Casos de uso: CU-13
-     * @param id valor de {@code id}
-     * @param tokenHash valor de {@code tokenHash}
-     * @param expiraEn valor de {@code expiraEn}
-     * @param usado valor de {@code usado}
-     * @return el resultado
+     * @param id identificador
+     * @param tokenHash hash SHA-256
+     * @param expiraEn vencimiento
+     * @param usado si ya se usó
+     * @return el token reconstituido
      */
     public static TokenRecuperacion reconstituir(Long id, String tokenHash, LocalDateTime expiraEn, boolean usado) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        TokenRecuperacion t = new TokenRecuperacion();
+        t.asignarId(id);
+        t.tokenHash = tokenHash;
+        t.expiraEn = expiraEn;
+        t.usado = usado;
+        return t;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Entrega la cuenta dueña del token (la resuelve {@code BrokerTokenRecuperacion.cargarAsociaciones}).
      *
      * <p>Casos de uso: CU-13
-     * @param usuario valor de {@code usuario}
+     * @param usuario cuenta dueña
      */
     public void restaurarAsociaciones(Usuario usuario) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        this.usuario = usuario;
     }
 
     /**

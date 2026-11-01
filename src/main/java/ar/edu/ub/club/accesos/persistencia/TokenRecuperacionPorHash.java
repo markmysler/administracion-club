@@ -5,46 +5,59 @@ import ar.edu.ub.club.compartido.persistencia.ConsultaEntidades;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Token de recuperación por el hash SHA-256 del valor recibido en el enlace (CU-13 parte 4).
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado (no es un bean: se crea con {@code new}).
  *
- * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+ * <p>Casos de uso: CU-13
  */
 public class TokenRecuperacionPorHash extends ConsultaEntidades<TokenRecuperacion> {
 
-    /** Atributo tokenHash. */
-    private String tokenHash;
+    /** Hash SHA-256 (hexadecimal) del token. */
+    private final String tokenHash;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta con sus parámetros.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Agregado en la implementación: el esqueleto no tenía constructor.
+     *
+     * <p>Casos de uso: CU-13
+     * @param tokenHash hash SHA-256 (hexadecimal) del token.
      */
-    public Class<TokenRecuperacion> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public TokenRecuperacionPorHash(String tokenHash) {
+        this.tokenHash = tokenHash;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de resultado; elige el broker (o los brokers de la jerarquía) que la resuelve.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Casos de uso: CU-13
+     * @return {@code TokenRecuperacion.class}
+     */
+    @Override
+    public Class<TokenRecuperacion> claseResultado() {
+        return TokenRecuperacion.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code consultaBase()} del broker.
+     *
+     * <p>Casos de uso: CU-13
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE token_recuperacion.token_hash = ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los {@code ?} en el orden del SQL.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Casos de uso: CU-13
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(tokenHash);
     }
 }

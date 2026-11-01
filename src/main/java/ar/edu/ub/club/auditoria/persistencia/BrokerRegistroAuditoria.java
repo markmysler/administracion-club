@@ -1,24 +1,34 @@
 package ar.edu.ub.club.auditoria.persistencia;
 
+import ar.edu.ub.club.accesos.dominio.Usuario;
 import ar.edu.ub.club.auditoria.dominio.RegistroAuditoria;
 import ar.edu.ub.club.compartido.persistencia.BrokerBaseDatos;
 import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import ar.edu.ub.club.compartido.persistencia.ProveedorConexiones;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Broker concreto de {@code RegistroAuditoria} (tabla {@code registro_auditoria}). Database Broker (Larman, cap.
+ * 34): completa los ganchos del Template Method de {@code BrokerBaseDatos}. Los registros solo se insertan (no
+ * hay UPDATE); el detalle se guarda como JSONB pasando el texto JSON.
  *
- * <p>Broker concreto del patrón Database Broker (Larman, cap. 34); completa los ganchos del Template Method de {@code BrokerBaseDatos}.
- *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: todos
  */
+@Component
 public class BrokerRegistroAuditoria extends BrokerBaseDatos<RegistroAuditoria> {
+
+    /** Id de la cuenta leído en {@code crearObjeto}, pendiente de resolver en {@code cargarAsociaciones}. */
+    private final Map<RegistroAuditoria, Long> usuariosPendientes =
+            Collections.synchronizedMap(new IdentityHashMap<>());
 
     /**
      * Crea el broker con el proveedor de conexiones.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: todos
      * @param proveedor proveedor de conexiones
      */
     public BrokerRegistroAuditoria(ProveedorConexiones proveedor) {
@@ -26,70 +36,85 @@ public class BrokerRegistroAuditoria extends BrokerBaseDatos<RegistroAuditoria> 
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Resuelve la cuenta que actuó con {@code fachada().get(id, Usuario)} (si la hay).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param r valor de {@code r}
+     * <p>Casos de uso: todos
+     * @param r registro recién creado
      */
+    @Override
     protected void cargarAsociaciones(RegistroAuditoria r) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Long idUsuario = usuariosPendientes.remove(r);
+        r.restaurarAsociaciones(idUsuario == null ? null : fachada().get(idUsuario, Usuario.class));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que maneja.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @return {@code RegistroAuditoria.class}
      */
     @Override
     public Class<RegistroAuditoria> claseObjeto() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return RegistroAuditoria.class;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Tabla: {@code registro_auditoria}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @return nombre de la tabla
      */
     @Override
     protected String tabla() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "registro_auditoria";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Desmaterializa con {@code RegistroAuditoria.reconstituir(...)} y guarda el {@code usuario_id}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @param fila fila del resultado
+     * @return registro sin asociaciones
      */
     @Override
     protected RegistroAuditoria crearObjeto(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        RegistroAuditoria r = RegistroAuditoria.reconstituir(fila.largo("id"), fila.fechaHora("fecha_hora"),
+                fila.texto("accion"), fila.texto("entidad"), fila.largo("entidad_id"), fila.texto("detalle"));
+        Long idUsuario = fila.largo("usuario_id");
+        if (idUsuario != null) {
+            usuariosPendientes.put(r, idUsuario);
+        }
+        return r;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del INSERT.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @param objeto registro nuevo
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresInsercion(RegistroAuditoria objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> valores = new LinkedHashMap<>();
+        valores.put("fecha_hora", objeto.getFechaHora());
+        valores.put("usuario_id", objeto.getUsuario());
+        valores.put("accion", objeto.getAccion());
+        valores.put("entidad", objeto.getEntidad());
+        valores.put("entidad_id", objeto.getIdEntidad());
+        valores.put("detalle", objeto.getDetalle());
+        return valores;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sin columnas: los registros de auditoría no se modifican.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @param objeto registro persistido
+     * @return mapa vacío
      */
     @Override
     protected Map<String, Object> valoresActualizacion(RegistroAuditoria objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return new LinkedHashMap<>();
     }
 }

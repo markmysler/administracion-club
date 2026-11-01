@@ -5,49 +5,64 @@ import ar.edu.ub.club.compartido.persistencia.ConsultaEntidades;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Registros de auditoría de una entidad, del más reciente al más antiguo (consulta del historial de cambios, RNF-12).
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado (no es un bean: se crea con {@code new}).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: todos
  */
 public class RegistrosDeEntidad extends ConsultaEntidades<RegistroAuditoria> {
 
-    /** Atributo entidad. */
-    private String entidad;
+    /** Nombre de la entidad (por ejemplo "Socio"). */
+    private final String entidad;
 
-    /** Atributo idEntidad. */
-    private Long idEntidad;
+    /** Identificador de la entidad. */
+    private final Long idEntidad;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta con sus parámetros.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Agregado en la implementación: el esqueleto no tenía constructor.
+     *
+     * <p>Casos de uso: todos
+     * @param entidad nombre de la entidad (por ejemplo "Socio").
+     * @param idEntidad identificador de la entidad.
      */
-    public Class<RegistroAuditoria> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public RegistrosDeEntidad(String entidad, Long idEntidad) {
+        this.entidad = entidad;
+        this.idEntidad = idEntidad;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de resultado; elige el broker (o los brokers de la jerarquía) que la resuelve.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @return {@code RegistroAuditoria.class}
+     */
+    @Override
+    public Class<RegistroAuditoria> claseResultado() {
+        return RegistroAuditoria.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code consultaBase()} del broker.
+     *
+     * <p>Casos de uso: todos
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE registro_auditoria.entidad = ? AND registro_auditoria.entidad_id = ? ORDER BY registro_auditoria.fecha_hora DESC";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los {@code ?} en el orden del SQL.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(entidad, idEntidad);
     }
 }
