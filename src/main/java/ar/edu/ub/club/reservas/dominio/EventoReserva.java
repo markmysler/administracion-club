@@ -4,45 +4,50 @@ import ar.edu.ub.club.accesos.dominio.Usuario;
 import java.time.LocalDateTime;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Clase abstracta de los eventos del patrón Observer de las reservas (sujeto {@code PublicadorEventosReserva}).
+ * Es inmutable: sus atributos se asignan en el constructor y solo se leen. Subclases: {@code
+ * ReservaConfirmadaEvento}, {@code ReservaModificadaEvento} y {@code ReservaCanceladaEvento}.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
  */
 public abstract class EventoReserva {
 
-    /** Atributo reserva. */
-    private Reserva reserva;
+    /** Reserva afectada, ya guardada (con identificador). */
+    private final Reserva reserva;
 
-    /** Atributo usuario. */
-    private Usuario usuario;
+    /** Cuenta que realizó la operación (socio o administrador). */
+    private final Usuario usuario;
 
-    /** Atributo fechaHora. */
-    private LocalDateTime fechaHora;
+    /** Momento de la operación. */
+    private final LocalDateTime fechaHora;
 
     /**
-     * Crea una instancia de {@code EventoReserva}.
+     * Constructor que usan las subclases.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param reserva valor de {@code reserva}
-     * @param usuario valor de {@code usuario}
-     * @param fechaHora valor de {@code fechaHora}
+     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * @param reserva reserva afectada
+     * @param usuario cuenta que opera
+     * @param fechaHora momento de la operación
      */
     public EventoReserva(Reserva reserva, Usuario usuario, LocalDateTime fechaHora) {
-        // PENDIENTE
+        this.reserva = reserva;
+        this.usuario = usuario;
+        this.fechaHora = fechaHora;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Nombre de la acción: lo usa {@code AuditorReservas} como acción auditada y {@code NotificadorReservas} como
+     * {@code TipoNotificacion}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return CONFIRMACION, MODIFICACION o CANCELACION
      */
     public abstract String accion();
 
     /**
-     * Devuelve {@code reserva}: reserva.
+     * Devuelve {@code reserva}: reserva afectada.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
      * @return el valor del atributo
      */
     public Reserva getReserva() {
@@ -50,9 +55,9 @@ public abstract class EventoReserva {
     }
 
     /**
-     * Devuelve {@code usuario}: usuario.
+     * Devuelve {@code usuario}: cuenta que realizó la operación.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
      * @return el valor del atributo
      */
     public Usuario getUsuario() {
@@ -60,9 +65,9 @@ public abstract class EventoReserva {
     }
 
     /**
-     * Devuelve {@code fechaHora}: fechaHora.
+     * Devuelve {@code fechaHora}: momento de la operación.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
      * @return el valor del atributo
      */
     public LocalDateTime getFechaHora() {

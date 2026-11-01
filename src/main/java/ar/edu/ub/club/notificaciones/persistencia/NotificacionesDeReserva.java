@@ -5,46 +5,58 @@ import ar.edu.ub.club.notificaciones.dominio.Notificacion;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Notificaciones de una reserva, en orden de creación (detalle de la reserva en P-21 y P-22).
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve {@code
+ * BrokerNotificacion}.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-29, CU-31
  */
 public class NotificacionesDeReserva extends ConsultaEntidades<Notificacion> {
 
-    /** Atributo idReserva. */
-    private Long idReserva;
+    /** Reserva. */
+    private final Long idReserva;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta; el parámetro se recibe por constructor (Query Object).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-29, CU-31
+     * @param idReserva reserva
      */
-    public Class<Notificacion> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public NotificacionesDeReserva(Long idReserva) {
+        this.idReserva = idReserva;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que resuelve {@code BrokerNotificacion}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-29, CU-31
+     * @return {@code Notificacion}
+     */
+    @Override
+    public Class<Notificacion> claseResultado() {
+        return Notificacion.class;
+    }
+
+    /**
+     * Condición y orden.
+     *
+     * <p>Casos de uso: CU-29, CU-31
+     * @return WHERE y ORDER BY
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE notificacion.reserva_id = ? ORDER BY notificacion.fecha, notificacion.id";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los parámetros.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-29, CU-31
+     * @return {@code [idReserva]}
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idReserva);
     }
 }

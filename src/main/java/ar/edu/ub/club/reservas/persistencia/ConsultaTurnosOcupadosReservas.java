@@ -5,34 +5,43 @@ import ar.edu.ub.club.agenda.dominio.Turno;
 import ar.edu.ub.club.compartido.persistencia.FachadaPersistencia;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
- * Implementaciones, en {@code reservas.persistencia}, de las consultas invertidas {@code ConsultaTurnosOcupados}
- * (agenda.dominio) y {@code ConsultaReservasFuturas} (compartido.dominio) (Entrega 4B, D-10). Atributos: {@code
- * - fachadaPersistencia: FachadaPersistencia} y, en la segunda, {@code - reloj: Reloj}. {@code
- * ConsultaTurnosOcupadosReservas.turnosOcupados(idCancha: Long, fecha: Date): List&lt;Turno&gt;} → {@code
- * fachadaPersistencia.buscar(TurnosOcupadosDeCancha(idCancha, fecha))}. {@code ConsultaReservasFuturasReservas}
- * implementa {@code buscarFuturasDeSocio}, {@code buscarFuturasDeCancha}, {@code buscarFuturasDeDeporte}, {@code
- * buscarDeFecha} y {@code buscarFuturasDesde} con las consultas de proyección {@code ResumenesFuturosDeSocio},
- * {@code ResumenesFuturosDeCancha}, {@code ResumenesFuturosDeDeporte}, {@code ResumenesDeFecha} y {@code
- * ResumenesFuturosDesde}.
+ * Implementación, en {@code reservas.persistencia}, de la consulta invertida {@code ConsultaTurnosOcupados}
+ * (agenda.dominio, Entrega 4B, D-10): {@code agenda} obtiene los turnos ocupados sin depender de {@code reservas}.
+ * {@code turnosOcupados(idCancha, fecha)} → {@code fachadaPersistencia.buscar(TurnosOcupadosDeCancha(idCancha,
+ * fecha))}. Se ejecuta dentro de la transacción de la fachada que la invoca ({@code ServicioAgenda}, {@code
+ * FabricaCadenaValidacion}).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
  */
+@Component
 public class ConsultaTurnosOcupadosReservas implements ConsultaTurnosOcupados {
 
-    /** Atributo fachadaPersistencia. */
-    private FachadaPersistencia fachadaPersistencia;
+    /** Único punto de acceso a la persistencia («Singleton»). */
+    private final FachadaPersistencia fachadaPersistencia;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (bean de Spring).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param idCancha valor de {@code idCancha}
-     * @param fecha valor de {@code fecha}
-     * @return el resultado
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
+     * @param fachadaPersistencia fachada de persistencia
      */
+    public ConsultaTurnosOcupadosReservas(FachadaPersistencia fachadaPersistencia) {
+        this.fachadaPersistencia = fachadaPersistencia;
+    }
+
+    /**
+     * Turnos de las reservas CONFIRMADAS de la cancha en la fecha.
+     *
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
+     * @param idCancha cancha
+     * @param fecha fecha
+     * @return lista de {@code Turno}
+     */
+    @Override
     public List<Turno> turnosOcupados(Long idCancha, LocalDate fecha) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fachadaPersistencia.buscar(new TurnosOcupadosDeCancha(idCancha, fecha));
     }
 }

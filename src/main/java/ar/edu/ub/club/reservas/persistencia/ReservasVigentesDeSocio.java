@@ -6,52 +6,72 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Reservas vigentes (CONFIRMADAS y futuras) del socio, sin la excluida. Definida en 07C (consulta 33); el diseño
+ * 6.0 no la usa en la cadena, que trabaja con {@code ReservasFuturasDeSocio}.
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve {@code BrokerReserva}:
+ * {@code sql()} se agrega a su {@code consultaBase()} (JOIN con usuario, socio y cancha).
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-27, CU-28, CU-32
  */
 public class ReservasVigentesDeSocio extends ConsultaEntidades<Reserva> {
 
-    /** Atributo idSocio. */
-    private Long idSocio;
+    /** Socio titular. */
+    private final Long idSocio;
 
-    /** Atributo ahora. */
-    private LocalDateTime ahora;
+    /** Momento a partir del cual una reserva es futura. */
+    private final LocalDateTime ahora;
 
-    /** Atributo idExcluida. */
-    private Long idExcluida;
+    /** Reserva que no se cuenta (la que se modifica) o null. */
+    private final Long idExcluida;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta; los parámetros se reciben por constructor y no cambian (Query Object).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @param idSocio socio titular
+     * @param ahora momento a partir del cual una reserva es futura
+     * @param idExcluida reserva que no se cuenta (la que se modifica) o null
      */
-    public Class<Reserva> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public ReservasVigentesDeSocio(Long idSocio, LocalDateTime ahora, Long idExcluida) {
+        this.idSocio = idSocio;
+        this.ahora = ahora;
+        this.idExcluida = idExcluida;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que resuelve {@code BrokerReserva}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return {@code Reserva}
+     */
+    @Override
+    public Class<Reserva> claseResultado() {
+        return Reserva.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code BrokerReserva.consultaBase()}.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return WHERE y ORDER BY con parámetros {@code ?}
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE reserva.socio_id = ? AND reserva.estado = 'CONFIRMADA' AND (reserva.fecha > ? OR (reserva.fecha = ? AND reserva.hora_inicio > ?))"
+                + (idExcluida == null ? "" : " AND reserva.id <> ?") + " ORDER BY reserva.fecha, reserva.hora_inicio";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los parámetros en el orden de los {@code ?}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return lista de parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return idExcluida == null
+                ? List.of(idSocio, ahora.toLocalDate(), ahora.toLocalDate(), ahora.toLocalTime())
+                : List.of(idSocio, ahora.toLocalDate(), ahora.toLocalDate(), ahora.toLocalTime(), idExcluida);
     }
 }

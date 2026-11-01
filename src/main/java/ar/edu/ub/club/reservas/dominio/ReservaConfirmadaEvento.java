@@ -4,31 +4,31 @@ import ar.edu.ub.club.accesos.dominio.Usuario;
 import java.time.LocalDateTime;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Evento del patrón Observer que se publica al registrar una reserva (alta online o manual). Sin atributos
+ * propios.
  *
- * <p>Evento del dominio publicado con el mecanismo de eventos de Spring (Observer).
- *
- * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+ * <p>Casos de uso: CU-27, CU-28
  */
 public class ReservaConfirmadaEvento extends EventoReserva {
 
     /**
-     * PENDIENTE: documentar.
+     * Acción del evento.
      *
-     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
-     * @return el resultado
+     * <p>Casos de uso: CU-27, CU-28
+     * @return «CONFIRMACION»
      */
+    @Override
     public String accion() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "CONFIRMACION";
     }
 
     /**
-     * Crea una instancia de {@code ReservaConfirmadaEvento}.
+     * Crea el evento.
      *
-     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
-     * @param reserva valor de {@code reserva}
-     * @param usuario valor de {@code usuario}
-     * @param fechaHora valor de {@code fechaHora}
+     * <p>Casos de uso: CU-27, CU-28
+     * @param reserva reserva confirmada y guardada
+     * @param usuario cuenta que la registró (socio o administrador)
+     * @param fechaHora momento del alta
      */
     public ReservaConfirmadaEvento(Reserva reserva, Usuario usuario, LocalDateTime fechaHora) {
         super(reserva, usuario, fechaHora);
