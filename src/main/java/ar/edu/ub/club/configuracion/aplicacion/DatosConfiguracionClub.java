@@ -3,7 +3,8 @@ package ar.edu.ub.club.configuracion.aplicacion;
 import ar.edu.ub.club.configuracion.dominio.ConfiguracionClub;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Datos editables de P-34 (nombre, dirección, teléfono y correo del club). Lo vincula el
+ * {@code FormularioEntidad} de {@code VistaConfiguracionClub} y lo recibe {@code ServicioConfiguracionClub.modificar}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -11,31 +12,44 @@ import ar.edu.ub.club.configuracion.dominio.ConfiguracionClub;
  */
 public class DatosConfiguracionClub {
 
-    /** Atributo nombre. */
+    /** Nombre del club. */
     private String nombre;
 
-    /** Atributo direccion. */
+    /** Dirección. */
     private String direccion;
 
-    /** Atributo telefono. */
+    /** Teléfono. */
     private String telefono;
 
-    /** Atributo email. */
+    /** Correo de contacto. */
     private String email;
 
     /**
-     * PENDIENTE: documentar.
+     * Constructor vacío que requiere el {@code Binder} de Vaadin.
      *
      * <p>Casos de uso: CU-41
-     * @param configuracion valor de {@code configuracion}
-     * @return el resultado
      */
-    public static DatosConfiguracionClub desde(ConfiguracionClub configuracion) {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public DatosConfiguracionClub() {
     }
 
     /**
-     * Devuelve {@code nombre}: nombre.
+     * Copia los datos de la configuración para precargar el formulario.
+     *
+     * <p>Casos de uso: CU-41
+     * @param configuracion fila única
+     * @return datos del formulario
+     */
+    public static DatosConfiguracionClub desde(ConfiguracionClub configuracion) {
+        DatosConfiguracionClub datos = new DatosConfiguracionClub();
+        datos.nombre = configuracion.getNombre();
+        datos.direccion = configuracion.getDireccion();
+        datos.telefono = configuracion.getTelefono();
+        datos.email = configuracion.getEmail();
+        return datos;
+    }
+
+    /**
+     * Devuelve {@code nombre}.
      *
      * <p>Casos de uso: CU-41
      * @return el valor del atributo
@@ -45,7 +59,7 @@ public class DatosConfiguracionClub {
     }
 
     /**
-     * Asigna {@code nombre} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code nombre}.
      *
      * <p>Casos de uso: CU-41
      * @param nombre nuevo valor
@@ -55,7 +69,7 @@ public class DatosConfiguracionClub {
     }
 
     /**
-     * Devuelve {@code direccion}: direccion.
+     * Devuelve {@code direccion}.
      *
      * <p>Casos de uso: CU-41
      * @return el valor del atributo
@@ -65,7 +79,7 @@ public class DatosConfiguracionClub {
     }
 
     /**
-     * Asigna {@code direccion} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code direccion}.
      *
      * <p>Casos de uso: CU-41
      * @param direccion nuevo valor
@@ -75,7 +89,7 @@ public class DatosConfiguracionClub {
     }
 
     /**
-     * Devuelve {@code telefono}: telefono.
+     * Devuelve {@code telefono}.
      *
      * <p>Casos de uso: CU-41
      * @return el valor del atributo
@@ -85,7 +99,7 @@ public class DatosConfiguracionClub {
     }
 
     /**
-     * Asigna {@code telefono} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code telefono}.
      *
      * <p>Casos de uso: CU-41
      * @param telefono nuevo valor
@@ -95,7 +109,7 @@ public class DatosConfiguracionClub {
     }
 
     /**
-     * Devuelve {@code email}: email.
+     * Devuelve {@code email}.
      *
      * <p>Casos de uso: CU-41
      * @return el valor del atributo
@@ -105,7 +119,7 @@ public class DatosConfiguracionClub {
     }
 
     /**
-     * Asigna {@code email} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code email}.
      *
      * <p>Casos de uso: CU-41
      * @param email nuevo valor

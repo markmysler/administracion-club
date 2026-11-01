@@ -8,7 +8,7 @@ import ar.edu.ub.club.accesos.dominio.Usuario;
  * servidor. La implementa {@code UsuarioActualSesion} (accesos.aplicacion), que también implementa {@code
  * SesionActual}: toma el identificador del principal de {@code SecurityContextHolder} y obtiene la cuenta con
  * {@code fachadaPersistencia.get(id, Usuario)}. Las fachadas y los presentadores dependen de la interfaz, lo que
- * permite probarlos sin servidor web.
+ * permite probarlos sin servidor web (Protected Variations, inversión de dependencias).
  *
  * <p>Casos de uso: todos
  */

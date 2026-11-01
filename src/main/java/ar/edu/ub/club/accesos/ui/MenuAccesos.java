@@ -1,25 +1,31 @@
 package ar.edu.ub.club.accesos.ui;
 
+import ar.edu.ub.club.compartido.seguridad.Permiso;
 import ar.edu.ub.club.compartido.ui.OpcionMenu;
 import ar.edu.ub.club.compartido.ui.ProveedorOpcionesMenu;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Opciones de menú del módulo accesos: «Cuentas de acceso» → {@code cuentas} (GESTIONAR_CUENTAS). La opción
+ * «Cerrar sesión» (P-35) la agrega {@code MenuNavegacion} y la atiende {@code PresentadorCierreSesion}.
  *
  * <p>Proveedor de las opciones de menú del módulo ({@code ProveedorOpcionesMenu}).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-14, CU-15, CU-17
  */
+@Component
 public class MenuAccesos implements ProveedorOpcionesMenu {
 
     /**
-     * PENDIENTE: documentar.
+     * Devuelve la opción del módulo (área «Administración»).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-14, CU-15, CU-17
+     * @return opciones
      */
+    @Override
     public List<OpcionMenu> opciones() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(new OpcionMenu("Cuentas de acceso", "cuentas", Permiso.GESTIONAR_CUENTAS,
+                "Administración", 90));
     }
 }

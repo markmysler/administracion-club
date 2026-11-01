@@ -5,46 +5,59 @@ import ar.edu.ub.club.compartido.persistencia.ConsultaEntidades;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Token de sesión persistente por su serie (clave), leído de la cookie remember-me (CU-11 FA1/FA2).
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado (no es un bean: se crea con {@code new}).
  *
- * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+ * <p>Casos de uso: CU-11
  */
 public class TokenSesionPorSerie extends ConsultaEntidades<TokenSesionPersistente> {
 
-    /** Atributo serie. */
-    private String serie;
+    /** Serie del token. */
+    private final String serie;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta con sus parámetros.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Agregado en la implementación: el esqueleto no tenía constructor.
+     *
+     * <p>Casos de uso: CU-11
+     * @param serie serie del token.
      */
-    public Class<TokenSesionPersistente> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public TokenSesionPorSerie(String serie) {
+        this.serie = serie;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de resultado; elige el broker (o los brokers de la jerarquía) que la resuelve.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @return {@code TokenSesionPersistente.class}
+     */
+    @Override
+    public Class<TokenSesionPersistente> claseResultado() {
+        return TokenSesionPersistente.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code consultaBase()} del broker.
+     *
+     * <p>Casos de uso: CU-11
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE token_sesion_persistente.serie = ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los {@code ?} en el orden del SQL.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(serie);
     }
 }

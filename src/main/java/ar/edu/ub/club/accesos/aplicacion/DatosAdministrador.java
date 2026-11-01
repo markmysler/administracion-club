@@ -1,40 +1,47 @@
 package ar.edu.ub.club.accesos.aplicacion;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Datos del alta de una cuenta de administrador en P-14 (CU-14): nombre, apellido, usuario, correo y clave
+ * inicial. Lo vincula el {@code FormularioEntidad} de {@code VistaFormularioCuenta} y lo recibe
+ * {@code ServicioAccesos.crearAdministrador}. No tiene campo de tipo de cuenta: el tipo lo fija la clase
+ * instanciada (CU-16, RN-04).
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
- * <p>Casos de uso: CU-14
+ * <p>Casos de uso: CU-14, CU-16
  */
 public class DatosAdministrador {
 
-    /** Atributo nombre. */
+    /** Nombre. */
     private String nombre;
 
-    /** Atributo apellido. */
+    /** Apellido. */
     private String apellido;
 
-    /** Atributo username. */
+    /** Nombre de usuario (4 a 50 caracteres; único). */
     private String username;
 
-    /** Atributo email. */
+    /** Correo (único). */
     private String email;
 
-    /** Atributo claveInicial. */
+    /** Clave inicial (política de contraseñas RNF-03). */
     private String claveInicial;
 
     /**
-     * Crea una instancia de {@code DatosAdministrador}.
+     * Crea los datos vacíos del formulario de alta (también lo requiere el {@code Binder}).
      *
      * <p>Casos de uso: CU-14
      */
     public DatosAdministrador() {
-        // PENDIENTE
+        this.nombre = "";
+        this.apellido = "";
+        this.username = "";
+        this.email = "";
+        this.claveInicial = "";
     }
 
     /**
-     * Devuelve {@code nombre}: nombre.
+     * Devuelve {@code nombre}.
      *
      * <p>Casos de uso: CU-14
      * @return el valor del atributo
@@ -44,7 +51,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Asigna {@code nombre} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code nombre}.
      *
      * <p>Casos de uso: CU-14
      * @param nombre nuevo valor
@@ -54,7 +61,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Devuelve {@code apellido}: apellido.
+     * Devuelve {@code apellido}.
      *
      * <p>Casos de uso: CU-14
      * @return el valor del atributo
@@ -64,7 +71,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Asigna {@code apellido} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code apellido}.
      *
      * <p>Casos de uso: CU-14
      * @param apellido nuevo valor
@@ -74,7 +81,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Devuelve {@code username}: username.
+     * Devuelve {@code username}.
      *
      * <p>Casos de uso: CU-14
      * @return el valor del atributo
@@ -84,7 +91,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Asigna {@code username} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code username}.
      *
      * <p>Casos de uso: CU-14
      * @param username nuevo valor
@@ -94,7 +101,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Devuelve {@code email}: email.
+     * Devuelve {@code email}.
      *
      * <p>Casos de uso: CU-14
      * @return el valor del atributo
@@ -104,7 +111,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Asigna {@code email} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code email}.
      *
      * <p>Casos de uso: CU-14
      * @param email nuevo valor
@@ -114,7 +121,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Devuelve {@code claveInicial}: claveInicial.
+     * Devuelve {@code claveInicial}.
      *
      * <p>Casos de uso: CU-14
      * @return el valor del atributo
@@ -124,7 +131,7 @@ public class DatosAdministrador {
     }
 
     /**
-     * Asigna {@code claveInicial} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code claveInicial}.
      *
      * <p>Casos de uso: CU-14
      * @param claveInicial nuevo valor

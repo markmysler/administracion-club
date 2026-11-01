@@ -1,23 +1,27 @@
 package ar.edu.ub.club.accesos.persistencia;
 
 import ar.edu.ub.club.accesos.dominio.Administrador;
+import ar.edu.ub.club.accesos.dominio.EstadoCuenta;
 import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import ar.edu.ub.club.compartido.persistencia.ProveedorConexiones;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Broker concreto de {@code Administrador} (tablas {@code usuario} + {@code administrador}). Database Broker
+ * (Larman, cap. 34): completa los ganchos del Template Method de {@code BrokerUsuario} / {@code BrokerBaseDatos}.
+ * Queda registrado en {@code FachadaPersistencia} bajo la jerarquía {@code Usuario}.
  *
- * <p>Broker concreto del patrón Database Broker (Larman, cap. 34); completa los ganchos del Template Method de {@code BrokerBaseDatos}.
- *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-11, CU-12, CU-13, CU-14, CU-15, CU-16, CU-17
  */
+@Component
 public class BrokerAdministrador extends BrokerUsuario<Administrador> {
 
     /**
      * Crea el broker con el proveedor de conexiones.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: todos
      * @param proveedor proveedor de conexiones
      */
     public BrokerAdministrador(ProveedorConexiones proveedor) {
@@ -25,83 +29,90 @@ public class BrokerAdministrador extends BrokerUsuario<Administrador> {
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Tabla hija: {@code administrador}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @return {@code "administrador"}
      */
     @Override
     protected String tablaHija() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "administrador";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas de la tabla {@code administrador}: nombre y apellido.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-14
+     * @param objeto administrador
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresHija(Administrador objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> valores = new LinkedHashMap<>();
+        valores.put("nombre", objeto.getNombre());
+        valores.put("apellido", objeto.getApellido());
+        return valores;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que maneja: {@code Administrador}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @return {@code Administrador.class}
      */
     @Override
     public Class<Administrador> claseObjeto() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return Administrador.class;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Tabla padre (la de {@code BrokerUsuario}); se redefine solo para dejar explícito el gancho.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @return {@code "usuario"}
      */
     @Override
     protected String tabla() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return super.tabla();
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Desmaterializa con {@code Administrador.reconstituir(...)} las columnas de {@code usuario} y
+     * {@code administrador}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: todos
+     * @param fila fila del JOIN
+     * @return administrador
      */
     @Override
     protected Administrador crearObjeto(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return Administrador.reconstituir(fila.largo("id"), fila.texto("username"), fila.texto("email"),
+                fila.texto("password_hash"), EstadoCuenta.valueOf(fila.texto("estado")),
+                fila.entero("intentos_fallidos"), fila.fechaHora("bloqueado_hasta"), fila.fechaHora("fecha_creacion"),
+                fila.texto("nombre"), fila.texto("apellido"));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del INSERT en {@code usuario} (las de {@code administrador} van en {@code guardarPartes}).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-14
+     * @param objeto administrador nuevo
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresInsercion(Administrador objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return super.valoresInsercion(objeto);
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del UPDATE de {@code usuario}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-11, CU-13, CU-15, CU-17
+     * @param objeto administrador persistido
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresActualizacion(Administrador objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return super.valoresActualizacion(objeto);
     }
 }

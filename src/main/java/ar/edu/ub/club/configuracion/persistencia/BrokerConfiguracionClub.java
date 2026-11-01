@@ -4,21 +4,24 @@ import ar.edu.ub.club.compartido.persistencia.BrokerBaseDatos;
 import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import ar.edu.ub.club.compartido.persistencia.ProveedorConexiones;
 import ar.edu.ub.club.configuracion.dominio.ConfiguracionClub;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Broker concreto de {@code ConfiguracionClub} (tabla {@code configuracion_club}, fila única con id 1). Database
+ * Broker (Larman, cap. 34): completa los ganchos del Template Method de {@code BrokerBaseDatos}. La fila la crea
+ * la migración V6; la aplicación solo la lee y la actualiza.
  *
- * <p>Broker concreto del patrón Database Broker (Larman, cap. 34); completa los ganchos del Template Method de {@code BrokerBaseDatos}.
- *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-41
  */
+@Component
 public class BrokerConfiguracionClub extends BrokerBaseDatos<ConfiguracionClub> {
 
     /**
      * Crea el broker con el proveedor de conexiones.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-41
      * @param proveedor proveedor de conexiones
      */
     public BrokerConfiguracionClub(ProveedorConexiones proveedor) {
@@ -26,60 +29,69 @@ public class BrokerConfiguracionClub extends BrokerBaseDatos<ConfiguracionClub> 
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que maneja.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-41
+     * @return {@code ConfiguracionClub.class}
      */
     @Override
     public Class<ConfiguracionClub> claseObjeto() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return ConfiguracionClub.class;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Tabla: {@code configuracion_club}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-41
+     * @return nombre de la tabla
      */
     @Override
     protected String tabla() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "configuracion_club";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Desmaterializa con {@code ConfiguracionClub.reconstituir(...)}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-41
+     * @param fila fila del resultado
+     * @return configuración
      */
     @Override
     protected ConfiguracionClub crearObjeto(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return ConfiguracionClub.reconstituir(fila.largo("id"), fila.texto("nombre"), fila.texto("direccion"),
+                fila.texto("telefono"), fila.texto("email"));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del INSERT (incluye el id fijo 1).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-41
+     * @param objeto configuración
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresInsercion(ConfiguracionClub objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> valores = new LinkedHashMap<>();
+        valores.put("id", ConfiguracionClub.ID_UNICO);
+        valores.putAll(valoresActualizacion(objeto));
+        return valores;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del UPDATE.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-41
+     * @param objeto configuración
+     * @return mapa ordenado columna → valor
      */
     @Override
     protected Map<String, Object> valoresActualizacion(ConfiguracionClub objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> valores = new LinkedHashMap<>();
+        valores.put("nombre", objeto.getNombre());
+        valores.put("direccion", objeto.getDireccion());
+        valores.put("telefono", objeto.getTelefono());
+        valores.put("email", objeto.getEmail());
+        return valores;
     }
 }

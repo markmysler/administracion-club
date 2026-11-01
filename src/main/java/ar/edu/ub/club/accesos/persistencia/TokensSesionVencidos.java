@@ -6,46 +6,59 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Tokens persistentes vencidos, que borra la tarea de mantenimiento ({@code AlmacenTokensSesionPersistente.eliminarVencidos}).
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado (no es un bean: se crea con {@code new}).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-11
  */
 public class TokensSesionVencidos extends ConsultaEntidades<TokenSesionPersistente> {
 
-    /** Atributo ahora. */
-    private LocalDateTime ahora;
+    /** Momento actual. */
+    private final LocalDateTime ahora;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta con sus parámetros.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Agregado en la implementación: el esqueleto no tenía constructor.
+     *
+     * <p>Casos de uso: CU-11
+     * @param ahora momento actual.
      */
-    public Class<TokenSesionPersistente> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public TokensSesionVencidos(LocalDateTime ahora) {
+        this.ahora = ahora;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de resultado; elige el broker (o los brokers de la jerarquía) que la resuelve.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @return {@code TokenSesionPersistente.class}
+     */
+    @Override
+    public Class<TokenSesionPersistente> claseResultado() {
+        return TokenSesionPersistente.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code consultaBase()} del broker.
+     *
+     * <p>Casos de uso: CU-11
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE token_sesion_persistente.expira_en <= ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los {@code ?} en el orden del SQL.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-11
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(ahora);
     }
 }

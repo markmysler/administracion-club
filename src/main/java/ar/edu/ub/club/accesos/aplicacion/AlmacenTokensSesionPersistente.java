@@ -1,12 +1,20 @@
 package ar.edu.ub.club.accesos.aplicacion;
 
 import ar.edu.ub.club.accesos.dominio.TokenSesionPersistente;
+import ar.edu.ub.club.accesos.dominio.Usuario;
+import ar.edu.ub.club.accesos.persistencia.TokenSesionPorSerie;
+import ar.edu.ub.club.accesos.persistencia.TokensSesionDeUsuario;
+import ar.edu.ub.club.accesos.persistencia.TokensSesionVencidos;
+import ar.edu.ub.club.compartido.dominio.RelojSistema;
 import ar.edu.ub.club.compartido.persistencia.FachadaPersistencia;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Adaptador (patrón Adapter, accesos.persistencia) que implementa la interfaz {@code PersistentTokenRepository}
@@ -14,100 +22,165 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
  * removeUserTokens}) con la persistencia del sistema. Guarda siempre solo el hash del token. Detalle: documento
  * 07C.
  *
- * <p>Casos de uso: CU-11
+ * <p>Correspondencia con Spring Security: el «username» de {@code PersistentRememberMeToken} es el id de la cuenta
+ * en texto (el nombre del principal, ver {@code GestorSesiones}) y su {@code tokenValue} es el hash guardado;
+ * {@code ServicioRecordarmeClub} aplica el mismo hash al token de la cookie antes de compararlos. Cada método
+ * público es una transacción (los llama Spring Security fuera de las fachadas; dentro de una fachada se unen a su
+ * transacción).
+ *
+ * <p>Casos de uso: CU-03, CU-11, CU-12, CU-13, CU-15, CU-17
  */
+@Component
+@Transactional
 public class AlmacenTokensSesionPersistente implements PersistentTokenRepository {
 
     /** Acceso a {@code TokenSesionPersistente}. */
-    private FachadaPersistencia fachadaPersistencia;
+    private final FachadaPersistencia fachadaPersistencia;
+
+    /**
+     * Crea el adaptador.
+     *
+     * <p>Casos de uso: CU-11
+     * @param fachadaPersistencia fachada de persistencia
+     */
+    public AlmacenTokensSesionPersistente(FachadaPersistencia fachadaPersistencia) {
+        this.fachadaPersistencia = fachadaPersistencia;
+    }
 
     /**
      * {@code fachadaPersistencia.buscarUno(TokenSesionPorSerie(serie))}.
      *
      * <p>Casos de uso: CU-11
-     * @param serie valor de {@code serie}
-     * @return el resultado
+     * @param serie serie leída de la cookie
+     * @return el token o vacío
      */
     public Optional<TokenSesionPersistente> buscarPorSerie(String serie) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fachadaPersistencia.buscarUno(new TokenSesionPorSerie(serie));
     }
 
     /**
      * Busca el token por serie, {@code token.rotar(tokenHash, ultimoUso)} y {@code fachadaPersistencia.put(token)}
-     * (rotación en cada uso).
+     * (rotación en cada uso, {@code sec_cu11_p4.puml}).
      *
      * <p>Casos de uso: CU-11
-     * @param serie valor de {@code serie}
-     * @param tokenHash valor de {@code tokenHash}
-     * @param ultimoUso valor de {@code ultimoUso}
+     * @param serie serie del token
+     * @param tokenHash hash del nuevo valor del token
+     * @param ultimoUso momento del uso
      */
     public void actualizarToken(String serie, String tokenHash, LocalDateTime ultimoUso) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        buscarPorSerie(serie).ifPresent(token -> {
+            token.rotar(tokenHash, ultimoUso);
+            fachadaPersistencia.put(token);
+        });
     }
 
     /**
      * {@code fachadaPersistencia.buscar(TokensSesionDeUsuario(idUsuario))} y {@code eliminar} de cada uno; devuelve
      * la cantidad.
      *
-     * <p>Casos de uso: CU-11
-     * @param idUsuario valor de {@code idUsuario}
-     * @return el resultado
+     * <p>Casos de uso: CU-03, CU-11, CU-12, CU-13, CU-15, CU-17
+     * @param idUsuario cuenta dueña
+     * @return cantidad de tokens borrados
      */
     public int eliminarDeUsuario(Long idUsuario) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return eliminarTodos(fachadaPersistencia.buscar(new TokensSesionDeUsuario(idUsuario)));
     }
 
     /**
-     * Igual con {@code TokensSesionVencidos(ahora)}.
+     * Igual con {@code TokensSesionVencidos(ahora)} (limpieza de mantenimiento).
      *
      * <p>Casos de uso: CU-11
-     * @param ahora valor de {@code ahora}
-     * @return el resultado
+     * @param ahora momento actual
+     * @return cantidad de tokens borrados
      */
     public int eliminarVencidos(LocalDateTime ahora) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return eliminarTodos(fachadaPersistencia.buscar(new TokensSesionVencidos(ahora)));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Operación de {@code PersistentTokenRepository}: crea el token de una serie nueva guardando el hash del valor
+     * (Spring Security la usa solo si el ingreso se hiciera por su propio formulario; en este sistema el token lo
+     * emite {@code GestorSesiones.emitirTokenPersistente}).
      *
      * <p>Casos de uso: CU-11
-     * @param t valor de {@code t}
+     * @param t token de Spring Security (username = id de la cuenta)
      */
+    @Override
     public void createNewToken(PersistentRememberMeToken t) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Usuario usuario = fachadaPersistencia.get(Long.valueOf(t.getUsername()), Usuario.class);
+        fachadaPersistencia.put(new TokenSesionPersistente(t.getSeries(), usuario,
+                GestorSesiones.hashSha256(t.getTokenValue()), aLocal(t.getDate())));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Operación de {@code PersistentTokenRepository}: rotación del token tras un ingreso por remember-me;
+     * delega en {@code actualizarToken(serie, hash(valor), fecha)}.
      *
      * <p>Casos de uso: CU-11
-     * @param serie valor de {@code serie}
-     * @param valor valor de {@code valor}
-     * @param fecha valor de {@code fecha}
+     * @param serie serie
+     * @param valor nuevo valor del token (en claro: se guarda su hash)
+     * @param fecha momento del uso
      */
+    @Override
     public void updateToken(String serie, String valor, java.util.Date fecha) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        actualizarToken(serie, GestorSesiones.hashSha256(valor), aLocal(fecha));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Operación de {@code PersistentTokenRepository}: delega en {@code buscarPorSerie} y adapta el resultado
+     * (username = id de la cuenta, tokenValue = hash guardado, fecha = último uso).
      *
      * <p>Casos de uso: CU-11
-     * @param serie valor de {@code serie}
-     * @return el resultado
+     * @param serie serie de la cookie
+     * @return token de Spring Security o {@code null} si la serie no existe
      */
+    @Override
+    @Transactional(readOnly = true)
     public PersistentRememberMeToken getTokenForSeries(String serie) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return buscarPorSerie(serie)
+                .map(t -> new PersistentRememberMeToken(String.valueOf(t.getUsuario().getId()), t.getSerie(),
+                        t.getTokenHash(), Date.from(t.getUltimoUso().atZone(RelojSistema.ZONA_CLUB).toInstant())))
+                .orElse(null);
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Operación de {@code PersistentTokenRepository}: revoca todas las series de la cuenta (posible robo del token,
+     * CU-11 FA2); delega en {@code eliminarDeUsuario}.
      *
      * <p>Casos de uso: CU-11
-     * @param username valor de {@code username}
+     * @param username nombre del principal (id de la cuenta en texto)
      */
+    @Override
     public void removeUserTokens(String username) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        try {
+            eliminarDeUsuario(Long.valueOf(username));
+        } catch (NumberFormatException e) {
+            // no es un principal de este sistema: no hay tokens que borrar
+        }
+    }
+
+    /**
+     * Borra cada token de la lista con {@code fachadaPersistencia.eliminar}.
+     *
+     * <p>Casos de uso: CU-11
+     * @param tokens tokens a borrar
+     * @return cantidad
+     */
+    private int eliminarTodos(List<TokenSesionPersistente> tokens) {
+        for (TokenSesionPersistente t : tokens) {
+            fachadaPersistencia.eliminar(t);
+        }
+        return tokens.size();
+    }
+
+    /**
+     * Convierte una fecha de Spring Security a la hora local del club.
+     *
+     * <p>Casos de uso: CU-11
+     * @param fecha fecha {@code java.util.Date}
+     * @return fecha y hora local
+     */
+    private static LocalDateTime aLocal(java.util.Date fecha) {
+        return LocalDateTime.ofInstant(fecha.toInstant(), RelojSistema.ZONA_CLUB);
     }
 }

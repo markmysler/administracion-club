@@ -1,8 +1,10 @@
 package ar.edu.ub.club.accesos.dominio;
 
+import ar.edu.ub.club.compartido.dominio.RelojSistema;
 import ar.edu.ub.club.compartido.persistencia.EntidadPersistente;
 import ar.edu.ub.club.compartido.seguridad.Autorizable;
 import ar.edu.ub.club.compartido.seguridad.Permiso;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -11,11 +13,23 @@ import java.util.Set;
  * implementa la interfaz {@code Autorizable}. Es Information Expert de sus intentos fallidos, de su bloqueo y de
  * sus datos de acceso.
  *
- * <p>Entidad del dominio; la persiste su broker.
+ * <p>Polimorfismo (GRASP Polymorphism): {@code obtenerPermisos()}, {@code admiteSesionPersistente()} y
+ * {@code tipoCuenta()} se redefinen en cada subclase, por eso no hay atributo «rol» ni preguntas por el tipo.
+ * Implementa además la política de bloqueo (PoliticaBloqueo, RN-02): al quinto intento fallido consecutivo la
+ * cuenta queda bloqueada 15 minutos. Diagrama de estados: {@code est_cuenta.puml} (Activa ⇄ Bloqueada
+ * temporalmente, Activa → Inactiva final).
+ *
+ * <p>Entidad del dominio; la persiste {@code BrokerUsuario} (herencia por tabla de subclase, JOINED).
  *
  * <p>Casos de uso: todos
  */
 public abstract class Usuario extends EntidadPersistente implements Autorizable {
+
+    /** PoliticaBloqueo: cantidad de intentos fallidos consecutivos que bloquean la cuenta (RN-02). */
+    public static final int INTENTOS_MAXIMOS = 5;
+
+    /** PoliticaBloqueo: duración del bloqueo temporal (RN-02). */
+    public static final Duration DURACION_BLOQUEO = Duration.ofMinutes(15);
 
     /** Nombre de usuario. */
     private String username;
@@ -39,7 +53,71 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
     private LocalDateTime fechaCreacion;
 
     /**
-     * Verifica la clave con {@code codificador.coincide(clave, passwordHash)}.
+     * Constructor vacío para que las subclases se reconstituyan desde la base ({@code reconstituir}); luego
+     * llaman a {@code restaurarDatosAcceso}.
+     *
+     * <p>Agregado en la implementación: el esqueleto no tenía constructores y los atributos son privados.
+     *
+     * <p>Casos de uso: todos
+     */
+    protected Usuario() {
+        // los atributos los completa restaurarDatosAcceso
+    }
+
+    /**
+     * Constructor del alta de una cuenta (lo usan {@code new Administrador(...)} en CU-14 y {@code new Socio(...)}
+     * en CU-01): la cuenta nace ACTIVA, con 0 intentos fallidos y sin bloqueo (CU-16: el tipo lo fija la subclase
+     * instanciada).
+     *
+     * <p>Agregado en la implementación: el esqueleto no tenía constructores y los atributos son privados.
+     *
+     * <p>Casos de uso: CU-01, CU-14, CU-16
+     * @param username nombre de usuario (único; la unicidad la verifica la fachada)
+     * @param email correo (único)
+     * @param passwordHash hash ya calculado por {@code CodificadorClave}
+     */
+    protected Usuario(String username, String email, String passwordHash) {
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.estado = EstadoCuenta.ACTIVA;
+        this.intentosFallidos = 0;
+        this.bloqueadoHasta = null;
+        this.fechaCreacion = LocalDateTime.now(RelojSistema.ZONA_CLUB);
+    }
+
+    /**
+     * Restaura los atributos comunes leídos de la tabla {@code usuario}; lo llaman los {@code reconstituir} de las
+     * subclases (desmaterialización del Database Broker).
+     *
+     * <p>Agregado en la implementación: los atributos son privados y las subclases están en otros paquetes.
+     *
+     * <p>Casos de uso: todos
+     * @param id identificador
+     * @param username nombre de usuario
+     * @param email correo
+     * @param passwordHash hash BCrypt
+     * @param estado estado de la cuenta
+     * @param intentosFallidos intentos fallidos consecutivos
+     * @param bloqueadoHasta fin del bloqueo o {@code null}
+     * @param fechaCreacion alta de la cuenta
+     */
+    protected void restaurarDatosAcceso(Long id, String username, String email, String passwordHash,
+                                        EstadoCuenta estado, Integer intentosFallidos, LocalDateTime bloqueadoHasta,
+                                        LocalDateTime fechaCreacion) {
+        asignarId(id);
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.estado = estado;
+        this.intentosFallidos = intentosFallidos == null ? 0 : intentosFallidos;
+        this.bloqueadoHasta = bloqueadoHasta;
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    /**
+     * Verifica la clave con {@code codificador.coincide(clave, passwordHash)} (CU-11 paso 6). La cuenta no conoce
+     * BCrypt: lo encapsula el codificador (Protected Variations).
      *
      * <p>Casos de uso: CU-11
      * @param clave Clave ingresada.
@@ -47,57 +125,69 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * @return true si coincide.
      */
     public boolean autenticar(String clave, CodificadorClave codificador) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return clave != null && codificador.coincide(clave, passwordHash);
     }
 
     /**
-     * Incrementa los intentos; al quinto fija {@code bloqueadoHasta = ahora + 15 minutos} (PoliticaBloqueo).
+     * Incrementa los intentos; al quinto fija {@code bloqueadoHasta = ahora + 15 minutos} (PoliticaBloqueo,
+     * RN-02, CU-11 FA6/FA7). El contador no supera 5 (restricción {@code ck_usuario_intentos}): si un bloqueo ya
+     * venció y se vuelve a fallar, el contador recomienza en 1.
      *
      * <p>Casos de uso: CU-11
      * @param ahora Momento actual.
      */
     public void registrarIntentoFallido(LocalDateTime ahora) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        if (intentosFallidos >= INTENTOS_MAXIMOS) {
+            // el bloqueo anterior ya venció (si no, la fachada no habría llegado aquí): nueva serie de intentos
+            intentosFallidos = 0;
+            bloqueadoHasta = null;
+        }
+        intentosFallidos++;
+        if (intentosFallidos >= INTENTOS_MAXIMOS) {
+            bloqueadoHasta = ahora.plus(DURACION_BLOQUEO);
+        }
     }
 
     /**
-     * Indica si {@code bloqueadoHasta} es posterior a ahora.
+     * Indica si {@code bloqueadoHasta} es posterior a ahora (estado «Bloqueada temporalmente»; al vencer los 15
+     * minutos se desbloquea sola).
      *
      * <p>Casos de uso: CU-11
      * @param ahora Momento actual.
      * @return true si está bloqueada.
      */
     public boolean estaBloqueada(LocalDateTime ahora) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return bloqueadoHasta != null && bloqueadoHasta.isAfter(ahora);
     }
 
     /**
-     * Pone los intentos en 0 y borra el bloqueo.
+     * Pone los intentos en 0 y borra el bloqueo (ingreso exitoso, CU-11 paso 8, o contraseña restablecida, CU-13).
      *
      * <p>Casos de uso: CU-11, CU-13
      */
     public void reiniciarIntentos() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        intentosFallidos = 0;
+        bloqueadoHasta = null;
     }
 
     /**
      * Indica si el estado es ACTIVA.
      *
-     * <p>Casos de uso: CU-11, CU-15
+     * <p>Casos de uso: CU-11, CU-13, CU-15, CU-17
      * @return true si está activa.
      */
     public boolean estaActiva() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return estado == EstadoCuenta.ACTIVA;
     }
 
     /**
-     * Reemplaza el hash de la contraseña (CU-13, CU-15).
+     * Reemplaza el hash de la contraseña (CU-13, CU-15). La validación de la política la hace la fachada antes.
      *
      * <p>Casos de uso: CU-13, CU-15
      * @param hash Hash ya calculado por {@code CodificadorClave}.
      */
     public void cambiarClave(String hash) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        this.passwordHash = hash;
     }
 
     /**
@@ -108,16 +198,18 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * @param email Nuevo correo.
      */
     public void actualizarDatosAcceso(String username, String email) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        this.username = username;
+        this.email = email;
     }
 
     /**
-     * Pasa la cuenta a INACTIVA (final).
+     * Pasa la cuenta a INACTIVA (estado final: conserva el historial, RN-03). La protección del último
+     * administrador activo la verifica {@code ServicioAccesos.desactivarCuenta}.
      *
-     * <p>Casos de uso: todos
+     * <p>Casos de uso: CU-03, CU-17
      */
     public void desactivar() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        this.estado = EstadoCuenta.INACTIVA;
     }
 
     /**
@@ -126,6 +218,7 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * <p>Casos de uso: todos
      * @return Conjunto de permisos.
      */
+    @Override
     public abstract Set<Permiso> obtenerPermisos();
 
     /**
@@ -138,15 +231,18 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
     public abstract boolean admiteSesionPersistente();
 
     /**
-     * Operación abstracta: apellido y nombre de la cuenta ({@code Socio} y {@code Administrador} tienen sus propios
-     * {@code nombre} y {@code apellido}). La usan {@code DetalleCuenta} y {@code FilaCuenta} sin preguntar por la
-     * clase.
+     * Apellido y nombre de la cuenta ({@code Socio} y {@code Administrador} tienen sus propios {@code nombre} y
+     * {@code apellido} y lo redefinen). La usan {@code DetalleCuenta}, {@code FilaCuenta} y la sesión
+     * ({@code SesionUsuario.nombreVisible}) sin preguntar por la clase.
      *
-     * <p>Casos de uso: todos
+     * <p>Decisión de implementación: queda concreta (devuelve el nombre de usuario) porque el esqueleto de
+     * {@code Socio} no la declaraba; las subclases la redefinen.
+     *
+     * <p>Casos de uso: CU-11, CU-15, CU-17
      * @return Apellido y nombre.
      */
     public String nombreCompleto() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return username;
     }
 
     /**
@@ -154,12 +250,10 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * modelos de vista {@code FilaCuenta} y {@code DetalleCuenta} para mostrar el tipo de cuenta sin preguntar por
      * la clase.
      *
-     * <p>Casos de uso: todos
+     * <p>Casos de uso: CU-15, CU-16, CU-17
      * @return Tipo de cuenta para mostrar.
      */
-    public String tipoCuenta() {
-        throw new UnsupportedOperationException("PENDIENTE");
-    }
+    public abstract String tipoCuenta();
 
     /**
      * Devuelve {@code username}: Nombre de usuario.
