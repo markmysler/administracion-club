@@ -4,22 +4,27 @@ import ar.edu.ub.club.notificaciones.dominio.Notificacion;
 import java.time.LocalDateTime;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Notificación del detalle de una reserva (P-21, P-22): fecha, tipo, estado de envío y detalle del error (RN-19).
  *
  * <p>Modelo de vista inmutable (record) que construye el presentador; la vista solo lo muestra.
  *
- * <p>Casos de uso: CU-31
+ * <p>Casos de uso: CU-29, CU-31
+ * @param fecha momento de creación
+ * @param tipo CONFIRMACION, MODIFICACION o CANCELACION
+ * @param estadoEnvio estado del envío (ENVIADA, FALLIDA o sin enviar)
+ * @param detalle detalle del error o {@code null}
  */
 public record FilaNotificacion(LocalDateTime fecha, String tipo, String estadoEnvio, String detalle) {
 
     /**
-     * PENDIENTE: documentar.
+     * Construye la fila desde la notificación.
      *
-     * <p>Casos de uso: CU-31
-     * @param notificacion valor de {@code notificacion}
-     * @return el resultado
+     * <p>Casos de uso: CU-29, CU-31
+     * @param notificacion notificación
+     * @return la fila
      */
     public static FilaNotificacion desde(Notificacion notificacion) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return new FilaNotificacion(notificacion.getFecha(), notificacion.getTipo().name(),
+                notificacion.getEstadoEnvio().name(), notificacion.getDetalleError());
     }
 }

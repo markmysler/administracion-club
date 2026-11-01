@@ -5,42 +5,42 @@ import ar.edu.ub.club.compartido.ui.PantallaBase;
 import java.util.List;
 
 /**
- * Interfaz pasiva de la pantalla P-22: Reservas del club con filtros, acceso a modificar y cancelación
- * administrativa con motivo.
+ * Interfaz pasiva de la pantalla P-22 (MVP, Vista Pasiva): reservas del club con filtros, acceso a modificar y
+ * cancelación administrativa con motivo.
  *
  * <p>Casos de uso: CU-31, CU-32, CU-33
  */
 public interface PantallaReservasClub extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra el filtro de deporte.
      *
-     * <p>Casos de uso: CU-31, CU-33
-     * @param deportes valor de {@code deportes}
+     * <p>Casos de uso: CU-31
+     * @param deportes deportes
      */
     void mostrarFiltros(List<OpcionSeleccion> deportes);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra las reservas que cumplen el filtro.
      *
      * <p>Casos de uso: CU-31, CU-33
-     * @param filas valor de {@code filas}
+     * @param filas reservas
      */
     void mostrarReservas(List<FilaReserva> filas);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra el detalle de una reserva (quién registró o canceló, motivo y notificaciones).
      *
-     * <p>Casos de uso: CU-31, CU-33
-     * @param detalle valor de {@code detalle}
+     * <p>Casos de uso: CU-31
+     * @param detalle detalle de la reserva
      */
     void mostrarDetalle(DetalleReserva detalle);
 
     /**
-     * PENDIENTE: documentar.
+     * Abre el diálogo que pide el motivo obligatorio de la cancelación administrativa.
      *
-     * <p>Casos de uso: CU-31, CU-33
-     * @param idReserva valor de {@code idReserva}
+     * <p>Casos de uso: CU-33
+     * @param idReserva reserva a cancelar
      */
     void pedirMotivoCancelacion(Long idReserva);
 }

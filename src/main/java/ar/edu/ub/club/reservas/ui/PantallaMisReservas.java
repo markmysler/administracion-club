@@ -4,26 +4,26 @@ import ar.edu.ub.club.compartido.ui.PantallaBase;
 import java.util.List;
 
 /**
- * Interfaz pasiva de la pantalla P-21: Reservas propias vigentes e históricas con acción de cancelar dentro del
- * plazo.
+ * Interfaz pasiva de la pantalla P-21 (MVP, Vista Pasiva): reservas propias vigentes e históricas con acción de
+ * cancelar dentro del plazo.
  *
  * <p>Casos de uso: CU-29, CU-30
  */
 public interface PantallaMisReservas extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra las reservas del socio.
      *
      * <p>Casos de uso: CU-29, CU-30
-     * @param filas valor de {@code filas}
+     * @param filas reservas (vigentes primero)
      */
     void mostrarReservas(List<FilaReserva> filas);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra el detalle de una reserva con sus notificaciones.
      *
-     * <p>Casos de uso: CU-29, CU-30
-     * @param detalle valor de {@code detalle}
+     * <p>Casos de uso: CU-29
+     * @param detalle detalle de la reserva
      */
     void mostrarDetalle(DetalleReserva detalle);
 }
