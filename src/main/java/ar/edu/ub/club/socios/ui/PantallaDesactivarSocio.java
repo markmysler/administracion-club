@@ -10,12 +10,18 @@ import java.util.List;
  * se cancelarán y, si el socio es titular de un grupo con otros integrantes activos, pide elegir el nuevo
  * titular.
  *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
  * <p>Casos de uso: CU-03
  */
 public interface PantallaDesactivarSocio extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra el nombre y el DNI del socio que se dará de baja.
      *
      * <p>Casos de uso: CU-03
      * @param nombre valor de {@code nombre}
@@ -24,7 +30,7 @@ public interface PantallaDesactivarSocio extends PantallaBase {
     void mostrarSocio(String nombre, String dni);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra las reservas futuras que se cancelarán y, si hay candidatos, el selector de nuevo titular.
      *
      * <p>Casos de uso: CU-03
      * @param reservas valor de {@code reservas}
@@ -33,7 +39,7 @@ public interface PantallaDesactivarSocio extends PantallaBase {
     void mostrarAfectadas(List<FilaResumenReserva> reservas, List<OpcionSeleccion> candidatosTitular);
 
     /**
-     * PENDIENTE: documentar.
+     * Cierra el diálogo y dispara {@code DialogoResueltoEvento} para que P-08 recargue la ficha.
      *
      * <p>Casos de uso: CU-03
      */

@@ -8,12 +8,20 @@ import java.util.List;
  * indica CU-07: busca el grupo destino por DNI o nombre de un integrante o del titular y asocia el socio a ese
  * grupo.
  *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
  * <p>Casos de uso: CU-07
  */
 public interface PantallaAsociarSocio extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra el socio que se asocia y su grupo actual.
      *
      * <p>Casos de uso: CU-07
      * @param nombre valor de {@code nombre}
@@ -23,7 +31,7 @@ public interface PantallaAsociarSocio extends PantallaBase {
     void mostrarSocio(String nombre, String dni, String grupoActual);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra los grupos vigentes encontrados.
      *
      * <p>Casos de uso: CU-07
      * @param filas valor de {@code filas}
@@ -31,7 +39,7 @@ public interface PantallaAsociarSocio extends PantallaBase {
     void mostrarGrupos(List<FilaGrupo> filas);
 
     /**
-     * PENDIENTE: documentar.
+     * Fija el grupo destino elegido en P-11.
      *
      * <p>Casos de uso: CU-07
      * @param idGrupoDestino valor de {@code idGrupoDestino}
@@ -39,7 +47,7 @@ public interface PantallaAsociarSocio extends PantallaBase {
     void preseleccionar(Long idGrupoDestino);
 
     /**
-     * PENDIENTE: documentar.
+     * Cierra el diálogo y dispara {@code DialogoResueltoEvento}.
      *
      * <p>Casos de uso: CU-07
      */

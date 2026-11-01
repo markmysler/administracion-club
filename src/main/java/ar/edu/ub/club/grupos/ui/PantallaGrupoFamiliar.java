@@ -9,12 +9,20 @@ import java.util.List;
  * importe de la próxima cuota; acciones cambiar titular, quitar integrante y asociar un socio (busca primero el
  * socio y abre P-12 con este grupo preseleccionado como destino).
  *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
  * <p>Casos de uso: todos
  */
 public interface PantallaGrupoFamiliar extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra los grupos encontrados.
      *
      * <p>Casos de uso: CU-08, CU-09, CU-10
      * @param filas valor de {@code filas}
@@ -22,7 +30,7 @@ public interface PantallaGrupoFamiliar extends PantallaBase {
     void mostrarGrupos(List<FilaGrupo> filas);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra el detalle del grupo familiar.
      *
      * <p>Casos de uso: CU-08, CU-09, CU-10
      * @param ficha valor de {@code ficha}
@@ -30,7 +38,7 @@ public interface PantallaGrupoFamiliar extends PantallaBase {
     void mostrarGrupo(FichaGrupo ficha);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra los socios encontrados para asociar a este grupo.
      *
      * <p>Casos de uso: CU-08, CU-09, CU-10
      * @param filas valor de {@code filas}
@@ -38,7 +46,7 @@ public interface PantallaGrupoFamiliar extends PantallaBase {
     void mostrarSocios(List<FilaSocio> filas);
 
     /**
-     * PENDIENTE: documentar.
+     * Crea y abre el diálogo P-12 con este grupo preseleccionado como destino.
      *
      * <p>Casos de uso: CU-08, CU-09, CU-10
      * @param idSocio valor de {@code idSocio}
