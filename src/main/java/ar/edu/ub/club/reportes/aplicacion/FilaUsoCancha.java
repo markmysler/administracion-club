@@ -3,74 +3,97 @@ package ar.edu.ub.club.reportes.aplicacion;
 import java.math.BigDecimal;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Fila del reporte de uso de canchas: deporte, cancha, cantidad de reservas CONFIRMADAS y FINALIZADAS del período,
+ * horas reservadas y porcentaje de ocupación sobre las horas de atención del club. La leen los objetos consulta de
+ * proyección {@code UsoDeCanchas} (CU-38) y {@code CanchasMasUsadas} (indicador de P-04, CU-40).
  *
- * <p>Objeto de comando o de datos de la capa de aplicación.
+ * <p>Objeto de datos de salida de la capa de aplicación (inmutable).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-38, CU-40
  */
 public class FilaUsoCancha {
 
-    /** Atributo deporte. */
+    /** Nombre del deporte de la cancha. */
     private String deporte;
 
-    /** Atributo cancha. */
+    /** Nombre de la cancha. */
     private String cancha;
 
-    /** Atributo cantidadReservas. */
+    /** Cantidad de reservas confirmadas o finalizadas en el período. */
     private Long cantidadReservas;
 
-    /** Atributo horasReservadas. */
+    /** Horas reservadas en el período. */
     private BigDecimal horasReservadas;
 
-    /** Atributo porcentajeOcupacion. */
+    /** Porcentaje de ocupación: horas reservadas / horas de atención del club en el período × 100. */
     private BigDecimal porcentajeOcupacion;
 
     /**
-     * Devuelve {@code deporte}: deporte.
+     * Crea la fila con todos sus datos.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Agregado en la implementación: constructor con los atributos del diseño.
+     *
+     * <p>Casos de uso: CU-38, CU-40
+     * @param deporte nombre del deporte
+     * @param cancha nombre de la cancha
+     * @param cantidadReservas cantidad de reservas
+     * @param horasReservadas horas reservadas
+     * @param porcentajeOcupacion porcentaje de ocupación (0 a 100)
+     */
+    public FilaUsoCancha(String deporte, String cancha, Long cantidadReservas, BigDecimal horasReservadas,
+                         BigDecimal porcentajeOcupacion) {
+        this.deporte = deporte;
+        this.cancha = cancha;
+        this.cantidadReservas = cantidadReservas;
+        this.horasReservadas = horasReservadas;
+        this.porcentajeOcupacion = porcentajeOcupacion;
+    }
+
+    /**
+     * Devuelve el nombre del deporte.
+     *
+     * <p>Casos de uso: CU-38, CU-40
+     * @return deporte
      */
     public String getDeporte() {
         return deporte;
     }
 
     /**
-     * Devuelve {@code cancha}: cancha.
+     * Devuelve el nombre de la cancha.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38, CU-40
+     * @return cancha
      */
     public String getCancha() {
         return cancha;
     }
 
     /**
-     * Devuelve {@code cantidadReservas}: cantidadReservas.
+     * Devuelve la cantidad de reservas del período.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38, CU-40
+     * @return cantidad de reservas
      */
     public Long getCantidadReservas() {
         return cantidadReservas;
     }
 
     /**
-     * Devuelve {@code horasReservadas}: horasReservadas.
+     * Devuelve las horas reservadas del período.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38, CU-40
+     * @return horas reservadas
      */
     public BigDecimal getHorasReservadas() {
         return horasReservadas;
     }
 
     /**
-     * Devuelve {@code porcentajeOcupacion}: porcentajeOcupacion.
+     * Devuelve el porcentaje de ocupación.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38, CU-40
+     * @return porcentaje de 0 a 100
      */
     public BigDecimal getPorcentajeOcupacion() {
         return porcentajeOcupacion;

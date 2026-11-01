@@ -7,34 +7,33 @@ import ar.edu.ub.club.grupos.ui.FilaGrupo;
 import java.util.List;
 
 /**
- * Interfaz pasiva de la pantalla P-30: Registro de un pago manual: búsqueda del grupo, elección de la cuota
- * impaga, medio habilitado e importe (igual al importe a pagar de la cuota).
+ * Interfaz pasiva (MVP Vista Pasiva) de la pantalla P-30 Pago manual.
  *
  * <p>Casos de uso: CU-36
  */
 public interface PantallaPagoManual extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Carga el combo de medios habilitados; vacío deshabilita el formulario (FA3).
      *
      * <p>Casos de uso: CU-36
-     * @param opciones valor de {@code opciones}
+     * @param opciones medios habilitados
      */
     void mostrarMedios(List<OpcionSeleccion> opciones);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra los grupos vigentes encontrados (paso 2).
      *
      * <p>Casos de uso: CU-36
-     * @param filas valor de {@code filas}
+     * @param filas grupos
      */
     void mostrarGrupos(List<FilaGrupo> filas);
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra las cuotas impagas del grupo elegido (paso 4).
      *
      * <p>Casos de uso: CU-36
-     * @param filas valor de {@code filas}
+     * @param filas cuotas pendientes y vencidas, más antigua primero
      */
     void mostrarCuotas(List<FilaCuota> filas);
 }

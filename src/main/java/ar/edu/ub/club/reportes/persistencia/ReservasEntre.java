@@ -6,61 +6,74 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto consulta de proyección n.º 66 (MODELO 11.8.4): cantidad de reservas CONFIRMADAS o FINALIZADAS con fecha
+ * entre dos días (indicadores «Reservas de hoy» y «Semana» de P-04, paso 3 de CU-40). Tabla: reserva.
  *
- * <p>Objeto consulta (Query Object, Fowler) de proyección; lo resuelve {@code FachadaPersistencia} sin broker.
- *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-40
  */
 public class ReservasEntre extends ConsultaProyeccion<Long> {
 
-    /** Atributo desde. */
+    /** Fecha inicial (inclusive). */
     private LocalDate desde;
 
-    /** Atributo hasta. */
+    /** Fecha final (inclusive). */
     private LocalDate hasta;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @param desde fecha inicial
+     * @param hasta fecha final
      */
-    public Class<Long> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public ReservasEntre(LocalDate desde, LocalDate hasta) {
+        this.desde = desde;
+        this.hasta = hasta;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Devuelve la clase del resultado.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return {@code Long.class}
+     */
+    @Override
+    public Class<Long> claseResultado() {
+        return Long.class;
+    }
+
+    /**
+     * Lee la cantidad.
+     *
+     * <p>Casos de uso: CU-40
+     * @param fila fila del {@code ResultSet}
+     * @return cantidad de reservas
      */
     @Override
     public Long leerFila(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fila.largo("cantidad");
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sentencia SQL.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "SELECT COUNT(*) AS cantidad FROM reserva WHERE reserva.estado IN ('CONFIRMADA', 'FINALIZADA')"
+                + " AND reserva.fecha >= ? AND reserva.fecha <= ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetros: desde y hasta.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(desde, hasta);
     }
 }
