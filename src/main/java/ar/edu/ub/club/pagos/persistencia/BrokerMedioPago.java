@@ -4,21 +4,24 @@ import ar.edu.ub.club.compartido.persistencia.BrokerBaseDatos;
 import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import ar.edu.ub.club.compartido.persistencia.ProveedorConexiones;
 import ar.edu.ub.club.pagos.dominio.MedioPago;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Broker de {@code MedioPago} sobre {@code medio_pago} (nombre UNIQUE; baja lógica con {@code habilitado}).
  *
  * <p>Broker concreto del patrón Database Broker (Larman, cap. 34); completa los ganchos del Template Method de {@code BrokerBaseDatos}.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-34, CU-36, CU-37
  */
+@Component
 public class BrokerMedioPago extends BrokerBaseDatos<MedioPago> {
 
     /**
      * Crea el broker con el proveedor de conexiones.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: todos
      * @param proveedor proveedor de conexiones
      */
     public BrokerMedioPago(ProveedorConexiones proveedor) {
@@ -26,60 +29,65 @@ public class BrokerMedioPago extends BrokerBaseDatos<MedioPago> {
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que maneja el broker.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-34, CU-36
+     * @return MedioPago.class
      */
     @Override
     public Class<MedioPago> claseObjeto() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return MedioPago.class;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Tabla principal.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-34, CU-36
+     * @return "medio_pago"
      */
     @Override
     protected String tabla() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "medio_pago";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reconstituye el medio.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-34, CU-36, CU-37
+     * @param fila fila de {@code medio_pago}
+     * @return el medio
      */
     @Override
     protected MedioPago crearObjeto(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return MedioPago.reconstituir(fila.largo("id"), fila.texto("nombre"), fila.booleano("habilitado"));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del INSERT (alta de medio, CU-34 FA1).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-34
+     * @param objeto medio nuevo
+     * @return columna → valor
      */
     @Override
     protected Map<String, Object> valoresInsercion(MedioPago objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> v = new LinkedHashMap<>();
+        v.put("nombre", objeto.getNombre());
+        v.put("habilitado", objeto.getHabilitado());
+        return v;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Columnas del UPDATE: solo la habilitación.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param objeto valor de {@code objeto}
-     * @return el resultado
+     * <p>Casos de uso: CU-34
+     * @param objeto medio persistido
+     * @return columna → valor
      */
     @Override
     protected Map<String, Object> valoresActualizacion(MedioPago objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> v = new LinkedHashMap<>();
+        v.put("habilitado", objeto.getHabilitado());
+        return v;
     }
 }

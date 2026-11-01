@@ -5,46 +5,58 @@ import ar.edu.ub.club.cuotas.dominio.ItemCuota;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Ítems de una cuota; la ejecuta el {@code ProxyListaVirtual} de {@code Cuota.items} en el primer acceso
+ * (Virtual Proxy). Consulta 51 de MODELO §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-05, CU-35, CU-36
  */
 public class ItemsDeCuota extends ConsultaEntidades<ItemCuota> {
 
-    /** Atributo idCuota. */
-    private Long idCuota;
+    /** Cuota. */
+    private final Long idCuota;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-05, CU-35, CU-36
+     * @param idCuota Cuota.
      */
-    public Class<ItemCuota> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public ItemsDeCuota(Long idCuota) {
+        this.idCuota = idCuota;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase del resultado: {@code ItemCuota}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-05, CU-35, CU-36
+     * @return ItemCuota.class
+     */
+    @Override
+    public Class<ItemCuota> claseResultado() {
+        return ItemCuota.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code SELECT * FROM item_cuota}.
+     *
+     * <p>Casos de uso: CU-05, CU-35, CU-36
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE item_cuota.cuota_id = ? ORDER BY item_cuota.id";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetros en orden.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-05, CU-35, CU-36
+     * @return [idCuota]
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idCuota);
     }
 }

@@ -4,14 +4,14 @@ import ar.edu.ub.club.compartido.persistencia.EntidadPersistente;
 
 /**
  * Configuración de la pasarela de pago (fila única, CU-34). Las credenciales no se guardan: solo se registra si
- * están configuradas.
+ * están configuradas. Su {@code modo} decide el adaptador activo ({@code ServicioPagos}).
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-34, CU-35
  */
 public class ConfiguracionPasarela extends EntidadPersistente {
 
-    /** Identificador de la única fila. */
-    private Long ID_UNICO;
+    /** Identificador de la única fila (atributo de clase, {@code {static}} en el diseño). */
+    public static final Long ID_UNICO = 1L;
 
     /** Proveedor. */
     private String proveedor;
@@ -26,25 +26,55 @@ public class ConfiguracionPasarela extends EntidadPersistente {
     private Boolean credencialesConfiguradas;
 
     /**
-     * PENDIENTE: documentar.
+     * Constructor vacío que usa {@code reconstituir}.
      *
-     * <p>Casos de uso: todos
-     * @param id valor de {@code id}
-     * @param proveedor valor de {@code proveedor}
-     * @param modo valor de {@code modo}
-     * @param habilitada valor de {@code habilitada}
-     * @param credencialesConfiguradas valor de {@code credencialesConfiguradas}
-     * @return el resultado
+     * <p>Casos de uso: CU-34, CU-35
+     */
+    private ConfiguracionPasarela() {
+    }
+
+    /**
+     * Reconstituye la fila única de {@code configuracion_pasarela} (operación «persistencia»).
+     *
+     * <p>Casos de uso: CU-34, CU-35
+     * @param id Identificador (1).
+     * @param proveedor Proveedor.
+     * @param modo Modo.
+     * @param habilitada Si está habilitada.
+     * @param credencialesConfiguradas Si hay credenciales.
+     * @return la configuración
      */
     public static ConfiguracionPasarela reconstituir(Long id, String proveedor, ModoPasarela modo, Boolean habilitada, Boolean credencialesConfiguradas) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        ConfiguracionPasarela c = new ConfiguracionPasarela();
+        c.asignarId(id);
+        c.proveedor = proveedor;
+        c.modo = modo;
+        c.habilitada = habilitada;
+        c.credencialesConfiguradas = credencialesConfiguradas;
+        return c;
+    }
+
+    /**
+     * Agregado en la implementación: actualiza el modo, la habilitación y si hay credenciales (CU-34, pasos 6 a 9;
+     * el diseño dice «habilitada = …» sin nombrar la operación). En MERCADO_PAGO sin credenciales queda
+     * deshabilitada (CHECK {@code ck_pasarela_credenciales}).
+     *
+     * <p>Casos de uso: CU-34
+     * @param modo Adaptador elegido.
+     * @param habilitada Si se aceptan pagos online.
+     * @param credencialesConfiguradas Si el entorno tiene credenciales.
+     */
+    public void configurar(ModoPasarela modo, boolean habilitada, boolean credencialesConfiguradas) {
+        this.modo = modo;
+        this.credencialesConfiguradas = credencialesConfiguradas;
+        this.habilitada = habilitada && (modo == ModoPasarela.SIMULADA || credencialesConfiguradas);
     }
 
     /**
      * Devuelve {@code ID_UNICO}: Identificador de la única fila.
      *
-     * <p>Casos de uso: todos
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-34, CU-35
+     * @return 1
      */
     public Long getID_UNICO() {
         return ID_UNICO;
@@ -53,7 +83,7 @@ public class ConfiguracionPasarela extends EntidadPersistente {
     /**
      * Devuelve {@code proveedor}: Proveedor.
      *
-     * <p>Casos de uso: todos
+     * <p>Casos de uso: CU-34
      * @return el valor del atributo
      */
     public String getProveedor() {
@@ -63,7 +93,7 @@ public class ConfiguracionPasarela extends EntidadPersistente {
     /**
      * Devuelve {@code modo}: Adaptador activo.
      *
-     * <p>Casos de uso: todos
+     * <p>Casos de uso: CU-34, CU-35
      * @return el valor del atributo
      */
     public ModoPasarela getModo() {
@@ -73,7 +103,7 @@ public class ConfiguracionPasarela extends EntidadPersistente {
     /**
      * Devuelve {@code habilitada}: Si se aceptan pagos online.
      *
-     * <p>Casos de uso: todos
+     * <p>Casos de uso: CU-34, CU-35
      * @return el valor del atributo
      */
     public Boolean getHabilitada() {
@@ -83,7 +113,7 @@ public class ConfiguracionPasarela extends EntidadPersistente {
     /**
      * Devuelve {@code credencialesConfiguradas}: Si el entorno tiene credenciales válidas.
      *
-     * <p>Casos de uso: todos
+     * <p>Casos de uso: CU-34
      * @return el valor del atributo
      */
     public Boolean getCredencialesConfiguradas() {

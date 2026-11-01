@@ -5,22 +5,27 @@ import ar.edu.ub.club.cuotas.dominio.MovimientoSaldo;
 import java.time.LocalDateTime;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Movimiento del saldo a favor (crédito o débito) en P-24, P-25 y P-28.
  *
  * <p>Modelo de vista inmutable (record) que construye el presentador; la vista solo lo muestra.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-05, CU-37
+ * @param fecha momento
+ * @param tipo CREDITO o DEBITO
+ * @param importe importe
+ * @param motivo descripción
  */
 public record FilaMovimientoSaldo(LocalDateTime fecha, String tipo, Dinero importe, String motivo) {
 
     /**
-     * PENDIENTE: documentar.
+     * Convierte el movimiento en fila.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param movimiento valor de {@code movimiento}
-     * @return el resultado
+     * <p>Casos de uso: CU-05, CU-37
+     * @param movimiento movimiento de saldo
+     * @return la fila
      */
     public static FilaMovimientoSaldo desde(MovimientoSaldo movimiento) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return new FilaMovimientoSaldo(movimiento.getFecha(), movimiento.getTipo().name(), movimiento.getImporte(),
+                movimiento.getMotivo());
     }
 }

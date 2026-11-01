@@ -5,36 +5,57 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Intención de pago que guarda en memoria {@code PasarelaSimuladaAdapter} (modo SIMULADA); P-27 la muestra con
+ * {@code ResumenIntencionSimulada}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-35
  */
 public class IntencionSimulada {
 
-    /** Atributo idPreferencia. */
-    private String idPreferencia;
+    /** Identificador de la preferencia simulada. */
+    private final String idPreferencia;
 
-    /** Atributo referenciaExterna. */
-    private UUID referenciaExterna;
+    /** Referencia externa del pago. */
+    private final UUID referenciaExterna;
 
-    /** Atributo concepto. */
-    private String concepto;
+    /** Concepto (cuota y período). */
+    private final String concepto;
 
-    /** Atributo importe. */
-    private Dinero importe;
+    /** Importe a pagar. */
+    private final Dinero importe;
 
-    /** Atributo venceEn. */
-    private LocalDateTime venceEn;
+    /** Vencimiento de la intención (24 horas, RN-22). */
+    private final LocalDateTime venceEn;
 
-    /** Atributo urlRetorno. */
-    private String urlRetorno;
+    /** URL de retorno ({@code /pagos/retorno?referencia=...}). */
+    private final String urlRetorno;
 
     /**
-     * Devuelve {@code idPreferencia}: idPreferencia.
+     * Agregado en la implementación (el modelo no lista el constructor): crea la intención simulada.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35
+     * @param idPreferencia Identificador.
+     * @param referenciaExterna Referencia del pago.
+     * @param concepto Concepto.
+     * @param importe Importe.
+     * @param venceEn Vencimiento.
+     * @param urlRetorno URL de retorno.
+     */
+    public IntencionSimulada(String idPreferencia, UUID referenciaExterna, String concepto, Dinero importe, LocalDateTime venceEn, String urlRetorno) {
+        this.idPreferencia = idPreferencia;
+        this.referenciaExterna = referenciaExterna;
+        this.concepto = concepto;
+        this.importe = importe;
+        this.venceEn = venceEn;
+        this.urlRetorno = urlRetorno;
+    }
+
+    /**
+     * Devuelve {@code idPreferencia}.
+     *
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public String getIdPreferencia() {
@@ -42,9 +63,9 @@ public class IntencionSimulada {
     }
 
     /**
-     * Devuelve {@code referenciaExterna}: referenciaExterna.
+     * Devuelve {@code referenciaExterna}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public UUID getReferenciaExterna() {
@@ -52,9 +73,9 @@ public class IntencionSimulada {
     }
 
     /**
-     * Devuelve {@code concepto}: concepto.
+     * Devuelve {@code concepto}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public String getConcepto() {
@@ -62,9 +83,9 @@ public class IntencionSimulada {
     }
 
     /**
-     * Devuelve {@code importe}: importe.
+     * Devuelve {@code importe}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public Dinero getImporte() {
@@ -72,9 +93,9 @@ public class IntencionSimulada {
     }
 
     /**
-     * Devuelve {@code venceEn}: venceEn.
+     * Devuelve {@code venceEn}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public LocalDateTime getVenceEn() {
@@ -82,9 +103,9 @@ public class IntencionSimulada {
     }
 
     /**
-     * Devuelve {@code urlRetorno}: urlRetorno.
+     * Devuelve {@code urlRetorno}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public String getUrlRetorno() {

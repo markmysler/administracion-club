@@ -8,11 +8,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Pago iniciado por el titular a través de la pasarela (CU-35).
+ * Pago iniciado por el titular a través de la pasarela (CU-35). Nace Pendiente con una referencia externa única
+ * (UUID) que viaja a la pasarela y vuelve en el resultado y en {@code /pagos/retorno}.
  *
- * <p>Entidad del dominio; la persiste su broker.
+ * <p>Entidad del dominio; la persiste su broker ({@code BrokerPagoOnline}: tablas {@code pago} + {@code pago_online}).
  *
- * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+ * <p>Casos de uso: CU-35, CU-37; tareas programadas: vencimiento de pagos online pendientes
  */
 public class PagoOnline extends Pago {
 
@@ -29,82 +30,130 @@ public class PagoOnline extends Pago {
     private Socio iniciadoPor;
 
     /**
-     * Crea una instancia de {@code PagoOnline}.
+     * Constructor vacío que usa {@code reconstituir}.
      *
-     * <p>Casos de uso: CU-35
-     * @param cuota valor de {@code cuota}
-     * @param importe valor de {@code importe}
-     * @param referenciaExterna valor de {@code referenciaExterna}
-     * @param fecha valor de {@code fecha}
+     * <p>Casos de uso: todos
      */
-    public PagoOnline(Cuota cuota, Dinero importe, UUID referenciaExterna, LocalDateTime fecha) {
-        // PENDIENTE
+    private PagoOnline() {
     }
 
     /**
-     * Guarda {@code idPagoPasarela} y {@code respuestaPasarela}.
+     * Crea el pago online Pendiente (lo llama {@code ProcesadorPagoOnline.crearPago}).
+     *
+     * <p>Casos de uso: CU-35
+     * @param cuota Cuota que se paga.
+     * @param importe Importe a pagar de la cuota.
+     * @param referenciaExterna UUID nuevo.
+     * @param fecha Momento de inicio.
+     */
+    public PagoOnline(Cuota cuota, Dinero importe, UUID referenciaExterna, LocalDateTime fecha) {
+        super(cuota, importe, fecha, EstadoPagoPendiente.INSTANCIA);
+        this.referenciaExterna = referenciaExterna;
+    }
+
+    /**
+     * Guarda {@code idPagoPasarela} y {@code respuestaPasarela} (JSON con el identificador, el estado y el importe
+     * informados; nunca datos de tarjeta, RNF-05).
      *
      * <p>Casos de uso: CU-35
      * @param resultado Resultado consultado a la pasarela.
      */
     public void registrarRespuestaPasarela(ResultadoPasarela resultado) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        if (resultado.getIdPagoPasarela() != null) {
+            this.idPagoPasarela = resultado.getIdPagoPasarela();
+        }
+        this.respuestaPasarela = "{\"idPagoPasarela\": " + json(resultado.getIdPagoPasarela())
+                + ", \"estado\": " + json(resultado.getEstado())
+                + ", \"importe\": " + (resultado.getImporte() == null ? "null" : resultado.getImporte().getMonto().toPlainString())
+                + ", \"motivo\": " + json(resultado.getMotivo()) + "}";
     }
 
     /**
      * Devuelve "ONLINE".
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
-     * @return el resultado
+     * <p>Casos de uso: CU-37
+     * @return "ONLINE"
      */
+    @Override
     public String origen() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "ONLINE";
     }
 
     /**
      * Devuelve "Mercado Pago".
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
-     * @return el resultado
+     * <p>Casos de uso: CU-37
+     * @return "Mercado Pago"
      */
+    @Override
     public String descripcionMedio() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "Mercado Pago";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reconstituye un pago online leído de {@code pago} + {@code pago_online} (operación «persistencia»).
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
-     * @param id valor de {@code id}
-     * @param fecha valor de {@code fecha}
-     * @param importe valor de {@code importe}
-     * @param estado valor de {@code estado}
-     * @param motivoRechazo valor de {@code motivoRechazo}
-     * @param referenciaExterna valor de {@code referenciaExterna}
-     * @param idPagoPasarela valor de {@code idPagoPasarela}
-     * @param respuestaPasarela valor de {@code respuestaPasarela}
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-37
+     * @param id Identificador.
+     * @param fecha Momento.
+     * @param importe Importe.
+     * @param estado Estado.
+     * @param motivoRechazo Motivo.
+     * @param referenciaExterna Referencia.
+     * @param idPagoPasarela Identificador en la pasarela.
+     * @param respuestaPasarela JSON de la respuesta.
+     * @return el pago sin asociaciones
      */
     public static PagoOnline reconstituir(Long id, LocalDateTime fecha, Dinero importe, EstadoPago estado, String motivoRechazo, UUID referenciaExterna, String idPagoPasarela, String respuestaPasarela) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        PagoOnline p = new PagoOnline();
+        p.restaurarDatos(id, fecha, importe, estado, motivoRechazo);
+        p.referenciaExterna = referenciaExterna;
+        p.idPagoPasarela = idPagoPasarela;
+        p.respuestaPasarela = respuestaPasarela;
+        return p;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Entrega las asociaciones resueltas por {@code BrokerPagoOnline}.
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
-     * @param cuota valor de {@code cuota}
-     * @param iniciadoPor valor de {@code iniciadoPor}
-     * @param comprobante valor de {@code comprobante}
+     * <p>Casos de uso: CU-35, CU-37
+     * @param cuota Cuota.
+     * @param iniciadoPor Titular que inició el pago.
+     * @param comprobante Comprobante o null.
      */
     public void restaurarAsociaciones(Cuota cuota, Socio iniciadoPor, Comprobante comprobante) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        restaurarCuotaYComprobante(cuota, comprobante);
+        this.iniciadoPor = iniciadoPor;
+    }
+
+    /**
+     * Registra el titular que inicia el pago (lo llama {@code ProcesadorPagoOnline.crearPago}).
+     *
+     * <p>Casos de uso: CU-35
+     * @param titular Titular de la sesión.
+     */
+    void asignarIniciadoPor(Socio titular) {
+        this.iniciadoPor = titular;
+    }
+
+    /**
+     * Texto como valor JSON (entre comillas y con escapes) o {@code null}.
+     *
+     * <p>Casos de uso: CU-35
+     * @param texto Texto.
+     * @return valor JSON
+     */
+    private static String json(String texto) {
+        if (texto == null) {
+            return "null";
+        }
+        return "\"" + texto.replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
     }
 
     /**
      * Devuelve {@code referenciaExterna}: Referencia enviada a la pasarela.
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public UUID getReferenciaExterna() {
@@ -114,7 +163,7 @@ public class PagoOnline extends Pago {
     /**
      * Devuelve {@code idPagoPasarela}: Identificador informado por la pasarela.
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public String getIdPagoPasarela() {
@@ -124,7 +173,7 @@ public class PagoOnline extends Pago {
     /**
      * Devuelve {@code respuestaPasarela}: Resultado consultado (JSON, sin datos de tarjeta).
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public String getRespuestaPasarela() {
@@ -134,7 +183,7 @@ public class PagoOnline extends Pago {
     /**
      * Devuelve {@code iniciadoPor}: Titular que inició el pago (el titular del grupo puede cambiar después).
      *
-     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * <p>Casos de uso: CU-35, CU-37
      * @return el valor del atributo
      */
     public Socio getIniciadoPor() {

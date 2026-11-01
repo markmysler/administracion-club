@@ -1,6 +1,7 @@
 package ar.edu.ub.club.pagos.dominio;
 
 import ar.edu.ub.club.compartido.dominio.Dinero;
+import ar.edu.ub.club.compartido.dominio.RelojSistema;
 import ar.edu.ub.club.cuotas.dominio.Cuota;
 import java.time.LocalDateTime;
 
@@ -8,66 +9,79 @@ import java.time.LocalDateTime;
  * Pago que registra la cancelación de una cuota con el saldo a favor del grupo (RN-21). Lo crea {@code
  * ProcesadorPagoConSaldo} ya aprobado.
  *
- * <p>Entidad del dominio; la persiste su broker.
+ * <p>Entidad del dominio; la persiste su broker ({@code BrokerPagoConSaldo}: tablas {@code pago} + {@code pago_con_saldo}).
  *
- * <p>Casos de uso: tareas programadas: emisión mensual de cuotas
+ * <p>Casos de uso: CU-35, CU-37; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
  */
 public class PagoConSaldo extends Pago {
 
     /**
-     * Constructor que usa {@code ProcesadorPagoConSaldo}.
+     * Constructor vacío que usa {@code reconstituir}.
      *
-     * <p>Casos de uso: tareas programadas: emisión mensual de cuotas
-     * @param cuota valor de {@code cuota}
-     * @param importe valor de {@code importe}
+     * <p>Casos de uso: todos
+     */
+    private PagoConSaldo() {
+    }
+
+    /**
+     * Constructor que usa {@code ProcesadorPagoConSaldo}: crea el pago APROBADO con la fecha del momento del
+     * registro (zona del club).
+     *
+     * <p>Casos de uso: CU-35; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
+     * @param cuota Cuota cubierta con saldo.
+     * @param importe Importe cubierto.
      */
     public PagoConSaldo(Cuota cuota, Dinero importe) {
-        // PENDIENTE
+        super(cuota, importe, LocalDateTime.now(RelojSistema.ZONA_CLUB), EstadoPagoAprobado.INSTANCIA);
     }
 
     /**
      * Devuelve "CON_SALDO".
      *
-     * <p>Casos de uso: tareas programadas: emisión mensual de cuotas
-     * @return el resultado
+     * <p>Casos de uso: CU-37
+     * @return "CON_SALDO"
      */
+    @Override
     public String origen() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "CON_SALDO";
     }
 
     /**
      * Devuelve "Saldo a favor".
      *
-     * <p>Casos de uso: tareas programadas: emisión mensual de cuotas
-     * @return el resultado
+     * <p>Casos de uso: CU-37
+     * @return "Saldo a favor"
      */
+    @Override
     public String descripcionMedio() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "Saldo a favor";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reconstituye un pago con saldo leído de {@code pago} + {@code pago_con_saldo} (operación «persistencia»).
      *
-     * <p>Casos de uso: tareas programadas: emisión mensual de cuotas
-     * @param id valor de {@code id}
-     * @param fecha valor de {@code fecha}
-     * @param importe valor de {@code importe}
-     * @param estado valor de {@code estado}
-     * @param motivoRechazo valor de {@code motivoRechazo}
-     * @return el resultado
+     * <p>Casos de uso: CU-37
+     * @param id Identificador.
+     * @param fecha Momento.
+     * @param importe Importe.
+     * @param estado Estado.
+     * @param motivoRechazo Motivo (null).
+     * @return el pago sin asociaciones
      */
     public static PagoConSaldo reconstituir(Long id, LocalDateTime fecha, Dinero importe, EstadoPago estado, String motivoRechazo) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        PagoConSaldo p = new PagoConSaldo();
+        p.restaurarDatos(id, fecha, importe, estado, motivoRechazo);
+        return p;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Entrega las asociaciones resueltas por {@code BrokerPagoConSaldo}.
      *
-     * <p>Casos de uso: tareas programadas: emisión mensual de cuotas
-     * @param cuota valor de {@code cuota}
-     * @param comprobante valor de {@code comprobante}
+     * <p>Casos de uso: CU-37
+     * @param cuota Cuota.
+     * @param comprobante Comprobante o null.
      */
     public void restaurarAsociaciones(Cuota cuota, Comprobante comprobante) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        restaurarCuotaYComprobante(cuota, comprobante);
     }
 }

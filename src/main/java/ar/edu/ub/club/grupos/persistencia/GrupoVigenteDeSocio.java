@@ -16,6 +16,11 @@ public class GrupoVigenteDeSocio extends ConsultaEntidades<GrupoFamiliar> {
     /** Atributo idSocio. */
     private Long idSocio;
 
+    /** TEMPORAL (constructor acordado; lo implementa el agente socios). <p>Casos de uso: todos */
+    public GrupoVigenteDeSocio(Long idSocio) {
+        this.idSocio = idSocio;
+    }
+
     /**
      * PENDIENTE: documentar.
      *

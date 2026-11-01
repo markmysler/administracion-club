@@ -5,43 +5,54 @@ import ar.edu.ub.club.pagos.dominio.MedioPago;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Medios de pago manuales habilitados, por nombre (los que admite un pago nuevo, CU-36). Consulta 62 de MODELO
+ * §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-36
  */
 public class MediosPagoHabilitados extends ConsultaEntidades<MedioPago> {
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (sin parámetros).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-36
      */
-    public Class<MedioPago> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public MediosPagoHabilitados() {
+        // sin parámetros
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase del resultado: {@code MedioPago}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-36
+     * @return MedioPago.class
+     */
+    @Override
+    public Class<MedioPago> claseResultado() {
+        return MedioPago.class;
+    }
+
+    /**
+     * Condición y orden.
+     *
+     * <p>Casos de uso: CU-36
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE medio_pago.habilitado = true ORDER BY medio_pago.nombre";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sin parámetros.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-36
+     * @return lista vacía
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of();
     }
 }

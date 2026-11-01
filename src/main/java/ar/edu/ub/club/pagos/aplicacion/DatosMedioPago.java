@@ -3,38 +3,51 @@ package ar.edu.ub.club.pagos.aplicacion;
 import ar.edu.ub.club.pagos.dominio.MedioPago;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de comando de un medio de pago en el formulario de P-31: un {@code id} nulo es un medio nuevo (CU-34 FA1).
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-34
  */
 public class DatosMedioPago {
 
-    /** Atributo id. */
+    /** Identificador (null en un medio nuevo). */
     private Long id;
 
-    /** Atributo nombre. */
+    /** Nombre del medio. */
     private String nombre;
 
-    /** Atributo habilitado. */
+    /** Si está habilitado. */
     private boolean habilitado;
 
     /**
-     * PENDIENTE: documentar.
+     * Constructor vacío que requiere el {@code Binder} de Vaadin.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param medio valor de {@code medio}
-     * @return el resultado
+     * <p>Casos de uso: CU-34
      */
-    public static DatosMedioPago desde(MedioPago medio) {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public DatosMedioPago() {
+        this.habilitado = true;
     }
 
     /**
-     * Devuelve {@code id}: id.
+     * Copia los datos de un medio para editarlos.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-34
+     * @param medio Medio de pago.
+     * @return objeto de comando
+     */
+    public static DatosMedioPago desde(MedioPago medio) {
+        DatosMedioPago d = new DatosMedioPago();
+        d.id = medio.getId();
+        d.nombre = medio.getNombre();
+        d.habilitado = Boolean.TRUE.equals(medio.getHabilitado());
+        return d;
+    }
+
+    /**
+     * Devuelve {@code id}.
+     *
+     * <p>Casos de uso: CU-34
      * @return el valor del atributo
      */
     public Long getId() {
@@ -42,9 +55,9 @@ public class DatosMedioPago {
     }
 
     /**
-     * Asigna {@code id} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code id}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-34
      * @param id nuevo valor
      */
     public void setId(Long id) {
@@ -52,9 +65,9 @@ public class DatosMedioPago {
     }
 
     /**
-     * Devuelve {@code nombre}: nombre.
+     * Devuelve {@code nombre}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-34
      * @return el valor del atributo
      */
     public String getNombre() {
@@ -62,9 +75,9 @@ public class DatosMedioPago {
     }
 
     /**
-     * Asigna {@code nombre} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code nombre}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-34
      * @param nombre nuevo valor
      */
     public void setNombre(String nombre) {
@@ -72,9 +85,9 @@ public class DatosMedioPago {
     }
 
     /**
-     * Devuelve {@code habilitado}: habilitado.
+     * Devuelve {@code habilitado}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-34
      * @return el valor del atributo
      */
     public boolean getHabilitado() {
@@ -82,9 +95,9 @@ public class DatosMedioPago {
     }
 
     /**
-     * Asigna {@code habilitado} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code habilitado}.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-34
      * @param habilitado nuevo valor
      */
     public void setHabilitado(boolean habilitado) {

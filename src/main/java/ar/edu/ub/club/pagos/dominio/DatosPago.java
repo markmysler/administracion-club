@@ -6,31 +6,50 @@ import ar.edu.ub.club.socios.dominio.Socio;
 import java.time.LocalDateTime;
 
 /**
- * Objeto de datos que reciben los creadores concretos.
+ * Objeto de datos que reciben los creadores concretos ({@code ProcesadorPago.registrar(cuota, datos)}). Cada
+ * creador usa solo los datos que le corresponden: medio y administrador el manual, titular el online.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-35, CU-36; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
  */
 public class DatosPago {
 
     /** Importe. */
-    private Dinero importe;
+    private final Dinero importe;
 
     /** Fecha del pago. */
-    private LocalDateTime fecha;
+    private final LocalDateTime fecha;
 
     /** Medio (pago manual). */
-    private MedioPago medio;
+    private final MedioPago medio;
 
     /** Administrador (pago manual). */
-    private Administrador registradoPor;
+    private final Administrador registradoPor;
 
     /** Titular (pago online). */
-    private Socio iniciadoPor;
+    private final Socio iniciadoPor;
+
+    /**
+     * Agregado en la implementación (el modelo no lista el constructor): crea los datos del pago.
+     *
+     * <p>Casos de uso: CU-35, CU-36; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
+     * @param importe Importe.
+     * @param fecha Momento.
+     * @param medio Medio (solo pago manual) o null.
+     * @param registradoPor Administrador (solo pago manual) o null.
+     * @param iniciadoPor Titular (solo pago online) o null.
+     */
+    public DatosPago(Dinero importe, LocalDateTime fecha, MedioPago medio, Administrador registradoPor, Socio iniciadoPor) {
+        this.importe = importe;
+        this.fecha = fecha;
+        this.medio = medio;
+        this.registradoPor = registradoPor;
+        this.iniciadoPor = iniciadoPor;
+    }
 
     /**
      * Devuelve {@code importe}: Importe.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35, CU-36
      * @return el valor del atributo
      */
     public Dinero getImporte() {
@@ -40,7 +59,7 @@ public class DatosPago {
     /**
      * Devuelve {@code fecha}: Fecha del pago.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35, CU-36
      * @return el valor del atributo
      */
     public LocalDateTime getFecha() {
@@ -50,7 +69,7 @@ public class DatosPago {
     /**
      * Devuelve {@code medio}: Medio (pago manual).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-36
      * @return el valor del atributo
      */
     public MedioPago getMedio() {
@@ -60,7 +79,7 @@ public class DatosPago {
     /**
      * Devuelve {@code registradoPor}: Administrador (pago manual).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-36
      * @return el valor del atributo
      */
     public Administrador getRegistradoPor() {
@@ -70,7 +89,7 @@ public class DatosPago {
     /**
      * Devuelve {@code iniciadoPor}: Titular (pago online).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-35
      * @return el valor del atributo
      */
     public Socio getIniciadoPor() {

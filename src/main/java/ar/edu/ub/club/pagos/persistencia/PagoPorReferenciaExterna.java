@@ -4,48 +4,78 @@ import ar.edu.ub.club.compartido.persistencia.ConsultaEntidades;
 import ar.edu.ub.club.pagos.dominio.PagoOnline;
 import java.util.List;
 import java.util.UUID;
+import java.util.Objects;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Pago online por su referencia externa (UNIQUE). Con bloqueo ({@code FOR UPDATE}) la usa {@code
+ * ServicioPagos.confirmarResultadoPasarela}: dos notificaciones simultáneas del mismo pago se procesan en serie
+ * (idempotencia). Sin bloqueo la usa {@code consultarPagoOnline}, que corre en una transacción de solo lectura
+ * (PostgreSQL no admite {@code FOR UPDATE} en ella). Consulta 54 de MODELO §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor), vencimiento de pagos online pendientes
+ * <p>Casos de uso: CU-35
  */
 public class PagoPorReferenciaExterna extends ConsultaEntidades<PagoOnline> {
 
-    /** Atributo referencia. */
-    private UUID referencia;
+    /** Referencia externa. */
+    private final UUID referencia;
+
+    /** Agregado en la implementación: si se toma el bloqueo de fila. */
+    private final boolean bloquear;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta con bloqueo de fila ({@code FOR UPDATE}), como la define el diseño.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor), vencimiento de pagos online pendientes
-     * @return el resultado
+     * <p>Casos de uso: CU-35
+     * @param referencia Referencia externa.
      */
-    public Class<PagoOnline> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public PagoPorReferenciaExterna(UUID referencia) {
+        this(referencia, true);
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Agregado en la implementación: crea la consulta indicando si se bloquea la fila.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor), vencimiento de pagos online pendientes
-     * @return el resultado
+     * <p>Casos de uso: CU-35
+     * @param referencia Referencia externa.
+     * @param bloquear true para {@code FOR UPDATE}.
+     */
+    public PagoPorReferenciaExterna(UUID referencia, boolean bloquear) {
+        this.referencia = Objects.requireNonNull(referencia, "referencia");
+        this.bloquear = bloquear;
+    }
+
+    /**
+     * Clase del resultado: {@code PagoOnline}.
+     *
+     * <p>Casos de uso: CU-35
+     * @return PagoOnline.class
+     */
+    @Override
+    public Class<PagoOnline> claseResultado() {
+        return PagoOnline.class;
+    }
+
+    /**
+     * Condición (y bloqueo) que se agrega al SELECT con JOIN de {@code BrokerPagoOnline}.
+     *
+     * <p>Casos de uso: CU-35
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE pago_online.referencia_externa = ?" + (bloquear ? " FOR UPDATE" : "");
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetros en orden.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor), vencimiento de pagos online pendientes
-     * @return el resultado
+     * <p>Casos de uso: CU-35
+     * @return [referencia]
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(referencia);
     }
 }
