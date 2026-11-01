@@ -58,5 +58,9 @@ y los de `NotificacionPasarelaRequest` los usa Jackson: se conservan.
 - **Usar (6)**: #3, #9, #10, #14, #15, #17.
 - **Conservar (4)**: #13, #20, #21 y los accesores usados por reflexión.
 
+**Estado (02/11/2026): todas las propuestas aplicadas.** Además se eliminó `RegistrosDeEntidad` (consulta 46), que
+quedó sin uso al eliminar `ServicioAuditoria.consultarHistorial`, y el atributo `PasarelaSimuladaAdapter.urlWebhook`,
+que solo leía el getter eliminado. Los cambios están registrados como G-28 a G-38 en `docs/CAMBIOS_AL_DISENO.md`.
+
 Cada eliminación o cambio que se aplique se registra en `docs/CAMBIOS_AL_DISENO.md` para que la sesión de
 documentación lo refleje en MODELO §11, 07B, 07C, 08 y el modelo global.

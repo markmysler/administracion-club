@@ -34,6 +34,7 @@ import ar.edu.ub.club.pagos.integracion.ResultadoPasarela;
 import ar.edu.ub.club.pagos.integracion.SolicitudPagoOnline;
 import ar.edu.ub.club.pagos.persistencia.MedioPagoPorNombre;
 import ar.edu.ub.club.pagos.persistencia.MediosPago;
+import ar.edu.ub.club.pagos.persistencia.MediosPagoHabilitados;
 import ar.edu.ub.club.pagos.persistencia.PagoPorReferenciaExterna;
 import ar.edu.ub.club.pagos.persistencia.PagosDeGrupo;
 import ar.edu.ub.club.pagos.persistencia.PagosOnlinePendientesAnterioresA;
@@ -78,7 +79,7 @@ public class ServicioPagos {
     /** Motivo del vencimiento de un pago online pendiente (RN-22). */
     static final String MOTIVO_ABANDONADO = "Abandonado";
 
-    /** Único punto de acceso a la persistencia («Singleton»): {@code get}, {@code put} y los objetos consulta ({@code PagoPorReferenciaExterna} (FOR UPDATE), {@code PagoPorIdPasarela}, {@code PagosPorFiltro}, {@code PagosDeGrupo}, {@code PagosOnlinePendientesAnterioresA}, {@code MediosPago}, {@code MediosPagoHabilitados}, {@code MedioPagoPorNombre}). */
+    /** Único punto de acceso a la persistencia («Singleton»): {@code get}, {@code put} y los objetos consulta ({@code PagoPorReferenciaExterna} (FOR UPDATE), {@code PagosPorFiltro}, {@code PagosDeGrupo}, {@code PagosOnlinePendientesAnterioresA}, {@code MediosPago}, {@code MediosPagoHabilitados}, {@code MedioPagoPorNombre}). */
     private final FachadaPersistencia fachadaPersistencia;
 
     /** Adaptador activo en modo SIMULADA (bean {@code @Primary} {@code PasarelaSimuladaAdapter}). */
@@ -168,6 +169,21 @@ public class ServicioPagos {
         List<MedioPago> medios = fachadaPersistencia.buscar(new MediosPago());
         ConfiguracionPasarela c = fachadaPersistencia.get(ConfiguracionPasarela.ID_UNICO, ConfiguracionPasarela.class);
         return new ConfiguracionPagos(medios, c);
+    }
+
+    /**
+     * Devuelve los medios de pago manuales habilitados ({@code fachadaPersistencia.buscar(MediosPagoHabilitados())}),
+     * los únicos que pueden usarse al registrar un pago manual (CU-36, paso 4).
+     *
+     * <p>Permiso: {@code REGISTRAR_PAGO_MANUAL}.
+     *
+     * <p>Casos de uso: CU-36
+     * @return lista de {@code MedioPago} habilitados, ordenados por nombre
+     */
+    @Transactional(readOnly = true)
+    public List<MedioPago> listarMediosHabilitados() {
+        controlAcceso.verificar(usuarioActual.obtener(), Permiso.REGISTRAR_PAGO_MANUAL);
+        return fachadaPersistencia.buscar(new MediosPagoHabilitados());
     }
 
     /**

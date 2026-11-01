@@ -25,6 +25,7 @@ import ar.edu.ub.club.socios.dominio.CategoriaSocio;
 import ar.edu.ub.club.socios.dominio.Socio;
 import ar.edu.ub.club.socios.dominio.SocioDesactivadoEvento;
 import ar.edu.ub.club.socios.persistencia.CategoriaPorNombre;
+import ar.edu.ub.club.socios.persistencia.CategoriasActivas;
 import ar.edu.ub.club.socios.persistencia.CategoriasSocio;
 import ar.edu.ub.club.socios.persistencia.SocioPorDni;
 import ar.edu.ub.club.socios.persistencia.SociosActivosDeCategoria;
@@ -325,6 +326,21 @@ public class ServicioSocios {
     @Transactional(readOnly = true)
     public List<CategoriaSocio> listarCategorias() {
         return fachadaPersistencia.buscar(new CategoriasSocio());
+    }
+
+    /**
+     * Devuelve las categorías que pueden asignarse a socios ({@code fachadaPersistencia.buscar(CategoriasActivas())}),
+     * ordenadas por nombre: el selector del formulario de socio (P-07) solo ofrece categorías activas.
+     *
+     * <p>Permiso: ninguno (lo usa P-07, que ya verificó GESTIONAR_SOCIOS en la vista; las operaciones de alta y
+     * modificación lo verifican).
+     *
+     * <p>Casos de uso: CU-01, CU-02
+     * @return lista de {@code CategoriaSocio} activas
+     */
+    @Transactional(readOnly = true)
+    public List<CategoriaSocio> listarCategoriasActivas() {
+        return fachadaPersistencia.buscar(new CategoriasActivas());
     }
 
     /**

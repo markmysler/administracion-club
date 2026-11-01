@@ -66,15 +66,14 @@ public class PresentadorPagoManual extends PresentadorBase<PantallaPagoManual> {
     }
 
     /**
-     * Carga los medios: {@code ServicioPagos.consultarMediosYPasarela()} → medios habilitados como {@code
-     * OpcionSeleccion}. Sin medios habilitados avisa «Debe habilitarse un medio manual (CU-34)» (FA3).
+     * Carga los medios: {@code ServicioPagos.listarMediosHabilitados()} (objeto consulta {@code MediosPagoHabilitados})
+     * → {@code OpcionSeleccion}. Sin medios habilitados avisa «Debe habilitarse un medio manual (CU-34)» (FA3).
      *
      * <p>Casos de uso: CU-36
      */
     public void cargar() {
-        consultar(() -> servicioPagos.consultarMediosYPasarela()).ifPresent(config -> {
-            List<OpcionSeleccion> opciones = config.getMedios().stream()
-                    .filter(m -> Boolean.TRUE.equals(m.getHabilitado()))
+        consultar(() -> servicioPagos.listarMediosHabilitados()).ifPresent(medios -> {
+            List<OpcionSeleccion> opciones = medios.stream()
                     .sorted(Comparator.comparing(MedioPago::getNombre))
                     .map(m -> new OpcionSeleccion(m.getId(), m.getNombre()))
                     .toList();

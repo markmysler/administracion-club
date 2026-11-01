@@ -5,7 +5,6 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import java.time.LocalDate;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 /**
  * Componente común con dos selectores de fecha (es-AR, dd/mm/aaaa) para filtrar listados y reportes.
@@ -62,14 +61,4 @@ public class FiltroFechas extends Composite<HorizontalLayout> {
         this.hasta.setValue(hasta);
     }
 
-    /**
-     * Registra el oyente de cambio del rango.
-     *
-     * <p>Casos de uso: CU-29, CU-31, CU-37, CU-38, CU-39
-     * @param oyente oyente
-     */
-    public void alCambiar(Consumer<RangoFechas> oyente) {
-        desde.addValueChangeListener(e -> valor().ifPresent(oyente));
-        hasta.addValueChangeListener(e -> valor().ifPresent(oyente));
-    }
 }

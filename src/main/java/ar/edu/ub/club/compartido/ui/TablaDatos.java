@@ -8,7 +8,6 @@ import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.function.ValueProvider;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -109,13 +108,4 @@ public class TablaDatos<T> extends Composite<Grid<T>> {
         });
     }
 
-    /**
-     * Fila seleccionada.
-     *
-     * <p>Casos de uso: todos
-     * @return fila o vacío
-     */
-    public Optional<T> filaSeleccionada() {
-        return grilla.getSelectedItems().stream().findFirst();
-    }
 }

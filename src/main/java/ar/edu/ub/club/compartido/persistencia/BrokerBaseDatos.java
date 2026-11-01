@@ -125,7 +125,7 @@ public abstract class BrokerBaseDatos<T extends ObjetoPersistente> {
         Connection conexion = proveedor.conexionActual();
         BITACORA.debug("SQL {} : {} {}", getClass().getSimpleName(), sql, consulta.parametros());
         try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-            vincularParametros(sentencia, consulta.parametros());
+            vincular(sentencia, consulta.parametros());
             try (ResultSet rs = sentencia.executeQuery()) {
                 rs.next();
                 return rs.getLong(1);
@@ -177,7 +177,7 @@ public abstract class BrokerBaseDatos<T extends ObjetoPersistente> {
         BITACORA.debug("SQL {} : {} {}", getClass().getSimpleName(), sql, valores.values());
         Object clave;
         try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-            vincularParametros(sentencia, new ArrayList<>(valores.values()));
+            vincular(sentencia, new ArrayList<>(valores.values()));
             try (ResultSet rs = sentencia.executeQuery()) {
                 rs.next();
                 clave = rs.getObject(1);
@@ -423,6 +423,21 @@ public abstract class BrokerBaseDatos<T extends ObjetoPersistente> {
     }
 
     /**
+     * Vincula los parámetros {@code ?} de una sentencia del broker pasando cada valor por el gancho
+     * {@code aParametro} (así un broker concreto puede redefinir la conversión).
+     *
+     * <p>Casos de uso: todos
+     * @param sentencia sentencia preparada
+     * @param parametros valores en orden
+     * @throws SQLException si JDBC rechaza un valor
+     */
+    private void vincular(PreparedStatement sentencia, List<Object> parametros) throws SQLException {
+        for (int i = 0; i < parametros.size(); i++) {
+            sentencia.setObject(i + 1, aParametro(parametros.get(i)));
+        }
+    }
+
+    /**
      * Ejecuta un SELECT y materializa cada fila.
      *
      * <p>Casos de uso: todos
@@ -434,7 +449,7 @@ public abstract class BrokerBaseDatos<T extends ObjetoPersistente> {
         Connection conexion = proveedor.conexionActual();
         BITACORA.debug("SQL {} : {} {}", getClass().getSimpleName(), sql, parametros);
         try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-            vincularParametros(sentencia, parametros);
+            vincular(sentencia, parametros);
             List<T> resultado = new ArrayList<>();
             try (ResultSet rs = sentencia.executeQuery()) {
                 while (rs.next()) {
@@ -461,7 +476,7 @@ public abstract class BrokerBaseDatos<T extends ObjetoPersistente> {
         Connection conexion = proveedor.conexionActual();
         BITACORA.debug("SQL {} : {} {}", getClass().getSimpleName(), sql, parametros);
         try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-            vincularParametros(sentencia, parametros);
+            vincular(sentencia, parametros);
             return sentencia.executeUpdate();
         } catch (SQLException e) {
             throw traducir(e);

@@ -47,7 +47,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ServicioAgenda {
 
-    /** Único punto de acceso a la persistencia («Singleton»): {@code get}, {@code put} y los objetos consulta ({@code FeriadosEntre}, {@code CanchasActivasDeDeporte}; disponibilidad y reglas por {@code get(ID_UNICO, …)}). */
+    /** Único punto de acceso a la persistencia («Singleton»): {@code get}, {@code put} y los objetos consulta ({@code FeriadosEntre}, {@code CanchasDeDeporte}; disponibilidad y reglas por {@code get(ID_UNICO, …)}). */
     private final FachadaPersistencia fachadaPersistencia;
 
     /** Turnos ocupados por cancha y fecha. */

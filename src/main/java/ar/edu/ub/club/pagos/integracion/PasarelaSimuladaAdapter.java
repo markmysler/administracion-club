@@ -36,9 +36,6 @@ public class PasarelaSimuladaAdapter implements PasarelaPago {
     /** Agregado en la implementación: idPagoPasarela de cada intención ya resuelta (un segundo clic no vuelve a notificar). */
     private final Map<String, String> resueltas = new ConcurrentHashMap<>();
 
-    /** URL del webhook del sistema. */
-    private final String urlWebhook;
-
     /** Agregado en la implementación: URL pública del sistema ({@code club.url-base}). */
     private final String urlBase;
 
@@ -55,7 +52,6 @@ public class PasarelaSimuladaAdapter implements PasarelaPago {
     public PasarelaSimuladaAdapter(@Value("${club.url-base:http://localhost:8080}") String urlBase,
             ObjectProvider<ServicioPagos> servicioPagos) {
         this.urlBase = urlBase.endsWith("/") ? urlBase.substring(0, urlBase.length() - 1) : urlBase;
-        this.urlWebhook = this.urlBase + "/api/pasarela/notificaciones";
         this.servicioPagos = servicioPagos;
     }
 
@@ -142,13 +138,4 @@ public class PasarelaSimuladaAdapter implements PasarelaPago {
         return intencion.getUrlRetorno();
     }
 
-    /**
-     * URL del webhook que se informaría a la pasarela (informativa en modo simulado).
-     *
-     * <p>Casos de uso: CU-35
-     * @return URL del webhook
-     */
-    public String getUrlWebhook() {
-        return urlWebhook;
-    }
 }

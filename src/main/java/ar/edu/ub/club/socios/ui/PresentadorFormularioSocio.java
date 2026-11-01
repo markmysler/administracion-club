@@ -43,8 +43,8 @@ public class PresentadorFormularioSocio extends PresentadorBase<PantallaFormular
     }
 
     /**
-     * {@code ServicioSocios.listarCategorias()} → opciones de las categorías activas (y la actual del socio en la
-     * modificación); con id, {@code ServicioSocios.consultarSocio(idSocio)} → {@code DatosSocio.desde(ficha.socio)};
+     * {@code ServicioSocios.listarCategoriasActivas()} (objeto consulta {@code CategoriasActivas}) → opciones del
+     * selector (más la categoría actual del socio en la modificación, aunque esté inactiva); con id, {@code ServicioSocios.consultarSocio(idSocio)} → {@code DatosSocio.desde(ficha.socio)};
      * sin id, un {@code DatosSocio} vacío. Sin categorías activas no habilita el alta (CU-01 FA1).
      *
      * <p>Casos de uso: CU-01, CU-02
@@ -52,7 +52,7 @@ public class PresentadorFormularioSocio extends PresentadorBase<PantallaFormular
      */
     public void cargar(Long idSocio) {
         this.idSocio = idSocio;
-        Optional<List<CategoriaSocio>> categorias = consultar(servicioSocios::listarCategorias);
+        Optional<List<CategoriaSocio>> categorias = consultar(servicioSocios::listarCategoriasActivas);
         if (categorias.isEmpty()) {
             return;
         }
@@ -69,7 +69,7 @@ public class PresentadorFormularioSocio extends PresentadorBase<PantallaFormular
         Optional<FichaSocio> ficha = consultar(() -> servicioSocios.consultarSocio(idSocio));
         if (ficha.isPresent()) {
             DatosSocio datos = DatosSocio.desde(ficha.get().getSocio());
-            pantalla.mostrarCategorias(opcionesDe(categorias.get(), datos.getIdCategoria()));
+            pantalla.mostrarCategorias(opcionesDe(categorias.get(), ficha.get().getSocio().getCategoria()));
             pantalla.mostrarFormulario(datos, false);
         }
     }
@@ -106,17 +106,21 @@ public class PresentadorFormularioSocio extends PresentadorBase<PantallaFormular
     }
 
     /**
-     * Opciones del selector: categorías activas más la categoría actual del socio aunque esté inactiva.
+     * Opciones del selector: las categorías activas más la categoría actual del socio si está inactiva (para no
+     * perderla al modificar otros datos).
      *
      * <p>Casos de uso: CU-01, CU-02
-     * @param categorias todas las categorías
-     * @param idActual categoría actual o {@code null}
+     * @param activas categorías activas
+     * @param actual categoría actual del socio o {@code null} en el alta
      * @return opciones (id, «nombre»)
      */
-    private static List<OpcionSeleccion> opcionesDe(List<CategoriaSocio> categorias, Long idActual) {
-        return categorias.stream()
-                .filter(c -> c.estaActiva() || Objects.equals(c.getId(), idActual))
+    private static List<OpcionSeleccion> opcionesDe(List<CategoriaSocio> activas, CategoriaSocio actual) {
+        List<OpcionSeleccion> opciones = new java.util.ArrayList<>(activas.stream()
                 .map(c -> new OpcionSeleccion(c.getId(), c.getNombre()))
-                .toList();
+                .toList());
+        if (actual != null && activas.stream().noneMatch(c -> Objects.equals(c.getId(), actual.getId()))) {
+            opciones.add(new OpcionSeleccion(actual.getId(), actual.getNombre() + " (inactiva)"));
+        }
+        return opciones;
     }
 }

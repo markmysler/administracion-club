@@ -45,8 +45,7 @@ public record DetalleComprobante(Long id, String numero, LocalDateTime fechaEmis
      */
     public static DetalleComprobante desde(Comprobante comprobante, ConfiguracionClub club) {
         Pago pago = comprobante.getPago();
-        boolean acreditado = pago != null && pago.getEstado() != null
-                && "ACREDITADO".equals(pago.getEstado().codigo());
+        boolean acreditado = comprobante.esConstanciaAcreditacion();
         return new DetalleComprobante(comprobante.getId(), comprobante.getNumero(), comprobante.getFechaEmision(),
                 comprobante.getImporte(), acreditado ? CONSTANCIA_ACREDITACION : COMPROBANTE_PAGO,
                 pago == null || pago.getCuota() == null ? null : pago.getCuota().getPeriodo(),

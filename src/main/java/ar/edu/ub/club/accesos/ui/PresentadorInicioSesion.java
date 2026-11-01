@@ -40,7 +40,7 @@ public class PresentadorInicioSesion extends PresentadorBase<PantallaInicioSesio
 
     /**
      * {@code ServicioAccesos.iniciarSesion(username, clave, mantenerSesion): SesionUsuario}; luego {@code
-     * registroSesion.iniciar(sesion)} y {@code navegarA("panel")} si {@code sesion.permisos} contiene
+     * registroSesion.iniciar(sesion)}, saluda con {@code sesion.nombreVisible} y {@code navegarA("panel")} si {@code sesion.permisos} contiene
      * CONSULTAR_DASHBOARD, si no {@code navegarA("inicio")} ({@code sec_cu11_p1.puml}). Si se rechaza, la pantalla
      * muestra el motivo, se limpia la clave y se vuelve a habilitar el envío.
      *
@@ -56,6 +56,7 @@ public class PresentadorInicioSesion extends PresentadorBase<PantallaInicioSesio
             pantalla.habilitarEnvio(true);
             return;
         }
+        pantalla.mostrarMensaje("Bienvenido/a, " + sesion.get().getNombreVisible() + ".");
         pantalla.navegarA(sesion.get().getPermisos().contains(Permiso.CONSULTAR_DASHBOARD) ? "panel" : "inicio");
     }
 

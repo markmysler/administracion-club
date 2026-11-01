@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Intermediario de base de datos de {@code Cancha} (tabla {@code cancha}): la materializa por {@code get} o por
- * las consultas {@code CanchasDeDeporte}, {@code CanchasActivasDeDeporte} y {@code CanchaPorNombre}, y la inserta
+ * las consultas {@code CanchasDeDeporte} y {@code CanchaPorNombre}, y la inserta
  * o actualiza con {@code put}. La asociación a uno con {@code Deporte} se resuelve en {@code cargarAsociaciones}
  * con {@code fachada().get(idDeporte, Deporte)} (07C: «deporte por get»). {@code BrokerReserva} lo usa para
  * materializar la cancha leída con JOIN ({@code materializarDesdeFila(fila.conPrefijo("c_"))}): la fila debe

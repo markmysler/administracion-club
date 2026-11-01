@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Intermediario de base de datos de {@code Deporte} (tabla {@code deporte}): lo materializa por {@code get} o
- * por las consultas {@code Deportes}, {@code DeportesActivos} y {@code DeportePorNombre}, y lo inserta o
+ * por las consultas {@code Deportes} y {@code DeportePorNombre}, y lo inserta o
  * actualiza con {@code put} (CU-18, CU-19, CU-20).
  *
  * <p>Broker concreto del patrón Database Broker (Larman, cap. 34); completa los ganchos del Template Method de {@code BrokerBaseDatos}.

@@ -2,10 +2,8 @@ package ar.edu.ub.club.auditoria.aplicacion;
 
 import ar.edu.ub.club.accesos.dominio.Usuario;
 import ar.edu.ub.club.auditoria.dominio.RegistroAuditoria;
-import ar.edu.ub.club.auditoria.persistencia.RegistrosDeEntidad;
 import ar.edu.ub.club.compartido.dominio.Reloj;
 import ar.edu.ub.club.compartido.persistencia.FachadaPersistencia;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ServicioAuditoria {
 
-    /** Único punto de acceso a la persistencia («Singleton»): {@code get}, {@code put} y los objetos consulta ({@code RegistrosDeEntidad}). */
+    /** Único punto de acceso a la persistencia («Singleton»): {@code put} de cada registro. */
     private final FachadaPersistencia fachadaPersistencia;
 
     /** Fecha y hora del registro. */
@@ -55,20 +53,4 @@ public class ServicioAuditoria {
         fachadaPersistencia.put(new RegistroAuditoria(usuario, reloj.ahora(), accion, entidad, id, detalle));
     }
 
-    /**
-     * Historial de auditoría de una entidad, del más reciente al más antiguo
-     * ({@code fachadaPersistencia.buscar(RegistrosDeEntidad(entidad, id))}).
-     *
-     * <p>Agregado en la implementación: 07C documenta la consulta {@code RegistrosDeEntidad}
-     * ({@code RepositorioAuditoria.buscarPorEntidad}) pero ninguna fachada la exponía.
-     *
-     * <p>Casos de uso: todos
-     * @param entidad nombre de la entidad
-     * @param id identificador de la entidad
-     * @return registros
-     */
-    @Transactional(readOnly = true)
-    public List<RegistroAuditoria> consultarHistorial(String entidad, Long id) {
-        return fachadaPersistencia.buscar(new RegistrosDeEntidad(entidad, id));
-    }
 }

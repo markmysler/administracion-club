@@ -19,6 +19,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
@@ -131,14 +132,23 @@ public class VistaReservasClub extends VistaProtegida implements PantallaReserva
     }
 
     /**
-     * Muestra las reservas y limpia el detalle.
+     * Muestra las reservas con carga perezosa por páginas ({@code TablaDatos.mostrarPaginado}): la grilla pide a
+     * Vaadin solo las filas visibles (con el orden de la columna elegida) y limpia el detalle.
      *
      * <p>Casos de uso: CU-31, CU-33
      * @param filas reservas
      */
     @Override
     public void mostrarReservas(List<FilaReserva> filas) {
-        reservas.mostrar(filas);
+        reservas.mostrarPaginado(new CallbackDataProvider<FilaReserva, Void>(
+                consulta -> {
+                    java.util.stream.Stream<FilaReserva> datos = filas.stream();
+                    if (consulta.getSortingComparator().isPresent()) {
+                        datos = datos.sorted(consulta.getSortingComparator().get());
+                    }
+                    return datos.skip(consulta.getOffset()).limit(consulta.getLimit());
+                },
+                consulta -> filas.size()));
         detalle.removeAll();
     }
 

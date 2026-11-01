@@ -23,6 +23,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
@@ -189,12 +190,23 @@ public class VistaPagosComprobantes extends VistaProtegida implements PantallaPa
     /**
      * Muestra los pagos.
      *
+     * <p>La grilla usa carga perezosa por páginas: Vaadin pide solo las filas visibles, con el orden de la
+     * columna elegida.
+     *
      * <p>Casos de uso: CU-05, CU-37
      * @param filas pagos
      */
     @Override
     public void mostrarPagos(List<FilaPago> filas) {
-        pagos.setItems(filas);
+        pagos.setItems(new CallbackDataProvider<FilaPago, Void>(
+                consulta -> {
+                    java.util.stream.Stream<FilaPago> datos = filas.stream();
+                    if (consulta.getSortingComparator().isPresent()) {
+                        datos = datos.sorted(consulta.getSortingComparator().get());
+                    }
+                    return datos.skip(consulta.getOffset()).limit(consulta.getLimit());
+                },
+                consulta -> filas.size()));
     }
 
     /**

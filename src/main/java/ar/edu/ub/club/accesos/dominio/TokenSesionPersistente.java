@@ -186,13 +186,4 @@ public class TokenSesionPersistente extends EntidadPersistente {
         return expiraEn;
     }
 
-    /**
-     * Devuelve {@code persistido}: si la fila ya existe en la base.
-     *
-     * <p>Casos de uso: CU-11
-     * @return el valor del atributo
-     */
-    public boolean getPersistido() {
-        return persistido;
-    }
 }
