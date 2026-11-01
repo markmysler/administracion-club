@@ -95,6 +95,16 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-03 -->
 
+**Implementación (reservas y notificaciones) — Cancelación por bajas (sec_comun_cancelar_baja; CU-03, CU-20, CU-23)**
+
+`ServicioSocios.desactivarSocio` / `ServicioRecursos.desactivarCancha/desactivarDeporte` → `ApplicationEventPublisher.publishEvent` →
+`CanceladorReservasPorBaja.alDesactivarSocio/alDesactivarCancha/alDesactivarDeporte` → `buscar(new ReservasFuturasDeSocio/DeCancha/DeDeporte(id, ahora))`
+→ `cancelarTodas` → `Reserva.cancelar(motivo, evento.usuario, ahora)` → `put` → `publicar(new ReservaCanceladaEvento)`.
+Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturasReservas.buscarFuturasDe*` / `buscarDeFecha` / `buscarFuturasDesde`
+→ `ResumenesFuturosDe*` / `ResumenesDeFecha` / `ResumenesFuturosDesde` (proyección `ResumenReserva`).
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu03_p1.puml` — CU-03 Administrador desactiva socio (parte 1: aviso previo, de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -421,6 +431,20 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-11 -->
 
+**Implementación (accesos, auditoría y configuración) — CU-11 Iniciar sesión — `sec_cu11_p1.puml` … `sec_cu11_p4.puml`**
+
+1. `VistaInicioSesion` (LoginForm, oyente de login) → `PresentadorInicioSesion.alIngresar(username, clave, mantenerSesion)` (p1)
+2. `PresentadorBase.consultar` → `ServicioAccesos.iniciarSesion` (p1, p2) → `Reloj.ahora`
+3. `FachadaPersistencia.buscarUno(new UsuarioPorUsername(username))` → `BrokerAdministrador`/`BrokerSocio.materializarTodos` (`BrokerUsuario.consultaBase`: `usuario JOIN administrador|socio`) → tablas `usuario`, `administrador`, `socio` (p2)
+4. `Usuario.estaBloqueada` → `Usuario.autenticar` → `CodificadorClaveBCrypt.coincide`; si falla `Usuario.registrarIntentoFallido` + `FachadaPersistencia.put` → `BrokerUsuario.valoresActualizacion` (UPDATE `usuario`) (p2)
+5. `Usuario.estaActiva` → `Usuario.reiniciarIntentos` + `put` → `Usuario.obtenerPermisos` (polimórfico) → `new SesionUsuario` (p3)
+6. si `mantenerSesion && admiteSesionPersistente()`: `GestorSesiones.emitirTokenPersistente` → `new TokenSesionPersistente` → `put` → `BrokerTokenSesionPersistente.insertar` (tabla `token_sesion_persistente`) → `SesionUsuario.agregarTokenPersistente` (p3)
+7. `RegistroSesionVaadin.iniciar(sesion)` (changeSessionId, `HttpSessionSecurityContextRepository.saveContext`, `SessionRegistry.registerNewSession`, `ServicioRecordarmeClub.escribirCookie`) → `pantalla.navegarA("panel"|"inicio")` (p1)
+8. FA1/FA2 (p4): `ServicioRecordarmeClub.processAutoLoginCookie` → `AlmacenTokensSesionPersistente.getTokenForSeries` → `buscarPorSerie` → `buscarUno(new TokenSesionPorSerie)` → `BrokerTokenSesionPersistente` → `CuentasParaRecordarme.loadUserByUsername` → `updateToken` → `actualizarToken` → `TokenSesionPersistente.rotar` → `put`; robo: `removeUserTokens` → `eliminarDeUsuario` → `buscar(new TokensSesionDeUsuario)` → `eliminar`. Luego `VistaRaiz.beforeEnter` → `UsuarioActualSesion.autenticada/cuenta` → `ControlAcceso.tienePermiso`.
+9. FA3: `PresentadorInicioSesion.alOlvidarClave` → `navegarA("recuperar-clave")`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu11_p1.puml` — CU-11 Usuario inicia sesión (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -496,6 +520,12 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-12 -->
 
+**Implementación (accesos, auditoría y configuración) — CU-12 Cerrar sesión — `sec_cu12.puml`**
+
+`MenuNavegacion.alCerrarSesion` → `PresentadorCierreSesion.cerrarSesion` → `ServicioAccesos.consultarSesionActual` (`UsuarioActualSesion.obtener` → `FachadaPersistencia.get(id, Usuario)`) → `ServicioAccesos.cerrarSesion` → `GestorSesiones.revocarTokensDe` → `AlmacenTokensSesionPersistente.eliminarDeUsuario` → `buscar(new TokensSesionDeUsuario)` → `FachadaPersistencia.eliminar` → `BrokerTokenSesionPersistente.borrar` (tabla `token_sesion_persistente`) → `RegistroSesionVaadin.cerrar` (`ServicioRecordarmeClub.borrarCookie`, `SecurityContextLogoutHandler.logout`, `VaadinSession.close`) → `MenuNavegacion`: `setLocation("inicio-sesion")`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu12.puml` — CU-12 Usuario cierra sesión
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -516,6 +546,16 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-13 Usuario recupera contraseña
 
 <!-- NOTAS:CU-13 -->
+
+**Implementación (accesos, auditoría y configuración) — CU-13 Recuperar contraseña — `sec_cu13_p1.puml` … `sec_cu13_p4.puml`**
+
+1. `VistaRecuperarClave` (EmailField; FA1 sin presentador) → `PresentadorRecuperarClave.alSolicitar(email)` → `ServicioAccesos.solicitarRecuperacion` (p1, p2)
+2. `buscarUno(new UsuarioPorEmail)` → brokers de `Usuario` → `usuario` (p2); `buscar(new TokensRecuperacionVigentes(id, ahora))` → `BrokerTokenRecuperacion` → `TokenRecuperacion.marcarUsado` + `put` (tabla `token_recuperacion`)
+3. `GestorSesiones.hashSha256(token)` → `new TokenRecuperacion(u, hash, ahora+30min)` → `put` → `BrokerTokenRecuperacion.insertar` → `ServicioAccesos.enviarEnlace` → `ServicioCorreo.enviar(new MensajeCorreo(...))` (p2) → `pantalla.mostrarMensaje` (mismo mensaje siempre)
+4. `VistaRestablecerClave.beforeEnter` → `PresentadorRestablecerClave.alEntrar(token)` → `alRestablecer(nueva, repeticion)` (p3) → `ServicioAccesos.restablecerClave` (p4)
+5. `buscarUno(new TokenRecuperacionPorHash(sha256))` → `BrokerTokenRecuperacion.cargarAsociaciones` (`get(usuarioId, Usuario)`) → `TokenRecuperacion.esValido` → `PoliticaContrasenas.validar` (`ListaContrasenasProhibidas.contiene`) → `CodificadorClaveBCrypt.codificar` → `Usuario.cambiarClave` → `TokenRecuperacion.marcarUsado` → `Usuario.reiniciarIntentos` → `put(u)`, `put(t)` → `GestorSesiones.revocarTokensDe` → `GestorSesiones.invalidarSesionesDe` (`SessionInformation.expireNow`) (p4) → `navegarA("inicio-sesion")`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu13_p1.puml` — CU-13 Usuario recupera contraseña (parte 1: solicitud del enlace, de la vista a la fachada)
 
@@ -579,6 +619,12 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-14 -->
 
+**Implementación (accesos, auditoría y configuración) — CU-14 Crear administrador — `sec_cu14_p1.puml`, `sec_cu14_p2.puml` (+ `sec_comun_autorizar.puml`)**
+
+`VistaCuentasAdministrador` (botón Nueva) → `PresentadorCuentasAdministrador.alNueva` → `navegarA("cuentas/formulario")` → `VistaFormularioCuenta.alEntrar` → `PresentadorFormularioCuenta.cargar(null)` → `pantalla.mostrarAlta(new DatosAdministrador())` → `FormularioEntidad.alEnviar` → `PresentadorFormularioCuenta.alCrear(datos)` → `ServicioAccesos.crearAdministrador` → `UsuarioActualSesion.obtener` + `ControlAcceso.verificar(GESTIONAR_CUENTAS)` → `PoliticaContrasenas.validar` → `contar(new UsuarioPorUsername)` / `contar(new UsuarioPorEmail)` → `CodificadorClaveBCrypt.codificar` → `new Administrador(...)` → `FachadaPersistencia.put` → `BrokerAdministrador.insertar` (`BrokerUsuario.valoresInsercion` → `usuario`; `guardarPartes` → `administrador`) → `ServicioAuditoria.registrar("ALTA")` → `BrokerRegistroAuditoria.insertar` (`registro_auditoria`) → `navegarA("cuentas")`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu14_p1.puml` — CU-14 Administrador crea usuario administrador (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -616,6 +662,12 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-15 Administrador modifica datos de acceso de usuario
 
 <!-- NOTAS:CU-15 -->
+
+**Implementación (accesos, auditoría y configuración) — CU-15 Modificar datos de acceso — `sec_cu15_p1.puml` … `sec_cu15_p3.puml`**
+
+`VistaCuentasAdministrador` (Buscar) → `PresentadorCuentasAdministrador.alBuscar(texto)` → `ServicioAccesos.buscarCuentas(new CriterioBusquedaCuenta)` → `buscar(new CuentasPorCriterio)` (BrokerAdministrador + BrokerSocio, `comparador`) → `ResumenCuenta.desde` → `FilaCuenta.desde(resumen)` → `mostrarCuentas` (p1); acción «Modificar acceso» → `alModificarAcceso(id)` → `VistaFormularioCuenta.alEntrar` → `PresentadorFormularioCuenta.cargar(id)` → `ServicioAccesos.consultarCuenta` → `get(id, Usuario)` → `DatosAcceso.desde` + `DetalleCuenta.desde` → `mostrarModificacion` (p1); Guardar → `alModificar(datos)` (p2) → `ServicioAccesos.modificarDatosAcceso` → `verificar` → `get(id, Usuario)` → `estaActiva` → `PoliticaContrasenas.validar` → `contar(UsuarioPorUsername/UsuarioPorEmail)` (solo si cambió) → `Usuario.actualizarDatosAcceso` → `CodificadorClaveBCrypt.codificar` + `Usuario.cambiarClave` → `put` (UPDATE `usuario` + hija) → `GestorSesiones.revocarTokensDe` → `invalidarSesionesDe` (si cambió la clave) → `ServicioAuditoria.registrar("MODIFICACION","Usuario")` (p3).
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu15_p1.puml` — CU-15 Administrador modifica datos de acceso (parte 1: búsqueda y carga de la cuenta)
 
@@ -666,6 +718,12 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-16 -->
 
+**Implementación (accesos, auditoría y configuración) — CU-16 Asignar tipo de cuenta — `sec_cu16.puml`, `pat_polimorfismo.puml`**
+
+Incluido en CU-14: `ServicioAccesos.crearAdministrador` → `contar(UsuarioPorUsername/UsuarioPorEmail)` → `CodificadorClaveBCrypt.codificar` → `new Administrador(nombre, apellido, username, email, hash)` (constructor protegido `Usuario(username, email, hash)`: ACTIVA, 0 intentos) → `put`. El tipo se lee con `Usuario.tipoCuenta()` (`DetalleCuenta`, `FilaCuenta`, `ResumenCuenta`) y los permisos con `obtenerPermisos()`. Rama CU-01: `ServicioSocios.registrarSocio` → `new Socio(...)` (módulo socios).
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu16.puml` — CU-16 Administrador asigna rol a usuario (incluido en CU-01 y CU-14)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -682,6 +740,12 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-17 Administrador desactiva cuenta de usuario
 
 <!-- NOTAS:CU-17 -->
+
+**Implementación (accesos, auditoría y configuración) — CU-17 Desactivar cuenta — `sec_cu17_p1.puml`, `sec_cu17_p2.puml`**
+
+`VistaCuentasAdministrador` (acción Desactivar → `DialogoConfirmacion`) → `PresentadorCuentasAdministrador.alDesactivar(id)` → `ServicioAccesos.desactivarCuenta` → `verificar(GESTIONAR_CUENTAS)` → `get(id, Administrador)` (`BrokerAdministrador.materializar`) → `estaActiva` → `contar(new AdministradoresActivos())` (`FOR UPDATE OF usuario`) → `Administrador.desactivar` → `put` (UPDATE `usuario`) → `GestorSesiones.revocarTokensDe` → `invalidarSesionesDe` → `ServicioAuditoria.registrar("BAJA","Administrador")` → `PresentadorCuentasAdministrador.cargar` → `listarAdministradores` → `buscar(new Administradores())` → `FilaCuenta.desde(admin, ahora)`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu17_p1.puml` — CU-17 Administrador desactiva cuenta de usuario (parte 1: de la vista a la fachada)
 
@@ -764,6 +828,16 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-20 Administrador desactiva deporte
 
 <!-- NOTAS:CU-20 -->
+
+**Implementación (reservas y notificaciones) — Cancelación por bajas (sec_comun_cancelar_baja; CU-03, CU-20, CU-23)**
+
+`ServicioSocios.desactivarSocio` / `ServicioRecursos.desactivarCancha/desactivarDeporte` → `ApplicationEventPublisher.publishEvent` →
+`CanceladorReservasPorBaja.alDesactivarSocio/alDesactivarCancha/alDesactivarDeporte` → `buscar(new ReservasFuturasDeSocio/DeCancha/DeDeporte(id, ahora))`
+→ `cancelarTodas` → `Reserva.cancelar(motivo, evento.usuario, ahora)` → `put` → `publicar(new ReservaCanceladaEvento)`.
+Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturasReservas.buscarFuturasDe*` / `buscarDeFecha` / `buscarFuturasDesde`
+→ `ResumenesFuturosDe*` / `ResumenesDeFecha` / `ResumenesFuturosDesde` (proyección `ResumenReserva`).
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu20_p1.puml` — CU-20 Administrador desactiva deporte (parte 1: aviso de reservas afectadas)
 
@@ -879,6 +953,16 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-23 Administrador desactiva cancha
 
 <!-- NOTAS:CU-23 -->
+
+**Implementación (reservas y notificaciones) — Cancelación por bajas (sec_comun_cancelar_baja; CU-03, CU-20, CU-23)**
+
+`ServicioSocios.desactivarSocio` / `ServicioRecursos.desactivarCancha/desactivarDeporte` → `ApplicationEventPublisher.publishEvent` →
+`CanceladorReservasPorBaja.alDesactivarSocio/alDesactivarCancha/alDesactivarDeporte` → `buscar(new ReservasFuturasDeSocio/DeCancha/DeDeporte(id, ahora))`
+→ `cancelarTodas` → `Reserva.cancelar(motivo, evento.usuario, ahora)` → `put` → `publicar(new ReservaCanceladaEvento)`.
+Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturasReservas.buscarFuturasDe*` / `buscarDeFecha` / `buscarFuturasDesde`
+→ `ResumenesFuturosDe*` / `ResumenesDeFecha` / `ResumenesFuturosDesde` (proyección `ResumenReserva`).
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu23_p1.puml` — CU-23 Administrador desactiva cancha (parte 1: aviso de reservas afectadas)
 
@@ -1027,6 +1111,18 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-26 -->
 
+**Implementación (reservas y notificaciones) — CU-26 Consultar disponibilidad (sec_cu26_p1, sec_cu26_p2, sec_cu26_p3)**
+
+`VistaDisponibilidadCanchas.alEntrar` → `PresentadorDisponibilidadCanchas.cargar` → `ServicioRecursos.listarDeportes` /
+`listarCanchas(null)` → `pantalla.mostrarFiltros`; `ServicioAgenda.consultarReglas` → `mostrarRangoCalendario`;
+`ControlAcceso.tienePermiso(usuarioActual.obtener(), GESTIONAR_RESERVAS_CLUB)` → `mostrarEleccionSocio`.
+Botón «Consultar» → `VistaDisponibilidadCanchas.filtro()` → `PresentadorDisponibilidadCanchas.alConsultar(filtro)` →
+`ServicioAgenda.consultarDisponibilidad` → (agenda) `ConsultaTurnosOcupados.turnosOcupados` = `ConsultaTurnosOcupadosReservas.turnosOcupados`
+→ `FachadaPersistencia.buscar(new TurnosOcupadosDeCancha(idCancha, fecha))` → tabla `reserva` (CONFIRMADAS) →
+`FilaTurno.desde(t, esAdministrador)` → `VistaDisponibilidadCanchas.mostrarTurnos`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu26_p1.puml` — CU-26 Socio o Administrador consulta disponibilidad de canchas (parte 1: de la vista a la fachada)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1076,6 +1172,31 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-27 Socio reserva cancha online
 
 <!-- NOTAS:CU-27 -->
+
+**Implementación (accesos, auditoría y configuración) — Auditoría de reservas — `4b_reservas_eventos` / diagramas de CU-27..33**
+
+`PublicadorEventosReserva` (reservas) → `AuditorReservas.alOcurrir(evento)` → `ServicioAuditoria.registrar(e.getUsuario(), e.accion(), "Reserva", id, detalle)` → `FachadaPersistencia.put(new RegistroAuditoria)` → `BrokerRegistroAuditoria.insertar` (`registro_auditoria`).
+
+**Implementación (reservas y notificaciones) — CU-27 Reservar online (sec_cu27_p1 a p4, col_cu27, pat_cadena, pat_observer_reserva, sec_comun_notificar)**
+
+Acción «Reservar» → `PresentadorDisponibilidadCanchas.alElegirTurno` → `VistaDisponibilidadCanchas.abrirConfirmacion` →
+`new DialogoConfirmarReserva(...)`.`abrir()` → `PresentadorConfirmarReserva.alAbrir` → `DialogoConfirmarReserva.mostrarTurno`.
+«Confirmar» → `PresentadorConfirmarReserva.alConfirmar` → `SocioActual.obtener` → `FilaTurno.aTurno` →
+`ServicioReservas.reservarOnline` → `ControlAcceso.verificar(RESERVAR_ONLINE)` → `ServicioReservas.registrarAlta` →
+`FachadaPersistencia.buscarUno(new SocioParaReserva(id))` (FOR UPDATE, `usuario`/`socio`) → `buscarCancha` (`get(id, Cancha)`) →
+`new SolicitudReserva(..., ALTA, SOCIO, ahora)` → `FabricaCadenaValidacion.crearCadena` (`buscarUno(GrupoVigenteDeSocio)`,
+`get(DisponibilidadClub.ID_UNICO)`, `buscar(FeriadosEntre)`, `get(ReglaReserva.ID_UNICO)`, `buscar(ReservasFuturasDeSocio)`,
+`ConsultaTurnosOcupadosReservas.turnosOcupados`, `ocupadosSinOriginal`, 7 × `new Validador...`, `enlazar`) →
+`ValidadorReservaEncadenado.validar` → `verificar` de `ValidadorSocioHabilitado`, `ValidadorRecursoActivo`, `ValidadorHorarioClub`,
+`ValidadorDuracionTurno`, `ValidadorAnticipacion`, `ValidadorLimiteReservas`, `ValidadorTurnoLibre` → `new Reserva(...)` →
+`Reserva.confirmar` (`EstadoReserva.desdeCodigo("CONFIRMADA")`) → `FachadaPersistencia.put` → `BrokerReserva.valoresInsercion`
+(`BrokerBaseDatos.insertar`, tabla `reserva`; 23P01 → `ErrorNegocio`) → `PublicadorEventosReserva.publicar(new ReservaConfirmadaEvento)` →
+`AuditorReservas.alOcurrir` (auditoría) y `NotificadorReservas.alOcurrir` → (after commit) `notificarDespuesDelCommit` → `enviar` →
+`new Notificacion` → `put` (`BrokerNotificacion`, tabla `notificacion`) → `ServicioCorreo.enviar` (`CorreoSimuladoAdapter`/`CorreoSmtpAdapter`)
+→ `Notificacion.marcarEnviada/marcarFallida` → `put`. Vuelta: `PresentadorConfirmarReserva` → `DialogoConfirmarReserva.cerrarConExito`
+→ `DialogoBase.notificarResuelto` (`DialogoResueltoEvento`) → `VistaDisponibilidadCanchas` (mensaje) y `alCerrar` → `alConsultar`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu27_p1.puml` — CU-27 Socio reserva cancha online (parte 1: de la vista a la fachada)
 
@@ -1153,6 +1274,17 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-28 -->
 
+**Implementación (reservas y notificaciones) — CU-28 Reserva manual (sec_cu28_p1, p2, p3)**
+
+`VistaDisponibilidadCanchas` «Buscar socio» → `PresentadorDisponibilidadCanchas.alBuscarSocio` → `ServicioSocios.buscarSocios` →
+`FilaSocio.desde` → `mostrarSocios`; «Elegir» → `alElegirSocio` → `ServicioSocios.consultarSocio` → `FilaSocio.desde`,
+`FilaCuota.desde(cuota más reciente, false)` → `mostrarSocioElegido`. Turno → `alElegirTurno` → `abrirConfirmacion(turno, idSocioElegido)`
+→ `PresentadorConfirmarReserva.alConfirmar` → `UsuarioActual.obtenerAdministrador` → `ServicioReservas.registrarReservaManual` →
+`verificar(GESTIONAR_RESERVAS_CLUB)` → `get(idSocio, Socio)` → `registrarAlta(..., admin, ADMINISTRADOR)` → (igual que CU-27) →
+`ReservaConfirmadaEvento(r, admin, ahora)`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu28_p1.puml` — CU-28 Administrador registra reserva manual (parte 1: elección del socio)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1211,6 +1343,18 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-29 -->
 
+**Implementación (reservas y notificaciones) — CU-29 Reservas propias (sec_cu29)**
+
+`VistaMisReservas.alEntrar`/`buscar` (`FiltroFechas.valor`) → `PresentadorMisReservas.cargar` → `SocioActual.obtener` →
+`ServicioReservas.consultarReservasPropias` → `verificar(GESTIONAR_RESERVAS_PROPIAS)` → `FiltroReservas.validar` →
+`FiltroReservas.paraSocio` → `FachadaPersistencia.buscar(new ReservasPorFiltro(filtro))` → `BrokerReserva.consultaBase` + `sql()`
+(tablas `reserva`, `usuario`, `socio`, `cancha`) → `BrokerReserva.crearObjeto`/`cargarAsociaciones` → `FilaReserva.desde` →
+`VistaMisReservas.mostrarReservas`. «Ver detalle» → `PresentadorMisReservas.alVerDetalle` → `ServicioReservas.consultarReserva`
+(`perteneceA`) + `ServicioNotificaciones.consultarPorReserva` (`buscar(NotificacionesDeReserva)`, `BrokerNotificacion`) +
+`ServicioAgenda.consultarReglas` → `DetalleReserva.desde` (`FilaNotificacion.desde`) → `VistaMisReservas.mostrarDetalle`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu29.puml` — CU-29 Socio consulta reservas propias
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1233,6 +1377,18 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-30 Socio cancela reserva propia
 
 <!-- NOTAS:CU-30 -->
+
+**Implementación (reservas y notificaciones) — CU-30 Cancelar reserva propia (sec_cu30_p1, sec_cu30_p2, est_reserva, pat_state_reserva)**
+
+`VistaMisReservas` «Cancelar reserva» → `confirmarCancelacion` (`DialogoConfirmacion`) → `PresentadorMisReservas.alCancelar` →
+`SocioActual.obtener` → `ServicioReservas.cancelarReservaPropia` → `verificar` → `buscarReserva` (`get`; inexistente → `AccesoDenegadoException`)
+→ `Reserva.perteneceA` → `Reserva.esVigente` → `get(ReglaReserva.ID_UNICO)` → `ReglaReserva.admiteCancelacion` →
+`Reserva.cancelar` → `EstadoReservaConfirmada.cancelar` → `Reserva.registrarCancelacion` + `Reserva.cambiarEstado(CANCELADA)` →
+`FachadaPersistencia.put` → `BrokerReserva.valoresActualizacion` (`UPDATE reserva ... AND version = ?`; 0 filas → `ConcurrenciaException`
+→ `PresentadorMisReservas.alConflicto`) → `PublicadorEventosReserva.publicar(new ReservaCanceladaEvento)` → auditoría y notificación →
+`PresentadorMisReservas.cargar`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu30_p1.puml` — CU-30 Socio cancela reserva propia (parte 1: de la vista a la fachada)
 
@@ -1272,6 +1428,16 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-31 -->
 
+**Implementación (reservas y notificaciones) — CU-31 Reservas del club (sec_cu31_p1, p2, p3)**
+
+`VistaReservasClub.alEntrar` (filtro del día) / `buscar` → `PresentadorReservasClub.cargar` → (primera vez) `ServicioRecursos.listarDeportes`
+→ `mostrarFiltros`; `ServicioReservas.consultarReservasClub` → `verificar(usuarioActual.obtener(), GESTIONAR_RESERVAS_CLUB)` →
+`FiltroReservas.validar` → `buscar(new ReservasPorFiltro(filtro))` → `BrokerReserva` → `FilaReserva.desde` → `mostrarReservas`.
+«Detalle» → `PresentadorReservasClub.alSeleccionar` → `ServicioReservas.consultarReserva` (`get(id, Reserva)`) →
+`ServicioNotificaciones.consultarPorReserva` → `ServicioAgenda.consultarReglas` → `DetalleReserva.desde` → `VistaReservasClub.mostrarDetalle`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu31_p1.puml` — CU-31 Administrador consulta reservas del club (parte 1: listado)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1308,6 +1474,21 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-32 Administrador modifica reserva
 
 <!-- NOTAS:CU-32 -->
+
+**Implementación (reservas y notificaciones) — CU-32 Modificar reserva (sec_cu32_p1, p2, p3, col_cu32)**
+
+`VistaReservasClub` «Modificar» → `PresentadorReservasClub.alModificar` → `navegarA("reservas-club/modificar/" + id)` →
+`VistaModificarReserva.alEntrar` → `PresentadorModificarReserva.cargar` → `ServicioReservas.consultarReserva` + `ServicioAgenda.consultarReglas`
+→ `DetalleReserva.desde(r, List.of(), regla)` (guarda `version`) → `ServicioRecursos.listarCanchas(idDeporte)` → `mostrarReserva`.
+«Consultar turnos» → `alConsultarTurnos` → `ServicioAgenda.consultarDisponibilidad` → `FilaTurno.desde(t, true)` → `mostrarTurnos`.
+«Elegir» + «Guardar» → `PresentadorModificarReserva.alGuardar` → `UsuarioActual.obtenerAdministrador` → `ServicioReservas.modificarReserva`
+→ `verificar` → `buscarReserva` → comparación de `version` (`ConcurrenciaException`) → `esVigente` → `get(ReglaReserva.ID_UNICO)` →
+`verificarPlazo` → `buscarUno(SocioParaReserva)` → `buscarCancha` → `new SolicitudReserva(..., MODIFICACION, ADMINISTRADOR)` →
+`FabricaCadenaValidacion.crearCadena` (+ `ocupadosSinOriginal`) → `validar` → `Reserva.modificar` → `EstadoReservaConfirmada.modificar` →
+`Reserva.cambiarTurno` → `put` (`UPDATE ... AND version = ?`, exclusión 23P01) → `publicar(new ReservaModificadaEvento(..., turnoAnterior,
+canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorModificarReserva.alConflicto` → `cargar`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu32_p1.puml` — CU-32 Administrador modifica reserva (parte 1: carga de la reserva)
 
@@ -1358,6 +1539,15 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## CU-33 Administrador cancela reserva
 
 <!-- NOTAS:CU-33 -->
+
+**Implementación (reservas y notificaciones) — CU-33 Cancelar reserva administrativa (sec_cu33_p1, p2, col_cu33)**
+
+`VistaReservasClub` «Cancelar» → `pedirMotivoCancelacion` (`DialogoConfirmacion.pedirMotivo(true)`) → `PresentadorReservasClub.alCancelar(id, motivo)`
+→ `UsuarioActual.obtenerAdministrador` → `ServicioReservas.cancelarReservaAdministrativa` → `verificar` → motivo no vacío →
+`buscarReserva` → `esVigente` → `Reserva.cancelar(motivo, admin, ahora)` → `EstadoReservaConfirmada.cancelar` → `put` →
+`publicar(new ReservaCanceladaEvento)` → `PresentadorReservasClub.cargar`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_cu33_p1.puml` — CU-33 Administrador cancela reserva (parte 1: de la vista a la fachada)
 
@@ -1777,6 +1967,12 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 
 <!-- NOTAS:CU-41 -->
 
+**Implementación (accesos, auditoría y configuración) — CU-41 Configurar datos del club — `sec_cu41_p1.puml` … `sec_cu41_p3.puml`**
+
+`VistaConfiguracionClub.alEntrar` → `PresentadorConfiguracionClub.cargar` → `ServicioConfiguracionClub.consultar` → `FachadaPersistencia.get(ConfiguracionClub.ID_UNICO, ConfiguracionClub)` → `BrokerConfiguracionClub.materializar` (tabla `configuracion_club`) → `DatosConfiguracionClub.desde` → `mostrarDatos` (p1); Guardar (`FormularioEntidad.leer`) → `PresentadorConfiguracionClub.alGuardar(datos)` (p2) → `ServicioConfiguracionClub.modificar` → `UsuarioActualSesion.obtener` + `ControlAcceso.verificar(CONFIGURAR_CLUB)` → validación → `get(ID_UNICO)` → `ConfiguracionClub.actualizar` → `put` → `BrokerConfiguracionClub.actualizar` → `ServicioAuditoria.registrar("MODIFICACION","ConfiguracionClub", 1)` (p3) → `mostrarDatos` + `mostrarMensaje`. Encabezado: `DisposicionPrincipal` → `InformacionClubConfigurada.nombreClub` → `ServicioConfiguracionClub.consultar`.
+
+**Diagramas de secuencia del diseño:**
+
 ### `sec_cu41_p1.puml` — CU-41 Administrador configura datos del club\n(parte 1: consulta, pasos 1-2)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
@@ -1816,6 +2012,14 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 ## Tareas programadas
 
 <!-- NOTAS:TAREAS -->
+
+**Implementación (reservas y notificaciones) — Tarea programada: finalización de reservas cumplidas (sec_tmp_disparo, sec_tmp_finalizar_reservas)**
+
+`@Scheduled` → `PlanificadorReservas.finalizarReservas` → `ServicioReservas.finalizarReservasCumplidas` (readOnly) →
+`buscar(new ReservasCumplidas(ahora))` → por reserva `TransactionTemplate.execute` (REQUIRES_NEW) → `finalizarEnTransaccion` →
+`get(id, Reserva)` → `Reserva.finalizar` → `EstadoReservaConfirmada.finalizar` → `cambiarEstado(FINALIZADA)` → `put`.
+
+**Diagramas de secuencia del diseño:**
 
 ### `sec_tmp_aplicar_saldo.puml` — Aplicar saldo a pendientes (ServicioCuotas.registrarCredito, RN-21)
 

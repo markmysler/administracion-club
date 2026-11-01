@@ -6,7 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * Único punto de entrada a la persistencia (GoF Facade + GRASP Pure Fabrication; «Singleton» como bean único de
@@ -15,7 +19,10 @@ import org.springframework.stereotype.Component;
  * las 21 interfaces {@code Repositorio*} de 5.0. No depende de ningún módulo: los brokers se registran solos
  * (Spring inyecta la lista de todos los {@code BrokerBaseDatos}).
  *
- * <p>Toda llamada ocurre dentro de una transacción de Spring abierta por la fachada {@code Servicio*}.
+ * <p>Toda llamada ocurre dentro de una transacción de Spring abierta por la fachada {@code Servicio*}. Si alguien la
+ * llama fuera de una transacción (por ejemplo, un proxy virtual recorrido por un presentador, o la sesión de Spring
+ * Security), la propia fachada abre una transacción para esa llamada: así las lecturas anidadas de las asociaciones
+ * comparten la conexión y el mapa de identidad, y las asociaciones circulares (socio → grupo → titular) terminan.
  *
  * <p>Casos de uso: todos
  */
@@ -31,6 +38,9 @@ public class FachadaPersistencia {
     /** Proveedor de conexiones y del mapa de identidad. */
     private final ProveedorConexiones proveedor;
 
+    /** Plantilla de transacción para las llamadas que llegan sin transacción en curso. */
+    private final TransactionTemplate plantillaTransaccion;
+
     /**
      * Registra cada broker por {@code claseObjeto()} y, si {@code claseRaiz()} es distinta, también en
      * {@code jerarquias}; llama a {@code broker.vincular(this)}.
@@ -38,9 +48,12 @@ public class FachadaPersistencia {
      * <p>Casos de uso: todos
      * @param brokers todos los brokers de los módulos (inyectados por Spring)
      * @param proveedor proveedor de conexiones
+     * @param gestorTransacciones gestor de transacciones de Spring (para las llamadas sin transacción en curso)
      */
-    public FachadaPersistencia(List<BrokerBaseDatos<?>> brokers, ProveedorConexiones proveedor) {
+    public FachadaPersistencia(List<BrokerBaseDatos<?>> brokers, ProveedorConexiones proveedor,
+                               PlatformTransactionManager gestorTransacciones) {
         this.proveedor = proveedor;
+        this.plantillaTransaccion = new TransactionTemplate(gestorTransacciones);
         for (BrokerBaseDatos<?> broker : brokers) {
             this.brokers.put(broker.claseObjeto(), broker);
             if (!broker.claseRaiz().equals(broker.claseObjeto())) {
@@ -66,6 +79,19 @@ public class FachadaPersistencia {
         if (id == null) {
             throw new RecursoNoEncontradoException(clase, null);
         }
+        return enTransaccion(() -> obtener(id, clase));
+    }
+
+    /**
+     * Cuerpo de {@code get} (mapa de identidad o broker), ya dentro de una transacción.
+     *
+     * <p>Casos de uso: todos
+     * @param id identificador
+     * @param clase clase pedida
+     * @param <T> tipo pedido
+     * @return el objeto
+     */
+    private <T> T obtener(Long id, Class<T> clase) {
         ObjetoPersistente enMapa = mapaActual().buscar(claseRaizDe(clase), id);
         if (enMapa != null && clase.isInstance(enMapa)) {
             return clase.cast(enMapa);
@@ -88,11 +114,14 @@ public class FachadaPersistencia {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void put(ObjetoPersistente objeto) {
         BrokerBaseDatos broker = brokerDe(objeto.getClass());
-        if (objeto.esNuevo()) {
-            broker.insertar(objeto);
-        } else {
-            broker.actualizar(objeto);
-        }
+        enTransaccion(() -> {
+            if (objeto.esNuevo()) {
+                broker.insertar(objeto);
+            } else {
+                broker.actualizar(objeto);
+            }
+            return null;
+        });
     }
 
     /**
@@ -104,7 +133,10 @@ public class FachadaPersistencia {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void eliminar(ObjetoPersistente objeto) {
         BrokerBaseDatos broker = brokerDe(objeto.getClass());
-        broker.borrar(objeto);
+        enTransaccion(() -> {
+            broker.borrar(objeto);
+            return null;
+        });
     }
 
     /**
@@ -116,7 +148,7 @@ public class FachadaPersistencia {
      * @return resultados
      */
     public <T> List<T> buscar(Consulta<T> consulta) {
-        return consulta.resolver(this);
+        return enTransaccion(() -> consulta.resolver(this));
     }
 
     /**
@@ -146,7 +178,23 @@ public class FachadaPersistencia {
      * @return cantidad
      */
     public <T> long contar(Consulta<T> consulta) {
-        return consulta.contarCon(this);
+        return enTransaccion(() -> consulta.contarCon(this));
+    }
+
+    /**
+     * Ejecuta la operación en la transacción en curso o, si no hay ninguna, en una transacción nueva de esa sola
+     * llamada (regla 11.8.2: toda llamada a la fachada ocurre dentro de una transacción).
+     *
+     * <p>Casos de uso: todos
+     * @param operacion operación de persistencia
+     * @param <R> tipo del resultado
+     * @return el resultado de la operación
+     */
+    private <R> R enTransaccion(Supplier<R> operacion) {
+        if (TransactionSynchronizationManager.isActualTransactionActive()) {
+            return operacion.get();
+        }
+        return plantillaTransaccion.execute(estado -> operacion.get());
     }
 
     /**

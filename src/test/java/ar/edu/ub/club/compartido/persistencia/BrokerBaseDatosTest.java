@@ -293,7 +293,7 @@ class BrokerBaseDatosTest {
             s.execute("CREATE TABLE pelota (id BIGSERIAL PRIMARY KEY, color VARCHAR(20) NOT NULL, version INTEGER NOT NULL)");
         }
         ProveedorConexiones proveedor = new ProveedorConexiones(origen);
-        fachada = new FachadaPersistencia(List.of(new BrokerPelota(proveedor)), proveedor);
+        fachada = new FachadaPersistencia(List.of(new BrokerPelota(proveedor)), proveedor, new DataSourceTransactionManager(origen));
         transaccion = new TransactionTemplate(new DataSourceTransactionManager(origen));
     }
 

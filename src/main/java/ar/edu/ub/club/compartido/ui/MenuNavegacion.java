@@ -105,12 +105,14 @@ public class MenuNavegacion extends Composite<SideNav> {
     }
 
     /**
-     * Cierra la sesión ({@code cierreSesion.cerrarSesion()}) y lleva el navegador a {@code inicio-sesion}.
+     * Pide al navegador ir a {@code inicio-sesion} y cierra la sesión ({@code cierreSesion.cerrarSesion()}); la UI se
+     * toma antes de cerrar porque al invalidar la sesión {@code UI.getCurrent()} deja de estar disponible.
      *
      * <p>Casos de uso: CU-12
      */
     public void alCerrarSesion() {
+        UI ui = UI.getCurrent();
+        ui.getPage().setLocation("inicio-sesion");
         cierreSesion.cerrarSesion();
-        UI.getCurrent().getPage().setLocation("inicio-sesion");
     }
 }
