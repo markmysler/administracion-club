@@ -4,18 +4,18 @@ import ar.edu.ub.club.compartido.ui.PantallaBase;
 import ar.edu.ub.club.pagos.aplicacion.DatosConfiguracionPagos;
 
 /**
- * Interfaz pasiva de la pantalla P-31: Configuración de medios manuales y de la pasarela (modo y habilitación).
+ * Interfaz pasiva (MVP Vista Pasiva) de la pantalla P-31 Medios de pago y pasarela.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-34
  */
 public interface PantallaMediosPago extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Carga el formulario con los medios y la pasarela, y muestra el estado de la pasarela (paso 2 y paso 11).
      *
      * <p>Casos de uso: CU-34
-     * @param datos valor de {@code datos}
-     * @param pasarela valor de {@code pasarela}
+     * @param datos datos editables de la configuración
+     * @param pasarela estado de la pasarela (solo lectura)
      */
     void mostrarConfiguracion(DatosConfiguracionPagos datos, ResumenPasarela pasarela);
 }

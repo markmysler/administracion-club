@@ -5,22 +5,27 @@ import ar.edu.ub.club.pagos.integracion.IntencionSimulada;
 import java.time.LocalDateTime;
 
 /**
- * PENDIENTE: documentar responsabilidad.
- *
- * <p>Modelo de vista inmutable (record) que construye el presentador; la vista solo lo muestra.
+ * Modelo de vista (record inmutable) de la intención de pago que muestra el simulador de pasarela P-27 (MODELO
+ * 11.6.1).
  *
  * <p>Casos de uso: CU-35
+ * @param idPreferencia identificador de la preferencia
+ * @param concepto concepto (incluye el comercio, la cuota y el grupo)
+ * @param importe importe a pagar
+ * @param venceEn vencimiento de la intención (24 h, RN-22)
  */
-public record ResumenIntencionSimulada(String idPreferencia, String concepto, Dinero importe, LocalDateTime venceEn) {
+public record ResumenIntencionSimulada(String idPreferencia, String concepto, Dinero importe,
+                                       LocalDateTime venceEn) {
 
     /**
-     * PENDIENTE: documentar.
+     * Fábrica a partir de la intención guardada por {@code PasarelaSimuladaAdapter}.
      *
      * <p>Casos de uso: CU-35
-     * @param intencion valor de {@code intencion}
-     * @return el resultado
+     * @param intencion la intención simulada
+     * @return el resumen
      */
     public static ResumenIntencionSimulada desde(IntencionSimulada intencion) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return new ResumenIntencionSimulada(intencion.getIdPreferencia(), intencion.getConcepto(),
+                intencion.getImporte(), intencion.getVenceEn());
     }
 }
