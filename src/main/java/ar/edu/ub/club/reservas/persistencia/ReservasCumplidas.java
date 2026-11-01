@@ -6,46 +6,60 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Reservas CONFIRMADAS cuyo turno ya terminó (fecha anterior, o la de hoy con la hora de fin cumplida); las
+ * pasa a FINALIZADA {@code ServicioReservas.finalizarReservasCumplidas}.
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve {@code BrokerReserva}:
+ * {@code sql()} se agrega a su {@code consultaBase()} (JOIN con usuario, socio y cancha).
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: tareas programadas: finalización de reservas cumplidas
  */
 public class ReservasCumplidas extends ConsultaEntidades<Reserva> {
 
-    /** Atributo ahora. */
-    private LocalDateTime ahora;
+    /** Momento de la ejecución de la tarea. */
+    private final LocalDateTime ahora;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta; los parámetros se reciben por constructor y no cambian (Query Object).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: tareas programadas: finalización de reservas cumplidas
+     * @param ahora momento de la ejecución de la tarea
      */
-    public Class<Reserva> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public ReservasCumplidas(LocalDateTime ahora) {
+        this.ahora = ahora;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que resuelve {@code BrokerReserva}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: tareas programadas: finalización de reservas cumplidas
+     * @return {@code Reserva}
+     */
+    @Override
+    public Class<Reserva> claseResultado() {
+        return Reserva.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code BrokerReserva.consultaBase()}.
+     *
+     * <p>Casos de uso: tareas programadas: finalización de reservas cumplidas
+     * @return WHERE y ORDER BY con parámetros {@code ?}
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE reserva.estado = 'CONFIRMADA' AND (reserva.fecha < ? OR (reserva.fecha = ? AND reserva.hora_fin <= ?))"
+                + " ORDER BY reserva.fecha, reserva.hora_inicio";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los parámetros en el orden de los {@code ?}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: tareas programadas: finalización de reservas cumplidas
+     * @return lista de parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(ahora.toLocalDate(), ahora.toLocalDate(), ahora.toLocalTime());
     }
 }

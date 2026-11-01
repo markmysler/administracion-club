@@ -1,26 +1,28 @@
 package ar.edu.ub.club.notificaciones.integracion;
 
 /**
- * TEMPORAL (rama mod-accesos): firma acordada con el integrador; la implementación real es del módulo notificaciones.
+ * Objeto de datos inmutable con un correo a enviar por el puerto {@code ServicioCorreo} (patrón Adapter):
+ * destinatario, asunto y cuerpo en texto plano. Lo arman {@code NotificadorReservas} y {@code ServicioAccesos}
+ * (enlace de recuperación de contraseña).
  *
- * <p>Casos de uso: CU-13, CU-27, CU-28, CU-30, CU-32, CU-33
+ * <p>Casos de uso: CU-03, CU-13, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
  */
 public class MensajeCorreo {
 
-    /** Destinatario. */
+    /** Dirección de correo del destinatario. */
     private final String destinatario;
 
     /** Asunto. */
     private final String asunto;
 
-    /** Cuerpo. */
+    /** Cuerpo en texto plano. */
     private final String cuerpo;
 
     /**
      * Crea el mensaje.
      *
-     * <p>Casos de uso: CU-13
-     * @param destinatario correo del destinatario
+     * <p>Casos de uso: CU-03, CU-13, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * @param destinatario dirección de correo del destinatario
      * @param asunto asunto
      * @param cuerpo cuerpo en texto plano
      */
@@ -31,19 +33,19 @@ public class MensajeCorreo {
     }
 
     /**
-     * Destinatario.
+     * Devuelve {@code destinatario}.
      *
-     * <p>Casos de uso: CU-13
-     * @return correo
+     * <p>Casos de uso: CU-03, CU-13, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return dirección de correo
      */
     public String getDestinatario() {
         return destinatario;
     }
 
     /**
-     * Asunto.
+     * Devuelve {@code asunto}.
      *
-     * <p>Casos de uso: CU-13
+     * <p>Casos de uso: CU-03, CU-13, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
      * @return asunto
      */
     public String getAsunto() {
@@ -51,10 +53,10 @@ public class MensajeCorreo {
     }
 
     /**
-     * Cuerpo.
+     * Devuelve {@code cuerpo}.
      *
-     * <p>Casos de uso: CU-13
-     * @return cuerpo
+     * <p>Casos de uso: CU-03, CU-13, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return cuerpo en texto plano
      */
     public String getCuerpo() {
         return cuerpo;

@@ -7,80 +7,96 @@ import ar.edu.ub.club.compartido.persistencia.FachadaPersistencia;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
- * Implementaciones, en {@code reservas.persistencia}, de las consultas invertidas {@code ConsultaTurnosOcupados}
- * (agenda.dominio) y {@code ConsultaReservasFuturas} (compartido.dominio) (Entrega 4B, D-10). Atributos: {@code
- * - fachadaPersistencia: FachadaPersistencia} y, en la segunda, {@code - reloj: Reloj}. {@code
- * ConsultaTurnosOcupadosReservas.turnosOcupados(idCancha: Long, fecha: Date): List&lt;Turno&gt;} → {@code
- * fachadaPersistencia.buscar(TurnosOcupadosDeCancha(idCancha, fecha))}. {@code ConsultaReservasFuturasReservas}
- * implementa {@code buscarFuturasDeSocio}, {@code buscarFuturasDeCancha}, {@code buscarFuturasDeDeporte}, {@code
- * buscarDeFecha} y {@code buscarFuturasDesde} con las consultas de proyección {@code ResumenesFuturosDeSocio},
- * {@code ResumenesFuturosDeCancha}, {@code ResumenesFuturosDeDeporte}, {@code ResumenesDeFecha} y {@code
- * ResumenesFuturosDesde}.
+ * Implementación, en {@code reservas.persistencia}, de la consulta invertida {@code ConsultaReservasFuturas}
+ * (compartido.dominio, Entrega 4B, D-10), de modo que {@code socios}, {@code recursos} y {@code agenda} listan las
+ * reservas afectadas por una baja o un cambio de configuración sin depender de {@code reservas}. Cada método
+ * resuelve un objeto consulta de proyección ({@code ResumenesFuturosDeSocio}, {@code ResumenesFuturosDeCancha},
+ * {@code ResumenesFuturosDeDeporte}, {@code ResumenesDeFecha} y {@code ResumenesFuturosDesde}) dentro de la
+ * transacción de la fachada que la invoca.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-03, CU-04, CU-05, CU-20, CU-22, CU-23, CU-24
  */
+@Component
 public class ConsultaReservasFuturasReservas implements ConsultaReservasFuturas {
 
-    /** Atributo fachadaPersistencia. */
-    private FachadaPersistencia fachadaPersistencia;
+    /** Único punto de acceso a la persistencia («Singleton»). */
+    private final FachadaPersistencia fachadaPersistencia;
 
-    /** Atributo reloj. */
-    private Reloj reloj;
+    /** Momento actual (define qué reserva es futura). */
+    private final Reloj reloj;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (bean de Spring).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param id valor de {@code id}
-     * @return el resultado
+     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-20, CU-22, CU-23, CU-24
+     * @param fachadaPersistencia fachada de persistencia
+     * @param reloj fecha y hora actual
      */
+    public ConsultaReservasFuturasReservas(FachadaPersistencia fachadaPersistencia, Reloj reloj) {
+        this.fachadaPersistencia = fachadaPersistencia;
+        this.reloj = reloj;
+    }
+
+    /**
+     * Reservas futuras confirmadas del socio.
+     *
+     * <p>Casos de uso: CU-03, CU-04, CU-05
+     * @param id socio
+     * @return lista de {@code ResumenReserva}
+     */
+    @Override
     public List<ResumenReserva> buscarFuturasDeSocio(Long id) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fachadaPersistencia.buscar(new ResumenesFuturosDeSocio(id, reloj.ahora()));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reservas futuras confirmadas de la cancha.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param id valor de {@code id}
-     * @return el resultado
+     * <p>Casos de uso: CU-22, CU-23
+     * @param id cancha
+     * @return lista de {@code ResumenReserva}
      */
+    @Override
     public List<ResumenReserva> buscarFuturasDeCancha(Long id) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fachadaPersistencia.buscar(new ResumenesFuturosDeCancha(id, reloj.ahora()));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reservas futuras confirmadas de las canchas del deporte.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param id valor de {@code id}
-     * @return el resultado
+     * <p>Casos de uso: CU-20
+     * @param id deporte
+     * @return lista de {@code ResumenReserva}
      */
+    @Override
     public List<ResumenReserva> buscarFuturasDeDeporte(Long id) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fachadaPersistencia.buscar(new ResumenesFuturosDeDeporte(id, reloj.ahora()));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reservas confirmadas de una fecha (registro de un feriado).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fecha valor de {@code fecha}
-     * @return el resultado
+     * <p>Casos de uso: CU-24
+     * @param fecha fecha
+     * @return lista de {@code ResumenReserva}
      */
+    @Override
     public List<ResumenReserva> buscarDeFecha(LocalDate fecha) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fachadaPersistencia.buscar(new ResumenesDeFecha(fecha));
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reservas futuras confirmadas (cambio de disponibilidad).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param ahora valor de {@code ahora}
-     * @return el resultado
+     * <p>Casos de uso: CU-24
+     * @param ahora momento actual
+     * @return lista de {@code ResumenReserva}
      */
+    @Override
     public List<ResumenReserva> buscarFuturasDesde(LocalDateTime ahora) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fachadaPersistencia.buscar(new ResumenesFuturosDesde(ahora));
     }
 }

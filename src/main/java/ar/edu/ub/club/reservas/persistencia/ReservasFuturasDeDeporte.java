@@ -6,49 +6,64 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Reservas CONFIRMADAS futuras de las canchas del deporte, que cancela la baja del deporte (RN-16).
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve {@code BrokerReserva}:
+ * {@code sql()} se agrega a su {@code consultaBase()} (JOIN con usuario, socio y cancha).
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-20
  */
 public class ReservasFuturasDeDeporte extends ConsultaEntidades<Reserva> {
 
-    /** Atributo idDeporte. */
-    private Long idDeporte;
+    /** Deporte dado de baja. */
+    private final Long idDeporte;
 
-    /** Atributo ahora. */
-    private LocalDateTime ahora;
+    /** Momento a partir del cual una reserva es futura. */
+    private final LocalDateTime ahora;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta; los parámetros se reciben por constructor y no cambian (Query Object).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-20
+     * @param idDeporte deporte dado de baja
+     * @param ahora momento a partir del cual una reserva es futura
      */
-    public Class<Reserva> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public ReservasFuturasDeDeporte(Long idDeporte, LocalDateTime ahora) {
+        this.idDeporte = idDeporte;
+        this.ahora = ahora;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que resuelve {@code BrokerReserva}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-20
+     * @return {@code Reserva}
+     */
+    @Override
+    public Class<Reserva> claseResultado() {
+        return Reserva.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code BrokerReserva.consultaBase()}.
+     *
+     * <p>Casos de uso: CU-20
+     * @return WHERE y ORDER BY con parámetros {@code ?}
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE cancha.deporte_id = ? AND reserva.estado = 'CONFIRMADA' AND (reserva.fecha > ? OR (reserva.fecha = ? AND reserva.hora_inicio > ?))"
+                + " ORDER BY reserva.fecha, reserva.hora_inicio";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los parámetros en el orden de los {@code ?}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-20
+     * @return lista de parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idDeporte, ahora.toLocalDate(), ahora.toLocalDate(), ahora.toLocalTime());
     }
 }

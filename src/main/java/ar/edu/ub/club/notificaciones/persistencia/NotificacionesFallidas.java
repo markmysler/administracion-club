@@ -5,43 +5,55 @@ import ar.edu.ub.club.notificaciones.dominio.Notificacion;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Notificaciones cuyo envío falló (RN-19), de la más antigua a la más reciente. Definida en 07C (consulta 45) para
+ * el seguimiento de los envíos; ningún caso de uso del diseño 6.0 la invoca todavía.
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve {@code
+ * BrokerNotificacion}.
  *
- * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+ * <p>Casos de uso: ninguno (consulta de apoyo de RN-19)
  */
 public class NotificacionesFallidas extends ConsultaEntidades<Notificacion> {
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (sin parámetros).
      *
-     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
-     * @return el resultado
+     * <p>Casos de uso: ninguno (consulta de apoyo de RN-19)
      */
-    public Class<Notificacion> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public NotificacionesFallidas() {
+        super();
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase que resuelve {@code BrokerNotificacion}.
      *
-     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
-     * @return el resultado
+     * <p>Casos de uso: ninguno (consulta de apoyo de RN-19)
+     * @return {@code Notificacion}
+     */
+    @Override
+    public Class<Notificacion> claseResultado() {
+        return Notificacion.class;
+    }
+
+    /**
+     * Condición y orden.
+     *
+     * <p>Casos de uso: ninguno (consulta de apoyo de RN-19)
+     * @return WHERE y ORDER BY
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE notificacion.estado_envio = 'FALLIDA' ORDER BY notificacion.fecha, notificacion.id";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sin parámetros.
      *
-     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
-     * @return el resultado
+     * <p>Casos de uso: ninguno (consulta de apoyo de RN-19)
+     * @return lista vacía
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of();
     }
 }

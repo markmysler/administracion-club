@@ -6,49 +6,51 @@ import ar.edu.ub.club.recursos.dominio.Cancha;
 import java.time.LocalDateTime;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Evento del patrón Observer que se publica al modificar una reserva. Guarda la cancha y el turno anteriores para
+ * que la auditoría registre los valores anteriores y los nuevos y el correo los informe (RN-15, RNF-12, CU-32
+ * paso 15).
  *
- * <p>Evento del dominio publicado con el mecanismo de eventos de Spring (Observer).
- *
- * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+ * <p>Casos de uso: CU-32
  */
 public class ReservaModificadaEvento extends EventoReserva {
 
-    /** Atributo turnoAnterior. */
-    private Turno turnoAnterior;
+    /** Turno antes de la modificación. */
+    private final Turno turnoAnterior;
 
-    /** Atributo canchaAnterior. */
-    private Cancha canchaAnterior;
+    /** Cancha antes de la modificación. */
+    private final Cancha canchaAnterior;
 
     /**
-     * Crea una instancia de {@code ReservaModificadaEvento}.
+     * Crea el evento; los tres primeros parámetros son los de {@code EventoReserva}.
      *
-     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
-     * @param reserva valor de {@code reserva}
-     * @param usuario valor de {@code usuario}
-     * @param fechaHora valor de {@code fechaHora}
-     * @param turnoAnterior valor de {@code turnoAnterior}
-     * @param canchaAnterior valor de {@code canchaAnterior}
+     * <p>Casos de uso: CU-32
+     * @param reserva reserva ya modificada
+     * @param usuario administrador que modificó
+     * @param fechaHora momento
+     * @param turnoAnterior turno previo
+     * @param canchaAnterior cancha previa
      */
     public ReservaModificadaEvento(Reserva reserva, Usuario usuario, LocalDateTime fechaHora, Turno turnoAnterior, Cancha canchaAnterior) {
         super(reserva, usuario, fechaHora);
-        // PENDIENTE
+        this.turnoAnterior = turnoAnterior;
+        this.canchaAnterior = canchaAnterior;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Acción del evento.
      *
-     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
-     * @return el resultado
+     * <p>Casos de uso: CU-32
+     * @return «MODIFICACION»
      */
+    @Override
     public String accion() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "MODIFICACION";
     }
 
     /**
-     * Devuelve {@code turnoAnterior}: turnoAnterior.
+     * Devuelve {@code turnoAnterior}: turno antes de la modificación.
      *
-     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * <p>Casos de uso: CU-32
      * @return el valor del atributo
      */
     public Turno getTurnoAnterior() {
@@ -56,9 +58,9 @@ public class ReservaModificadaEvento extends EventoReserva {
     }
 
     /**
-     * Devuelve {@code canchaAnterior}: canchaAnterior.
+     * Devuelve {@code canchaAnterior}: cancha antes de la modificación.
      *
-     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * <p>Casos de uso: CU-32
      * @return el valor del atributo
      */
     public Cancha getCanchaAnterior() {

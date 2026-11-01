@@ -1,16 +1,17 @@
 package ar.edu.ub.club.notificaciones.dominio;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Estado del envío de una {@code Notificacion} por correo (RN-19). Se guarda por nombre en {@code
+ * notificacion.estado_envio}.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-27, CU-28, CU-29, CU-30, CU-31, CU-32, CU-33
  */
 public enum EstadoEnvio {
 
-    /** Valor PENDIENTE. */
+    /** Creada, todavía sin enviar. */
     PENDIENTE,
-    /** Valor ENVIADA. */
+    /** El proveedor de correo aceptó el mensaje. */
     ENVIADA,
-    /** Valor FALLIDA. */
+    /** El envío falló; la reserva se mantiene (RN-19). */
     FALLIDA;
 }
