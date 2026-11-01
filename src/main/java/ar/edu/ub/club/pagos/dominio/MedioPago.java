@@ -29,4 +29,24 @@ public class MedioPago extends EntidadPersistente {
     public static MedioPago reconstituir(Long id, String nombre, Boolean habilitado) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code nombre}: Nombre del medio.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Devuelve {@code habilitado}: Si puede usarse en pagos nuevos.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Boolean getHabilitado() {
+        return habilitado;
+    }
 }

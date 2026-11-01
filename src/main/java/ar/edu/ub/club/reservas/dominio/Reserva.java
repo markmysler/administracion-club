@@ -196,4 +196,84 @@ public class Reserva extends EntidadPersistente {
      void cambiarTurno(Turno nuevoTurno, Cancha nuevaCancha) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code socio}: Titular de la reserva.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Socio getSocio() {
+        return socio;
+    }
+
+    /**
+     * Devuelve {@code cancha}: Cancha.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Cancha getCancha() {
+        return cancha;
+    }
+
+    /**
+     * Devuelve {@code turno}: Fecha, hora de inicio y hora de fin.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Turno getTurno() {
+        return turno;
+    }
+
+    /**
+     * Devuelve {@code estado}: Estado actual (objeto estado).
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public EstadoReserva getEstado() {
+        return estado;
+    }
+
+    /**
+     * Devuelve {@code fechaCreacion}: Momento del registro.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    /**
+     * Devuelve {@code registradaPor}: Cuenta que registró la reserva.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Usuario getRegistradaPor() {
+        return registradaPor;
+    }
+
+    /**
+     * Devuelve {@code canceladaPor}: Cuenta que canceló.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Usuario getCanceladaPor() {
+        return canceladaPor;
+    }
+
+    /**
+     * Devuelve {@code motivoCancelacion}: Motivo de la cancelación.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getMotivoCancelacion() {
+        return motivoCancelacion;
+    }
 }

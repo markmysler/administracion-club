@@ -80,4 +80,44 @@ public class TokenRecuperacion extends EntidadPersistente {
     public void restaurarAsociaciones(Usuario usuario) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code usuario}: Cuenta que solicitó la recuperación.
+     *
+     * <p>Casos de uso: CU-13
+     * @return el valor del atributo
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * Devuelve {@code tokenHash}: Hash SHA-256 del token enviado.
+     *
+     * <p>Casos de uso: CU-13
+     * @return el valor del atributo
+     */
+    public String getTokenHash() {
+        return tokenHash;
+    }
+
+    /**
+     * Devuelve {@code expiraEn}: Vencimiento.
+     *
+     * <p>Casos de uso: CU-13
+     * @return el valor del atributo
+     */
+    public LocalDateTime getExpiraEn() {
+        return expiraEn;
+    }
+
+    /**
+     * Devuelve {@code usado}: Indica si ya se usó.
+     *
+     * <p>Casos de uso: CU-13
+     * @return el valor del atributo
+     */
+    public boolean getUsado() {
+        return usado;
+    }
 }

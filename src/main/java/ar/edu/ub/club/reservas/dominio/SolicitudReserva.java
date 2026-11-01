@@ -68,4 +68,74 @@ public class SolicitudReserva {
     public boolean controlaDeuda() {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code socio}: Socio de la reserva.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return el valor del atributo
+     */
+    public Socio getSocio() {
+        return socio;
+    }
+
+    /**
+     * Devuelve {@code cancha}: Cancha.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return el valor del atributo
+     */
+    public Cancha getCancha() {
+        return cancha;
+    }
+
+    /**
+     * Devuelve {@code turno}: Turno pedido.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return el valor del atributo
+     */
+    public Turno getTurno() {
+        return turno;
+    }
+
+    /**
+     * Devuelve {@code reservaOriginal}: Reserva que se modifica.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return el valor del atributo
+     */
+    public Reserva getReservaOriginal() {
+        return reservaOriginal;
+    }
+
+    /**
+     * Devuelve {@code tipoOperacion}: Alta o modificación.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return el valor del atributo
+     */
+    public TipoOperacion getTipoOperacion() {
+        return tipoOperacion;
+    }
+
+    /**
+     * Devuelve {@code origen}: Quién la origina.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return el valor del atributo
+     */
+    public OrigenSolicitud getOrigen() {
+        return origen;
+    }
+
+    /**
+     * Devuelve {@code ahora}: Momento de la solicitud.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-32
+     * @return el valor del atributo
+     */
+    public LocalDateTime getAhora() {
+        return ahora;
+    }
 }

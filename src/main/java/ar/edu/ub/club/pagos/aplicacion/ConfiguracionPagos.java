@@ -29,4 +29,52 @@ public class ConfiguracionPagos {
     public ConfiguracionPagos(List<MedioPago> medios, ConfiguracionPasarela pasarela) {
         // PENDIENTE
     }
+
+    /**
+     * Devuelve {@code medios}: medios.
+     *
+     * <p>Casos de uso: CU-34
+     * @return el valor del atributo
+     */
+    public List<MedioPago> getMedios() {
+        return medios;
+    }
+
+    /**
+     * Asigna {@code medios} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: CU-34
+     * @param medios nuevo valor
+     */
+    public void setMedios(List<MedioPago> medios) {
+        this.medios = medios;
+    }
+
+    /**
+     * Devuelve {@code pasarela}: pasarela.
+     *
+     * <p>Casos de uso: CU-34
+     * @return el valor del atributo
+     */
+    public ConfiguracionPasarela getPasarela() {
+        return pasarela;
+    }
+
+    /**
+     * Asigna {@code pasarela} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: CU-34
+     * @param pasarela nuevo valor
+     */
+    public void setPasarela(ConfiguracionPasarela pasarela) {
+        this.pasarela = pasarela;
+    }
+
+    /**
+     * Constructor vacío que requiere el {@code Binder} de Vaadin.
+     *
+     * <p>Casos de uso: CU-34
+     */
+    public ConfiguracionPagos() {
+    }
 }

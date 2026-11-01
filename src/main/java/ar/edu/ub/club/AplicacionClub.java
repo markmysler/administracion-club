@@ -15,12 +15,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class AplicacionClub {
 
     /**
-     * Inicia la aplicación.
+     * Inicia la aplicación. Fija antes la zona horaria del club en la JVM (Windows informa el alias obsoleto
+     * «America/Buenos_Aires», que PostgreSQL 16 rechaza al abrir la conexión).
      *
      * <p>Casos de uso: ninguno (configuración)
      * @param args argumentos de la línea de comandos
      */
     public static void main(String[] args) {
+        java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
         SpringApplication.run(AplicacionClub.class, args);
     }
 }

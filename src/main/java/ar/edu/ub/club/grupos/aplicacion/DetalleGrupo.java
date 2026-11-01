@@ -17,4 +17,24 @@ public class DetalleGrupo {
 
     /** Atributo importeProximaCuota. */
     private Dinero importeProximaCuota;
+
+    /**
+     * Devuelve {@code grupo}: grupo.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public GrupoFamiliar getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * Devuelve {@code importeProximaCuota}: importeProximaCuota.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Dinero getImporteProximaCuota() {
+        return importeProximaCuota;
+    }
 }

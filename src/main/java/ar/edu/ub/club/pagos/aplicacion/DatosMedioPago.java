@@ -30,4 +30,64 @@ public class DatosMedioPago {
     public static DatosMedioPago desde(MedioPago medio) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code id}: id.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Asigna {@code id} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @param id nuevo valor
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Devuelve {@code nombre}: nombre.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Asigna {@code nombre} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @param nombre nuevo valor
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Devuelve {@code habilitado}: habilitado.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public boolean getHabilitado() {
+        return habilitado;
+    }
+
+    /**
+     * Asigna {@code habilitado} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @param habilitado nuevo valor
+     */
+    public void setHabilitado(boolean habilitado) {
+        this.habilitado = habilitado;
+    }
 }

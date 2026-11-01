@@ -39,4 +39,54 @@ public class ConfiguracionPasarela extends EntidadPersistente {
     public static ConfiguracionPasarela reconstituir(Long id, String proveedor, ModoPasarela modo, Boolean habilitada, Boolean credencialesConfiguradas) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code ID_UNICO}: Identificador de la única fila.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Long getID_UNICO() {
+        return ID_UNICO;
+    }
+
+    /**
+     * Devuelve {@code proveedor}: Proveedor.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    /**
+     * Devuelve {@code modo}: Adaptador activo.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public ModoPasarela getModo() {
+        return modo;
+    }
+
+    /**
+     * Devuelve {@code habilitada}: Si se aceptan pagos online.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Boolean getHabilitada() {
+        return habilitada;
+    }
+
+    /**
+     * Devuelve {@code credencialesConfiguradas}: Si el entorno tiene credenciales válidas.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Boolean getCredencialesConfiguradas() {
+        return credencialesConfiguradas;
+    }
 }

@@ -58,4 +58,34 @@ public class CategoriaSocio extends EntidadPersistente {
     public static CategoriaSocio reconstituir(Long id, String nombre, Dinero importe, Boolean activa) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code nombre}: Nombre.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Devuelve {@code importe}: Importe mensual.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
+
+    /**
+     * Devuelve {@code activa}: Asignable.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Boolean getActiva() {
+        return activa;
+    }
 }

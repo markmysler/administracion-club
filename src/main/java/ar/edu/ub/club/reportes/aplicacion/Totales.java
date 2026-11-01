@@ -13,4 +13,14 @@ public class Totales {
 
     /** Atributo valores. */
     private Map<String, Object> valores;
+
+    /**
+     * Devuelve {@code valores}: valores.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Map<String, Object> getValores() {
+        return valores;
+    }
 }

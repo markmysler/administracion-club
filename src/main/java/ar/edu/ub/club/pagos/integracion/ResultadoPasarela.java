@@ -23,4 +23,44 @@ public class ResultadoPasarela {
 
     /** Atributo importe. */
     private Dinero importe;
+
+    /**
+     * Devuelve {@code idPagoPasarela}: idPagoPasarela.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getIdPagoPasarela() {
+        return idPagoPasarela;
+    }
+
+    /**
+     * Devuelve {@code referenciaExterna}: referenciaExterna.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public UUID getReferenciaExterna() {
+        return referenciaExterna;
+    }
+
+    /**
+     * Devuelve {@code estado}: estado.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * Devuelve {@code importe}: importe.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
 }

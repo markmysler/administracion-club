@@ -83,4 +83,74 @@ public class MovimientoSaldo extends EntidadPersistente {
     public void restaurarAsociaciones(Cuota cuota) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code idGrupo}: Grupo dueño del saldo (referencia por id).
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Long getIdGrupo() {
+        return idGrupo;
+    }
+
+    /**
+     * Devuelve {@code fecha}: Momento del movimiento.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Devuelve {@code tipo}: Crédito o débito.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public TipoMovimientoSaldo getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Devuelve {@code importe}: Importe del movimiento.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
+
+    /**
+     * Devuelve {@code motivo}: Descripción.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getMotivo() {
+        return motivo;
+    }
+
+    /**
+     * Devuelve {@code idPago}: Identificador del pago que origina el crédito (referencia por id: cuotas no depende de pagos).
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Long getIdPago() {
+        return idPago;
+    }
+
+    /**
+     * Devuelve {@code cuota}: Cuota a la que se aplica el débito.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Cuota getCuota() {
+        return cuota;
+    }
 }

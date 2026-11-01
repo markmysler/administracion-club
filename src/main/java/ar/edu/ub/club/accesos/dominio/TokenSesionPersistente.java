@@ -53,4 +53,64 @@ public class TokenSesionPersistente extends EntidadPersistente {
     public void restaurarAsociaciones(Usuario usuario) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code serie}: serie.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getSerie() {
+        return serie;
+    }
+
+    /**
+     * Devuelve {@code usuario}: usuario.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * Devuelve {@code tokenHash}: tokenHash.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getTokenHash() {
+        return tokenHash;
+    }
+
+    /**
+     * Devuelve {@code ultimoUso}: ultimoUso.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public LocalDateTime getUltimoUso() {
+        return ultimoUso;
+    }
+
+    /**
+     * Devuelve {@code expiraEn}: expiraEn.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public LocalDateTime getExpiraEn() {
+        return expiraEn;
+    }
+
+    /**
+     * Devuelve {@code persistido}: persistido.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public boolean getPersistido() {
+        return persistido;
+    }
 }

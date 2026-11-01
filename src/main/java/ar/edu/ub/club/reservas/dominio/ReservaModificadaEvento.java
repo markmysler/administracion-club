@@ -44,4 +44,24 @@ public class ReservaModificadaEvento extends EventoReserva {
     public String accion() {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code turnoAnterior}: turnoAnterior.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public Turno getTurnoAnterior() {
+        return turnoAnterior;
+    }
+
+    /**
+     * Devuelve {@code canchaAnterior}: canchaAnterior.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23, CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public Cancha getCanchaAnterior() {
+        return canchaAnterior;
+    }
 }

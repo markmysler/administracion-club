@@ -39,4 +39,54 @@ public class ConfiguracionClub extends EntidadPersistente {
     public static ConfiguracionClub reconstituir(Long id, String nombre, String direccion, String telefono, String email) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code ID_UNICO}: Identificador de la única fila.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Long getID_UNICO() {
+        return ID_UNICO;
+    }
+
+    /**
+     * Devuelve {@code nombre}: Nombre del club.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Devuelve {@code direccion}: Dirección.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getDireccion() {
+        return direccion;
+    }
+
+    /**
+     * Devuelve {@code telefono}: Teléfono de contacto.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * Devuelve {@code email}: Correo de contacto.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getEmail() {
+        return email;
+    }
 }

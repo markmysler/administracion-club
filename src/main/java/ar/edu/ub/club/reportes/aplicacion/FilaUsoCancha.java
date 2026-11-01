@@ -25,4 +25,54 @@ public class FilaUsoCancha {
 
     /** Atributo porcentajeOcupacion. */
     private BigDecimal porcentajeOcupacion;
+
+    /**
+     * Devuelve {@code deporte}: deporte.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getDeporte() {
+        return deporte;
+    }
+
+    /**
+     * Devuelve {@code cancha}: cancha.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getCancha() {
+        return cancha;
+    }
+
+    /**
+     * Devuelve {@code cantidadReservas}: cantidadReservas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getCantidadReservas() {
+        return cantidadReservas;
+    }
+
+    /**
+     * Devuelve {@code horasReservadas}: horasReservadas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public BigDecimal getHorasReservadas() {
+        return horasReservadas;
+    }
+
+    /**
+     * Devuelve {@code porcentajeOcupacion}: porcentajeOcupacion.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public BigDecimal getPorcentajeOcupacion() {
+        return porcentajeOcupacion;
+    }
 }

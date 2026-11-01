@@ -72,4 +72,34 @@ public class Turno {
     public LocalDateTime inicio() {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code fecha}: fecha.
+     *
+     * <p>Casos de uso: CU-26
+     * @return el valor del atributo
+     */
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Devuelve {@code horaInicio}: horaInicio.
+     *
+     * <p>Casos de uso: CU-26
+     * @return el valor del atributo
+     */
+    public LocalTime getHoraInicio() {
+        return horaInicio;
+    }
+
+    /**
+     * Devuelve {@code horaFin}: horaFin.
+     *
+     * <p>Casos de uso: CU-26
+     * @return el valor del atributo
+     */
+    public LocalTime getHoraFin() {
+        return horaFin;
+    }
 }

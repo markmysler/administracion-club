@@ -93,4 +93,74 @@ public class Notificacion extends EntidadPersistente {
     public void marcarFallida(String detalle) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code socio}: socio.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public Socio getSocio() {
+        return socio;
+    }
+
+    /**
+     * Devuelve {@code reserva}: reserva.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    /**
+     * Devuelve {@code fecha}: fecha.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Devuelve {@code tipo}: tipo.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public TipoNotificacion getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Devuelve {@code mensaje}: mensaje.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    /**
+     * Devuelve {@code estadoEnvio}: estadoEnvio.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public EstadoEnvio getEstadoEnvio() {
+        return estadoEnvio;
+    }
+
+    /**
+     * Devuelve {@code detalleError}: detalleError.
+     *
+     * <p>Casos de uso: CU-27, CU-28, CU-30, CU-32, CU-33
+     * @return el valor del atributo
+     */
+    public String getDetalleError() {
+        return detalleError;
+    }
 }

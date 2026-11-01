@@ -124,4 +124,54 @@ public abstract class Pago extends EntidadPersistente {
     public void vencer(String motivo) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code cuota}: Cuota que se paga.
+     *
+     * <p>Casos de uso: CU-01, CU-02, CU-03, CU-06, CU-07, CU-08, CU-09, CU-14, CU-15, CU-17, CU-18, CU-19, CU-20, CU-21, CU-22, CU-23, CU-24, CU-25, CU-27, CU-28, CU-30, CU-32, CU-33, CU-34, CU-35, CU-36, CU-41; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public Cuota getCuota() {
+        return cuota;
+    }
+
+    /**
+     * Devuelve {@code fecha}: Momento del pago.
+     *
+     * <p>Casos de uso: CU-01, CU-02, CU-03, CU-06, CU-07, CU-08, CU-09, CU-14, CU-15, CU-17, CU-18, CU-19, CU-20, CU-21, CU-22, CU-23, CU-24, CU-25, CU-27, CU-28, CU-30, CU-32, CU-33, CU-34, CU-35, CU-36, CU-41; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Devuelve {@code importe}: Importe.
+     *
+     * <p>Casos de uso: CU-01, CU-02, CU-03, CU-06, CU-07, CU-08, CU-09, CU-14, CU-15, CU-17, CU-18, CU-19, CU-20, CU-21, CU-22, CU-23, CU-24, CU-25, CU-27, CU-28, CU-30, CU-32, CU-33, CU-34, CU-35, CU-36, CU-41; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
+
+    /**
+     * Devuelve {@code estado}: Estado actual.
+     *
+     * <p>Casos de uso: CU-01, CU-02, CU-03, CU-06, CU-07, CU-08, CU-09, CU-14, CU-15, CU-17, CU-18, CU-19, CU-20, CU-21, CU-22, CU-23, CU-24, CU-25, CU-27, CU-28, CU-30, CU-32, CU-33, CU-34, CU-35, CU-36, CU-41; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public EstadoPago getEstado() {
+        return estado;
+    }
+
+    /**
+     * Devuelve {@code motivoRechazo}: Motivo del rechazo informado por la pasarela o «Abandonado» del vencimiento (RN-22).
+     *
+     * <p>Casos de uso: CU-01, CU-02, CU-03, CU-06, CU-07, CU-08, CU-09, CU-14, CU-15, CU-17, CU-18, CU-19, CU-20, CU-21, CU-22, CU-23, CU-24, CU-25, CU-27, CU-28, CU-30, CU-32, CU-33, CU-34, CU-35, CU-36, CU-41; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public String getMotivoRechazo() {
+        return motivoRechazo;
+    }
 }

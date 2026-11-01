@@ -29,4 +29,24 @@ public class SaldoGrupo {
     public SaldoGrupo(Dinero saldo, List<MovimientoSaldo> movimientos) {
         // PENDIENTE
     }
+
+    /**
+     * Devuelve {@code saldo}: saldo.
+     *
+     * <p>Casos de uso: CU-37
+     * @return el valor del atributo
+     */
+    public Dinero getSaldo() {
+        return saldo;
+    }
+
+    /**
+     * Devuelve {@code movimientos}: movimientos.
+     *
+     * <p>Casos de uso: CU-37
+     * @return el valor del atributo
+     */
+    public List<MovimientoSaldo> getMovimientos() {
+        return movimientos;
+    }
 }

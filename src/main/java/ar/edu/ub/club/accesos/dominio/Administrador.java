@@ -82,4 +82,24 @@ public class Administrador extends Usuario {
     public static Administrador reconstituir(Long id, String username, String email, String passwordHash, EstadoCuenta estado, Integer intentosFallidos, LocalDateTime bloqueadoHasta, LocalDateTime fechaCreacion, String nombre, String apellido) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code nombre}: Nombre.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Devuelve {@code apellido}: Apellido.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getApellido() {
+        return apellido;
+    }
 }

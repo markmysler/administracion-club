@@ -83,4 +83,34 @@ public class Deporte extends EntidadPersistente {
     public static Deporte reconstituir(Long id, String nombre, String descripcion, Boolean activo) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code nombre}: Nombre.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Devuelve {@code descripcion}: Descripción.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * Devuelve {@code activo}: Admite reservas nuevas.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Boolean getActivo() {
+        return activo;
+    }
 }

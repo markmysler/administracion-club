@@ -34,4 +34,44 @@ public class TurnoDisponible {
     public TurnoDisponible(Cancha cancha, Turno turno, EstadoTurno estado) {
         // PENDIENTE
     }
+
+    /**
+     * Devuelve {@code cancha}: Cancha.
+     *
+     * <p>Casos de uso: CU-26
+     * @return el valor del atributo
+     */
+    public Cancha getCancha() {
+        return cancha;
+    }
+
+    /**
+     * Devuelve {@code turno}: Fecha y horario.
+     *
+     * <p>Casos de uso: CU-26
+     * @return el valor del atributo
+     */
+    public Turno getTurno() {
+        return turno;
+    }
+
+    /**
+     * Devuelve {@code estado}: Disponibilidad del turno.
+     *
+     * <p>Casos de uso: CU-26
+     * @return el valor del atributo
+     */
+    public EstadoTurno getEstado() {
+        return estado;
+    }
+
+    /**
+     * Devuelve {@code ocupadoPor}: Apellido y nombre del socio de la reserva que ocupa el turno; solo en OCUPADO. El presentador lo muestra solo a quien tiene GESTIONAR_RESERVAS_CLUB (RN-20).
+     *
+     * <p>Casos de uso: CU-26
+     * @return el valor del atributo
+     */
+    public String getOcupadoPor() {
+        return ocupadoPor;
+    }
 }

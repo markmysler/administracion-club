@@ -47,4 +47,44 @@ public class Comprobante extends EntidadPersistente {
     public void restaurarAsociaciones(Pago pago) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code pago}: Pago que respalda.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Pago getPago() {
+        return pago;
+    }
+
+    /**
+     * Devuelve {@code numero}: Número correlativo.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNumero() {
+        return numero;
+    }
+
+    /**
+     * Devuelve {@code fechaEmision}: Momento de emisión.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFechaEmision() {
+        return fechaEmision;
+    }
+
+    /**
+     * Devuelve {@code importe}: Importe pagado.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
 }

@@ -42,4 +42,104 @@ public class Indicadores {
 
     /** Atributo noDisponibles. */
     private List<String> noDisponibles;
+
+    /**
+     * Devuelve {@code fecha}: fecha.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Devuelve {@code reservasHoy}: reservasHoy.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getReservasHoy() {
+        return reservasHoy;
+    }
+
+    /**
+     * Devuelve {@code reservasSemana}: reservasSemana.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getReservasSemana() {
+        return reservasSemana;
+    }
+
+    /**
+     * Devuelve {@code recaudacionMes}: recaudacionMes.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Dinero getRecaudacionMes() {
+        return recaudacionMes;
+    }
+
+    /**
+     * Devuelve {@code cuotasPagadasMes}: cuotasPagadasMes.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getCuotasPagadasMes() {
+        return cuotasPagadasMes;
+    }
+
+    /**
+     * Devuelve {@code sociosActivos}: sociosActivos.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getSociosActivos() {
+        return sociosActivos;
+    }
+
+    /**
+     * Devuelve {@code cuotasPendientes}: cuotasPendientes.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getCuotasPendientes() {
+        return cuotasPendientes;
+    }
+
+    /**
+     * Devuelve {@code cuotasVencidas}: cuotasVencidas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getCuotasVencidas() {
+        return cuotasVencidas;
+    }
+
+    /**
+     * Devuelve {@code canchasMasUsadas}: canchasMasUsadas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public List<FilaUsoCancha> getCanchasMasUsadas() {
+        return canchasMasUsadas;
+    }
+
+    /**
+     * Devuelve {@code noDisponibles}: noDisponibles.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public List<String> getNoDisponibles() {
+        return noDisponibles;
+    }
 }

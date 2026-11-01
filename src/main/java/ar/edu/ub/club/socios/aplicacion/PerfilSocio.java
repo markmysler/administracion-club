@@ -26,4 +26,44 @@ public class PerfilSocio {
 
     /** Atributo proximasReservas. */
     private List<ResumenReserva> proximasReservas;
+
+    /**
+     * Devuelve {@code socio}: socio.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Socio getSocio() {
+        return socio;
+    }
+
+    /**
+     * Devuelve {@code grupo}: grupo.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public GrupoFamiliar getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * Devuelve {@code cuotaVigente}: cuotaVigente.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Cuota getCuotaVigente() {
+        return cuotaVigente;
+    }
+
+    /**
+     * Devuelve {@code proximasReservas}: proximasReservas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public List<ResumenReserva> getProximasReservas() {
+        return proximasReservas;
+    }
 }

@@ -38,4 +38,34 @@ public abstract class EventoReserva {
      * @return el resultado
      */
     public abstract String accion();
+
+    /**
+     * Devuelve {@code reserva}: reserva.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    /**
+     * Devuelve {@code usuario}: usuario.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * Devuelve {@code fechaHora}: fechaHora.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
 }

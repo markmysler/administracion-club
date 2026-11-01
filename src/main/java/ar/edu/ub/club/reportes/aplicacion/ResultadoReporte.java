@@ -25,4 +25,54 @@ public class ResultadoReporte {
 
     /** Atributo totales. */
     private Totales totales;
+
+    /**
+     * Devuelve {@code titulo}: titulo.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getTitulo() {
+        return titulo;
+    }
+
+    /**
+     * Devuelve {@code filtro}: filtro.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public FiltroReporte getFiltro() {
+        return filtro;
+    }
+
+    /**
+     * Devuelve {@code columnas}: columnas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public List<String> getColumnas() {
+        return columnas;
+    }
+
+    /**
+     * Devuelve {@code filas}: filas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public List<List<Object>> getFilas() {
+        return filas;
+    }
+
+    /**
+     * Devuelve {@code totales}: totales.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Totales getTotales() {
+        return totales;
+    }
 }

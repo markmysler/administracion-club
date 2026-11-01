@@ -159,4 +159,64 @@ public class GrupoFamiliar extends EntidadPersistente {
     public void restaurarAsociaciones(Socio titular) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code fechaCreacion}: Creación del grupo.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDate getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    /**
+     * Devuelve {@code vigente}: Indica si tiene integrantes y recibe cuotas.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Boolean getVigente() {
+        return vigente;
+    }
+
+    /**
+     * Devuelve {@code titular}: Integrante titular.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Socio getTitular() {
+        return titular;
+    }
+
+    /**
+     * Devuelve {@code integrantes}: Socios del grupo.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public List<Socio> getIntegrantes() {
+        return integrantes;
+    }
+
+    /**
+     * Devuelve {@code cuotas}: Cuotas emitidas al grupo.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public List<Cuota> getCuotas() {
+        return cuotas;
+    }
+
+    /**
+     * Devuelve {@code movimientos}: Créditos y débitos del saldo a favor.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public List<MovimientoSaldo> getMovimientos() {
+        return movimientos;
+    }
 }

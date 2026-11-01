@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <vaadin.version>24.10.13</vaadin.version>
+        <vaadin.version>24.9.10</vaadin.version>
         <poi.version>5.5.1</poi.version>
         <openpdf.version>1.4.2</openpdf.version>
         <testcontainers.version>1.21.4</testcontainers.version>
@@ -47,9 +47,14 @@
 
     <dependencies>
         <!-- Presentación: Vaadin Flow (MVP, Vista Pasiva) -->
+        <!-- Solo componentes libres (vaadin-core), sin los componentes comerciales que piden licencia -->
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-spring-boot-starter</artifactId>
+            <artifactId>vaadin-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring</artifactId>
         </dependency>
         <!-- Webhook de la pasarela y página de retorno (únicos controladores web) -->
         <dependency>

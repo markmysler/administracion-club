@@ -100,4 +100,44 @@ public class PagoOnline extends Pago {
     public void restaurarAsociaciones(Cuota cuota, Socio iniciadoPor, Comprobante comprobante) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code referenciaExterna}: Referencia enviada a la pasarela.
+     *
+     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public UUID getReferenciaExterna() {
+        return referenciaExterna;
+    }
+
+    /**
+     * Devuelve {@code idPagoPasarela}: Identificador informado por la pasarela.
+     *
+     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public String getIdPagoPasarela() {
+        return idPagoPasarela;
+    }
+
+    /**
+     * Devuelve {@code respuestaPasarela}: Resultado consultado (JSON, sin datos de tarjeta).
+     *
+     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public String getRespuestaPasarela() {
+        return respuestaPasarela;
+    }
+
+    /**
+     * Devuelve {@code iniciadoPor}: Titular que inició el pago (el titular del grupo puede cambiar después).
+     *
+     * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
+     * @return el valor del atributo
+     */
+    public Socio getIniciadoPor() {
+        return iniciadoPor;
+    }
 }

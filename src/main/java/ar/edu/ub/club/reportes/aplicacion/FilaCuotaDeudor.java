@@ -25,4 +25,54 @@ public class FilaCuotaDeudor {
 
     /** Atributo deudaTotal. */
     private Dinero deudaTotal;
+
+    /**
+     * Devuelve {@code idGrupo}: idGrupo.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getIdGrupo() {
+        return idGrupo;
+    }
+
+    /**
+     * Devuelve {@code titular}: titular.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getTitular() {
+        return titular;
+    }
+
+    /**
+     * Devuelve {@code dniTitular}: dniTitular.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getDniTitular() {
+        return dniTitular;
+    }
+
+    /**
+     * Devuelve {@code cuotasAdeudadas}: cuotasAdeudadas.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Integer getCuotasAdeudadas() {
+        return cuotasAdeudadas;
+    }
+
+    /**
+     * Devuelve {@code deudaTotal}: deudaTotal.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Dinero getDeudaTotal() {
+        return deudaTotal;
+    }
 }

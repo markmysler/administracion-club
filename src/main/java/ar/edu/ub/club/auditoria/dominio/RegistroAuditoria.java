@@ -56,4 +56,64 @@ public class RegistroAuditoria extends EntidadPersistente {
     public void restaurarAsociaciones(Usuario usuario) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code usuario}: usuario.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * Devuelve {@code fechaHora}: fechaHora.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    /**
+     * Devuelve {@code accion}: accion.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getAccion() {
+        return accion;
+    }
+
+    /**
+     * Devuelve {@code entidad}: entidad.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getEntidad() {
+        return entidad;
+    }
+
+    /**
+     * Devuelve {@code idEntidad}: idEntidad.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getIdEntidad() {
+        return idEntidad;
+    }
+
+    /**
+     * Devuelve {@code detalle}: detalle.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getDetalle() {
+        return detalle;
+    }
 }

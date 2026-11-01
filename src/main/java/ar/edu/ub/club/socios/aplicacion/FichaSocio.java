@@ -39,4 +39,44 @@ public class FichaSocio {
     public FichaSocio(Socio socio, GrupoFamiliar grupo, List<ResumenReserva> reservas, List<Cuota> estadoCuenta) {
         // PENDIENTE
     }
+
+    /**
+     * Devuelve {@code socio}: socio.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public Socio getSocio() {
+        return socio;
+    }
+
+    /**
+     * Devuelve {@code grupo}: grupo.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public GrupoFamiliar getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * Devuelve {@code reservas}: reservas.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public List<ResumenReserva> getReservas() {
+        return reservas;
+    }
+
+    /**
+     * Devuelve {@code estadoCuenta}: estadoCuenta.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public List<Cuota> getEstadoCuenta() {
+        return estadoCuenta;
+    }
 }

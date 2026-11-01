@@ -41,4 +41,24 @@ public class Feriado extends EntidadPersistente {
     public static Feriado reconstituir(Long id, LocalDate fecha, String descripcion) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code fecha}: fecha.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Devuelve {@code descripcion}: descripcion.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
 }

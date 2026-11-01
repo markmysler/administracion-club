@@ -19,4 +19,34 @@ public class SocioDesactivadoEvento {
 
     /** Momento de la baja. */
     private LocalDateTime fechaHora;
+
+    /**
+     * Devuelve {@code idSocio}: Identificador del socio dado de baja.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return el valor del atributo
+     */
+    public Long getIdSocio() {
+        return idSocio;
+    }
+
+    /**
+     * Devuelve {@code usuario}: Cuenta que realizó la baja (queda como {@code canceladaPor}).
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return el valor del atributo
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * Devuelve {@code fechaHora}: Momento de la baja.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
 }

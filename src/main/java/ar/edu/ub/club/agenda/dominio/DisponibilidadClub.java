@@ -106,4 +106,34 @@ public class DisponibilidadClub extends EntidadPersistente {
     public void restaurarAsociaciones(Set<DiaSemana> diasAtencion, List<Feriado> feriados) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code feriados}: Feriados del club (0..*); se cargan siempre con la fila única.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public List<Feriado> getFeriados() {
+        return feriados;
+    }
+
+    /**
+     * Devuelve {@code diasAtencion}: Días de atención.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Set<DiaSemana> getDiasAtencion() {
+        return diasAtencion;
+    }
+
+    /**
+     * Devuelve {@code ID_UNICO}: Identificador de la única fila.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Long getID_UNICO() {
+        return ID_UNICO;
+    }
 }

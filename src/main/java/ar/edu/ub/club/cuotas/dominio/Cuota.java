@@ -129,4 +129,84 @@ public class Cuota extends EntidadPersistente {
      void cambiarEstado(EstadoCuota nuevo) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code idGrupo}: Grupo al que se emitió (referencia por id; la asigna {@code GrupoFamiliar.emitirCuota}).
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Long getIdGrupo() {
+        return idGrupo;
+    }
+
+    /**
+     * Devuelve {@code periodo}: Año y mes.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    /**
+     * Devuelve {@code importe}: Total de la cuota.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
+
+    /**
+     * Devuelve {@code creditoAplicado}: Saldo a favor descontado al emitir la cuota (dato de la emisión).
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Dinero getCreditoAplicado() {
+        return creditoAplicado;
+    }
+
+    /**
+     * Devuelve {@code fechaEmision}: Emisión.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDate getFechaEmision() {
+        return fechaEmision;
+    }
+
+    /**
+     * Devuelve {@code fechaVencimiento}: Vencimiento.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDate getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    /**
+     * Devuelve {@code estado}: Estado actual.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public EstadoCuota getEstado() {
+        return estado;
+    }
+
+    /**
+     * Devuelve {@code items}: Aportes de cada integrante (Virtual Proxy).
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public List<ItemCuota> getItems() {
+        return items;
+    }
 }

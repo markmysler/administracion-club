@@ -133,4 +133,94 @@ public class Socio extends Usuario {
     public void restaurarAsociaciones(CategoriaSocio categoria, GrupoFamiliar grupoFamiliar) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code dni}: Documento.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getDni() {
+        return dni;
+    }
+
+    /**
+     * Devuelve {@code nombre}: Nombre.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Devuelve {@code apellido}: Apellido.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getApellido() {
+        return apellido;
+    }
+
+    /**
+     * Devuelve {@code fechaNacimiento}: Nacimiento.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    /**
+     * Devuelve {@code telefono}: Teléfono.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * Devuelve {@code direccion}: Domicilio.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getDireccion() {
+        return direccion;
+    }
+
+    /**
+     * Devuelve {@code fechaAlta}: Alta.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
+    }
+
+    /**
+     * Devuelve {@code categoria}: Categoría vigente.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public CategoriaSocio getCategoria() {
+        return categoria;
+    }
+
+    /**
+     * Devuelve {@code grupoFamiliar}: Grupo vigente.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public GrupoFamiliar getGrupoFamiliar() {
+        return grupoFamiliar;
+    }
 }

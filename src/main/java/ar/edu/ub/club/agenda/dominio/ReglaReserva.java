@@ -106,4 +106,64 @@ public class ReglaReserva extends EntidadPersistente {
     public static ReglaReserva reconstituir(Long id, Integer anticipacionMinimaHoras, Integer anticipacionMaximaDias, Integer duracionTurnoMinutos, Integer limiteReservasVigentesPorSocio, Integer anticipacionMinimaCancelacionHoras, Integer anticipacionMinimaModificacionHoras) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code anticipacionMinimaHoras}: Anticipación mínima.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Integer getAnticipacionMinimaHoras() {
+        return anticipacionMinimaHoras;
+    }
+
+    /**
+     * Devuelve {@code anticipacionMaximaDias}: Anticipación máxima.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Integer getAnticipacionMaximaDias() {
+        return anticipacionMaximaDias;
+    }
+
+    /**
+     * Devuelve {@code limiteReservasVigentesPorSocio}: Límite de reservas vigentes.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Integer getLimiteReservasVigentesPorSocio() {
+        return limiteReservasVigentesPorSocio;
+    }
+
+    /**
+     * Devuelve {@code anticipacionMinimaCancelacionHoras}: Anticipación de cancelación.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Integer getAnticipacionMinimaCancelacionHoras() {
+        return anticipacionMinimaCancelacionHoras;
+    }
+
+    /**
+     * Devuelve {@code anticipacionMinimaModificacionHoras}: Anticipación de modificación.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Integer getAnticipacionMinimaModificacionHoras() {
+        return anticipacionMinimaModificacionHoras;
+    }
+
+    /**
+     * Devuelve {@code ID_UNICO}: Identificador de la única fila.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Long getID_UNICO() {
+        return ID_UNICO;
+    }
 }

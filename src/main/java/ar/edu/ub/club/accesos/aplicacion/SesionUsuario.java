@@ -35,4 +35,44 @@ public class SesionUsuario {
     public SesionUsuario(Long idUsuario, String nombreVisible, Set<Permiso> permisos) {
         // PENDIENTE
     }
+
+    /**
+     * Devuelve {@code idUsuario}: idUsuario.
+     *
+     * <p>Casos de uso: CU-11
+     * @return el valor del atributo
+     */
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    /**
+     * Devuelve {@code nombreVisible}: nombreVisible.
+     *
+     * <p>Casos de uso: CU-11
+     * @return el valor del atributo
+     */
+    public String getNombreVisible() {
+        return nombreVisible;
+    }
+
+    /**
+     * Devuelve {@code permisos}: permisos.
+     *
+     * <p>Casos de uso: CU-11
+     * @return el valor del atributo
+     */
+    public Set<Permiso> getPermisos() {
+        return permisos;
+    }
+
+    /**
+     * Devuelve {@code tokenPersistente}: tokenPersistente.
+     *
+     * <p>Casos de uso: CU-11
+     * @return el valor del atributo
+     */
+    public String getTokenPersistente() {
+        return tokenPersistente;
+    }
 }

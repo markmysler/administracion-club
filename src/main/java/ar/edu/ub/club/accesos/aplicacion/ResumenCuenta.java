@@ -31,4 +31,74 @@ public class ResumenCuenta {
 
     /** Atributo bloqueada. */
     private boolean bloqueada;
+
+    /**
+     * Devuelve {@code idUsuario}: idUsuario.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    /**
+     * Devuelve {@code username}: username.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Devuelve {@code nombreCompleto}: nombreCompleto.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    /**
+     * Devuelve {@code email}: email.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Devuelve {@code tipoCuenta}: tipoCuenta.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getTipoCuenta() {
+        return tipoCuenta;
+    }
+
+    /**
+     * Devuelve {@code estado}: estado.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public EstadoCuenta getEstado() {
+        return estado;
+    }
+
+    /**
+     * Devuelve {@code bloqueada}: bloqueada.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public boolean getBloqueada() {
+        return bloqueada;
+    }
 }

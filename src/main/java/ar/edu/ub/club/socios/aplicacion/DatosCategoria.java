@@ -31,4 +31,72 @@ public class DatosCategoria {
     public DatosCategoria(String nombre, Dinero importe, boolean activa) {
         // PENDIENTE
     }
+
+    /**
+     * Devuelve {@code nombre}: nombre.
+     *
+     * <p>Casos de uso: CU-06
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Asigna {@code nombre} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: CU-06
+     * @param nombre nuevo valor
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Devuelve {@code importe}: importe.
+     *
+     * <p>Casos de uso: CU-06
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
+
+    /**
+     * Asigna {@code importe} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: CU-06
+     * @param importe nuevo valor
+     */
+    public void setImporte(Dinero importe) {
+        this.importe = importe;
+    }
+
+    /**
+     * Devuelve {@code activa}: activa.
+     *
+     * <p>Casos de uso: CU-06
+     * @return el valor del atributo
+     */
+    public boolean getActiva() {
+        return activa;
+    }
+
+    /**
+     * Asigna {@code activa} (lo usa el {@code Binder} del formulario).
+     *
+     * <p>Casos de uso: CU-06
+     * @param activa nuevo valor
+     */
+    public void setActiva(boolean activa) {
+        this.activa = activa;
+    }
+
+    /**
+     * Constructor vacío que requiere el {@code Binder} de Vaadin.
+     *
+     * <p>Casos de uso: CU-06
+     */
+    public DatosCategoria() {
+    }
 }

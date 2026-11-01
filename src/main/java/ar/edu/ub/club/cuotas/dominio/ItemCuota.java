@@ -44,4 +44,34 @@ public class ItemCuota extends EntidadPersistente {
     public void restaurarAsociaciones(Socio socio, CategoriaSocio categoria) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code socio}: Integrante.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Socio getSocio() {
+        return socio;
+    }
+
+    /**
+     * Devuelve {@code categoria}: Categoría del socio al emitir.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public CategoriaSocio getCategoria() {
+        return categoria;
+    }
+
+    /**
+     * Devuelve {@code importe}: Importe de la categoría al emitir.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
 }

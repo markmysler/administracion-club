@@ -12,4 +12,24 @@ public class NotificacionPasarelaRequest {
 
     /** Identificador del pago en la pasarela. */
     private String idPagoPasarela;
+
+    /**
+     * Devuelve {@code tipo}: Tipo de evento informado.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Devuelve {@code idPagoPasarela}: Identificador del pago en la pasarela.
+     *
+     * <p>Casos de uso: PENDIENTE
+     * @return el valor del atributo
+     */
+    public String getIdPagoPasarela() {
+        return idPagoPasarela;
+    }
 }

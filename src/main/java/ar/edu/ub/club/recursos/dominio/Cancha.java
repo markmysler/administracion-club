@@ -114,4 +114,54 @@ public class Cancha extends EntidadPersistente {
     public void restaurarAsociaciones(Deporte deporte) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code nombre}: Nombre.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Devuelve {@code deporte}: Deporte de la cancha.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Deporte getDeporte() {
+        return deporte;
+    }
+
+    /**
+     * Devuelve {@code ubicacion}: Ubicación.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    /**
+     * Devuelve {@code caracteristicas}: Características.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    /**
+     * Devuelve {@code activa}: Admite reservas nuevas.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Boolean getActiva() {
+        return activa;
+    }
 }

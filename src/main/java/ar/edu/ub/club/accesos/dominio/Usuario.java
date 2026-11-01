@@ -160,4 +160,74 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
     public String tipoCuenta() {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code username}: Nombre de usuario.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Devuelve {@code email}: Correo.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Devuelve {@code passwordHash}: Hash BCrypt.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    /**
+     * Devuelve {@code estado}: Estado de la cuenta.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public EstadoCuenta getEstado() {
+        return estado;
+    }
+
+    /**
+     * Devuelve {@code intentosFallidos}: Intentos fallidos consecutivos.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public Integer getIntentosFallidos() {
+        return intentosFallidos;
+    }
+
+    /**
+     * Devuelve {@code bloqueadoHasta}: Fin del bloqueo temporal.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDateTime getBloqueadoHasta() {
+        return bloqueadoHasta;
+    }
+
+    /**
+     * Devuelve {@code fechaCreacion}: Alta de la cuenta.
+     *
+     * <p>Casos de uso: todos
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
 }

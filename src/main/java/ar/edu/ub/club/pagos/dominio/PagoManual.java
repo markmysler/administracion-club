@@ -68,4 +68,24 @@ public class PagoManual extends Pago {
     public void restaurarAsociaciones(Cuota cuota, MedioPago medio, Administrador registradoPor, Comprobante comprobante) {
         throw new UnsupportedOperationException("PENDIENTE");
     }
+
+    /**
+     * Devuelve {@code medio}: Medio utilizado.
+     *
+     * <p>Casos de uso: CU-36
+     * @return el valor del atributo
+     */
+    public MedioPago getMedio() {
+        return medio;
+    }
+
+    /**
+     * Devuelve {@code registradoPor}: Administrador que registró el pago.
+     *
+     * <p>Casos de uso: CU-36
+     * @return el valor del atributo
+     */
+    public Administrador getRegistradoPor() {
+        return registradoPor;
+    }
 }

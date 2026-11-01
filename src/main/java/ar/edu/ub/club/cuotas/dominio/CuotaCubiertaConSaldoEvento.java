@@ -23,4 +23,44 @@ public class CuotaCubiertaConSaldoEvento {
 
     /** Momento de la emisión. */
     private LocalDateTime fechaHora;
+
+    /**
+     * Devuelve {@code idCuota}: Cuota cubierta.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return el valor del atributo
+     */
+    public Long getIdCuota() {
+        return idCuota;
+    }
+
+    /**
+     * Devuelve {@code idGrupo}: Grupo familiar.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return el valor del atributo
+     */
+    public Long getIdGrupo() {
+        return idGrupo;
+    }
+
+    /**
+     * Devuelve {@code importe}: Importe cubierto con saldo.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return el valor del atributo
+     */
+    public Dinero getImporte() {
+        return importe;
+    }
+
+    /**
+     * Devuelve {@code fechaHora}: Momento de la emisión.
+     *
+     * <p>Casos de uso: CU-03, CU-20, CU-23; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return el valor del atributo
+     */
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
 }
