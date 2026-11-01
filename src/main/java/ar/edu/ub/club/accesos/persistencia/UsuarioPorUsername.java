@@ -14,7 +14,17 @@ import java.util.List;
 public class UsuarioPorUsername extends ConsultaEntidades<Usuario> {
 
     /** Atributo username. */
-    private String username;
+    private final String username;
+
+    /**
+     * TEMPORAL (API acordada de accesos).
+     *
+     * <p>Casos de uso: todos
+     * @param username valor buscado
+     */
+    public UsuarioPorUsername(String username) {
+        this.username = username;
+    }
 
     /**
      * PENDIENTE: documentar.
@@ -23,7 +33,7 @@ public class UsuarioPorUsername extends ConsultaEntidades<Usuario> {
      * @return el resultado
      */
     public Class<Usuario> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return Usuario.class;
     }
 
     /**
@@ -34,7 +44,7 @@ public class UsuarioPorUsername extends ConsultaEntidades<Usuario> {
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE usuario.username = ?";
     }
 
     /**
@@ -45,6 +55,6 @@ public class UsuarioPorUsername extends ConsultaEntidades<Usuario> {
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(username);
     }
 }

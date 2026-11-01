@@ -31,7 +31,7 @@ public abstract class BrokerUsuario<T extends Usuario> extends BrokerBaseDatos<T
      * @return el resultado
      */
     public Class<?> claseRaiz() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return Usuario.class;
     }
 
     /**
@@ -41,7 +41,7 @@ public abstract class BrokerUsuario<T extends Usuario> extends BrokerBaseDatos<T
      * @return el resultado
      */
     protected String tabla() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "usuario";
     }
 
     /**
@@ -51,7 +51,7 @@ public abstract class BrokerUsuario<T extends Usuario> extends BrokerBaseDatos<T
      * @return el resultado
      */
     protected String consultaBase() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "SELECT usuario.*, " + tablaHija() + ".* FROM usuario JOIN " + tablaHija() + " ON " + tablaHija() + ".id = usuario.id";
     }
 
     /**
@@ -62,7 +62,15 @@ public abstract class BrokerUsuario<T extends Usuario> extends BrokerBaseDatos<T
      * @return el resultado
      */
     protected Map<String, Object> valoresInsercion(T objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        java.util.Map<String, Object> v = new java.util.LinkedHashMap<>();
+        v.put("username", objeto.getUsername());
+        v.put("email", objeto.getEmail());
+        v.put("password_hash", objeto.getPasswordHash());
+        v.put("estado", objeto.getEstado());
+        v.put("intentos_fallidos", objeto.getIntentosFallidos());
+        v.put("bloqueado_hasta", objeto.getBloqueadoHasta());
+        v.put("fecha_creacion", objeto.getFechaCreacion());
+        return v;
     }
 
     /**
@@ -73,7 +81,7 @@ public abstract class BrokerUsuario<T extends Usuario> extends BrokerBaseDatos<T
      * @return el resultado
      */
     protected Map<String, Object> valoresActualizacion(T objeto) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return valoresInsercion(objeto);
     }
 
     /**
@@ -84,7 +92,20 @@ public abstract class BrokerUsuario<T extends Usuario> extends BrokerBaseDatos<T
      * @param alta valor de {@code alta}
      */
     protected void guardarPartes(T objeto, boolean alta) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Map<String, Object> hija = valoresHija(objeto);
+        java.util.List<Object> param = new java.util.ArrayList<>(hija.values());
+        param.add(objeto.getId());
+        if (alta) {
+            String cols = String.join(", ", hija.keySet());
+            String marcas = String.join(", ", java.util.Collections.nCopies(hija.size(), "?"));
+            ejecutarActualizacion("INSERT INTO " + tablaHija() + " (" + cols + ", id) VALUES (" + marcas + ", ?)", param);
+        } else {
+            java.util.List<String> asig = new java.util.ArrayList<>();
+            for (String c : hija.keySet()) {
+                asig.add(c + " = ?");
+            }
+            ejecutarActualizacion("UPDATE " + tablaHija() + " SET " + String.join(", ", asig) + " WHERE id = ?", param);
+        }
     }
 
     /**

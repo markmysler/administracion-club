@@ -14,7 +14,17 @@ import java.util.List;
 public class UsuarioPorEmail extends ConsultaEntidades<Usuario> {
 
     /** Atributo email. */
-    private String email;
+    private final String email;
+
+    /**
+     * TEMPORAL (API acordada de accesos).
+     *
+     * <p>Casos de uso: todos
+     * @param email valor buscado
+     */
+    public UsuarioPorEmail(String email) {
+        this.email = email;
+    }
 
     /**
      * PENDIENTE: documentar.
@@ -23,7 +33,7 @@ public class UsuarioPorEmail extends ConsultaEntidades<Usuario> {
      * @return el resultado
      */
     public Class<Usuario> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return Usuario.class;
     }
 
     /**
@@ -34,7 +44,7 @@ public class UsuarioPorEmail extends ConsultaEntidades<Usuario> {
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE usuario.email = ?";
     }
 
     /**
@@ -45,6 +55,6 @@ public class UsuarioPorEmail extends ConsultaEntidades<Usuario> {
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(email);
     }
 }

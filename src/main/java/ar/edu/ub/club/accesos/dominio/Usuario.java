@@ -39,6 +39,56 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
     private LocalDateTime fechaCreacion;
 
     /**
+     * TEMPORAL (API acordada de accesos): constructor para reconstituir.
+     *
+     * <p>Casos de uso: todos
+     */
+    protected Usuario() {
+    }
+
+    /**
+     * TEMPORAL (API acordada de accesos): alta de una cuenta activa.
+     *
+     * <p>Casos de uso: CU-01, CU-14, CU-16
+     * @param username usuario
+     * @param email correo
+     * @param passwordHash hash
+     */
+    protected Usuario(String username, String email, String passwordHash) {
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.estado = EstadoCuenta.ACTIVA;
+        this.intentosFallidos = 0;
+        this.fechaCreacion = LocalDateTime.now(ar.edu.ub.club.compartido.dominio.RelojSistema.ZONA_CLUB);
+    }
+
+    /**
+     * TEMPORAL (API acordada de accesos): restaura los datos comunes.
+     *
+     * <p>Casos de uso: todos
+     * @param id id
+     * @param username usuario
+     * @param email correo
+     * @param passwordHash hash
+     * @param estado estado
+     * @param intentosFallidos intentos
+     * @param bloqueadoHasta bloqueo
+     * @param fechaCreacion alta
+     */
+    protected void restaurarDatosAcceso(Long id, String username, String email, String passwordHash, EstadoCuenta estado,
+            Integer intentosFallidos, LocalDateTime bloqueadoHasta, LocalDateTime fechaCreacion) {
+        asignarId(id);
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.estado = estado;
+        this.intentosFallidos = intentosFallidos;
+        this.bloqueadoHasta = bloqueadoHasta;
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    /**
      * Verifica la clave con {@code codificador.coincide(clave, passwordHash)}.
      *
      * <p>Casos de uso: CU-11
@@ -87,7 +137,7 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * @return true si está activa.
      */
     public boolean estaActiva() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return estado == EstadoCuenta.ACTIVA;
     }
 
     /**
@@ -117,7 +167,7 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * <p>Casos de uso: todos
      */
     public void desactivar() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        estado = EstadoCuenta.INACTIVA;
     }
 
     /**
@@ -146,7 +196,7 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * @return Apellido y nombre.
      */
     public String nombreCompleto() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return username;
     }
 
     /**
@@ -157,9 +207,7 @@ public abstract class Usuario extends EntidadPersistente implements Autorizable 
      * <p>Casos de uso: todos
      * @return Tipo de cuenta para mostrar.
      */
-    public String tipoCuenta() {
-        throw new UnsupportedOperationException("PENDIENTE");
-    }
+    public abstract String tipoCuenta();
 
     /**
      * Devuelve {@code username}: Nombre de usuario.
