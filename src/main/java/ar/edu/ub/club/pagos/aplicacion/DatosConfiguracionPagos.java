@@ -1,10 +1,12 @@
 package ar.edu.ub.club.pagos.aplicacion;
 
 import ar.edu.ub.club.pagos.dominio.ModoPasarela;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de comando del formulario de P-31: medios (con su habilitación; los de id nulo son nuevos), modo de la
+ * pasarela y si se la habilita. Lo recibe {@code ServicioPagos.configurarMediosYPasarela}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -12,28 +14,44 @@ import java.util.List;
  */
 public class DatosConfiguracionPagos {
 
-    /** Atributo medios. */
+    /** Medios de pago. */
     private List<DatosMedioPago> medios;
 
-    /** Atributo modo. */
+    /** Modo de la pasarela. */
     private ModoPasarela modo;
 
-    /** Atributo habilitada. */
+    /** Si se habilita la pasarela. */
     private boolean habilitada;
 
     /**
-     * PENDIENTE: documentar.
+     * Constructor vacío que requiere el {@code Binder} de Vaadin.
      *
      * <p>Casos de uso: CU-34
-     * @param configuracion valor de {@code configuracion}
-     * @return el resultado
      */
-    public static DatosConfiguracionPagos desde(ConfiguracionPagos configuracion) {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public DatosConfiguracionPagos() {
+        this.medios = new ArrayList<>();
+        this.modo = ModoPasarela.SIMULADA;
     }
 
     /**
-     * Devuelve {@code medios}: medios.
+     * Copia la configuración actual para editarla en P-31.
+     *
+     * <p>Casos de uso: CU-34
+     * @param configuracion Configuración actual.
+     * @return objeto de comando
+     */
+    public static DatosConfiguracionPagos desde(ConfiguracionPagos configuracion) {
+        DatosConfiguracionPagos d = new DatosConfiguracionPagos();
+        configuracion.getMedios().forEach(m -> d.medios.add(DatosMedioPago.desde(m)));
+        if (configuracion.getPasarela() != null) {
+            d.modo = configuracion.getPasarela().getModo();
+            d.habilitada = Boolean.TRUE.equals(configuracion.getPasarela().getHabilitada());
+        }
+        return d;
+    }
+
+    /**
+     * Devuelve {@code medios}.
      *
      * <p>Casos de uso: CU-34
      * @return el valor del atributo
@@ -43,7 +61,7 @@ public class DatosConfiguracionPagos {
     }
 
     /**
-     * Asigna {@code medios} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code medios}.
      *
      * <p>Casos de uso: CU-34
      * @param medios nuevo valor
@@ -53,7 +71,7 @@ public class DatosConfiguracionPagos {
     }
 
     /**
-     * Devuelve {@code modo}: modo.
+     * Devuelve {@code modo}.
      *
      * <p>Casos de uso: CU-34
      * @return el valor del atributo
@@ -63,7 +81,7 @@ public class DatosConfiguracionPagos {
     }
 
     /**
-     * Asigna {@code modo} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code modo}.
      *
      * <p>Casos de uso: CU-34
      * @param modo nuevo valor
@@ -73,7 +91,7 @@ public class DatosConfiguracionPagos {
     }
 
     /**
-     * Devuelve {@code habilitada}: habilitada.
+     * Devuelve {@code habilitada}.
      *
      * <p>Casos de uso: CU-34
      * @return el valor del atributo
@@ -83,7 +101,7 @@ public class DatosConfiguracionPagos {
     }
 
     /**
-     * Asigna {@code habilitada} (lo usa el {@code Binder} del formulario).
+     * Asigna {@code habilitada}.
      *
      * <p>Casos de uso: CU-34
      * @param habilitada nuevo valor

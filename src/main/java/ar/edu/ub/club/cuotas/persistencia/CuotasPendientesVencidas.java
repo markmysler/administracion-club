@@ -6,46 +6,58 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Cuotas pendientes cuya fecha de vencimiento es anterior a la fecha de proceso (usa el índice {@code
+ * ix_cuota_estado_vencimiento}). La usa {@code ServicioCuotas.marcarCuotasVencidas}. Consulta 49 de MODELO §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: tareas programadas: vencimiento de cuotas
  */
 public class CuotasPendientesVencidas extends ConsultaEntidades<Cuota> {
 
-    /** Atributo hoy. */
-    private LocalDate hoy;
+    /** Fecha de proceso. */
+    private final LocalDate hoy;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: tareas programadas: vencimiento de cuotas
+     * @param hoy Fecha de proceso.
      */
-    public Class<Cuota> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public CuotasPendientesVencidas(LocalDate hoy) {
+        this.hoy = hoy;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase del resultado: {@code Cuota}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: tareas programadas: vencimiento de cuotas
+     * @return Cuota.class
+     */
+    @Override
+    public Class<Cuota> claseResultado() {
+        return Cuota.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code SELECT * FROM cuota}.
+     *
+     * <p>Casos de uso: tareas programadas: vencimiento de cuotas
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE cuota.estado = 'PENDIENTE' AND cuota.fecha_vencimiento < ? ORDER BY cuota.id";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetros en orden.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: tareas programadas: vencimiento de cuotas
+     * @return [hoy]
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(hoy);
     }
 }

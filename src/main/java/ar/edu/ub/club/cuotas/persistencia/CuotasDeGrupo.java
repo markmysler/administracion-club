@@ -5,46 +5,59 @@ import ar.edu.ub.club.cuotas.dominio.Cuota;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Cuotas de un grupo familiar, de la más reciente a la más antigua. La usan {@code
+ * ServicioCuotas.consultarCuotasDeGrupo} (P-25, P-30) y el proxy {@code GrupoFamiliar.cuotas} de {@code
+ * BrokerGrupoFamiliar}. Consulta 47 de MODELO §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-04, CU-05, CU-10, CU-35, CU-36
  */
 public class CuotasDeGrupo extends ConsultaEntidades<Cuota> {
 
-    /** Atributo idGrupo. */
-    private Long idGrupo;
+    /** Grupo familiar. */
+    private final Long idGrupo;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-04, CU-05, CU-10, CU-35, CU-36
+     * @param idGrupo Grupo familiar.
      */
-    public Class<Cuota> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public CuotasDeGrupo(Long idGrupo) {
+        this.idGrupo = idGrupo;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase del resultado: {@code Cuota} (la resuelve {@code BrokerCuota}).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-04, CU-05, CU-10, CU-35, CU-36
+     * @return Cuota.class
+     */
+    @Override
+    public Class<Cuota> claseResultado() {
+        return Cuota.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code SELECT * FROM cuota}.
+     *
+     * <p>Casos de uso: CU-04, CU-05, CU-10, CU-35, CU-36
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE cuota.grupo_familiar_id = ? ORDER BY cuota.periodo DESC";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetros en orden.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-04, CU-05, CU-10, CU-35, CU-36
+     * @return [idGrupo]
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idGrupo);
     }
 }

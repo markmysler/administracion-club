@@ -5,55 +5,66 @@ import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Siguiente número correlativo de comprobante: {@code nextval('comprobante_numero_seq')}. La usa {@code
+ * GeneradorComprobante}, que le da el formato C-00000001. Consulta 60 de MODELO §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) de proyección; lo resuelve {@code FachadaPersistencia} sin broker.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-35, CU-36; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
  */
 public class SiguienteNumeroComprobante extends ConsultaProyeccion<Long> {
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (sin parámetros).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-36
      */
-    public Class<Long> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public SiguienteNumeroComprobante() {
+        // sin parámetros
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase del resultado: {@code Long}.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-36
+     * @return Long.class
+     */
+    @Override
+    public Class<Long> claseResultado() {
+        return Long.class;
+    }
+
+    /**
+     * Lee el número de la única fila.
+     *
+     * <p>Casos de uso: CU-35, CU-36
+     * @param fila fila
+     * @return número
      */
     @Override
     public Long leerFila(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fila.largo("numero");
     }
 
     /**
-     * PENDIENTE: documentar.
+     * SELECT de la secuencia.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-36
+     * @return sentencia SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "SELECT nextval('comprobante_numero_seq') AS numero";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sin parámetros.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-36
+     * @return lista vacía
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of();
     }
 }

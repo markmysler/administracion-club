@@ -6,58 +6,74 @@ import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Saldo a favor de un grupo: suma de créditos menos suma de débitos de {@code movimiento_saldo} (RN-21; 0 si no
+ * hay movimientos). La usa {@code ServicioCuotas} en la emisión y al aplicar un crédito. Consulta 53 de MODELO
+ * §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) de proyección; lo resuelve {@code FachadaPersistencia} sin broker.
  *
- * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+ * <p>Casos de uso: CU-35; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
  */
 public class SaldoDeGrupo extends ConsultaProyeccion<Dinero> {
 
-    /** Atributo idGrupo. */
-    private Long idGrupo;
+    /** Grupo familiar. */
+    private final Long idGrupo;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Casos de uso: CU-35; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
+     * @param idGrupo Grupo familiar.
      */
-    public Class<Dinero> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public SaldoDeGrupo(Long idGrupo) {
+        this.idGrupo = idGrupo;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase del resultado: {@code Dinero}.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-35; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return Dinero.class
+     */
+    @Override
+    public Class<Dinero> claseResultado() {
+        return Dinero.class;
+    }
+
+    /**
+     * Lee el saldo de la única fila.
+     *
+     * <p>Casos de uso: CU-35; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
+     * @param fila Fila del resultado.
+     * @return saldo a favor
      */
     @Override
     public Dinero leerFila(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        Dinero saldo = fila.dinero("saldo");
+        return saldo == null ? Dinero.cero() : saldo;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * SELECT completo de la proyección.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Casos de uso: CU-35; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return sentencia SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "SELECT COALESCE(SUM(CASE WHEN movimiento_saldo.tipo = 'CREDITO' THEN movimiento_saldo.importe"
+                + " ELSE -movimiento_saldo.importe END), 0) AS saldo FROM movimiento_saldo"
+                + " WHERE movimiento_saldo.grupo_familiar_id = ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetros en orden.
      *
-     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-11, CU-13, CU-27, CU-28, CU-32, CU-35, CU-37; tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
-     * @return el resultado
+     * <p>Casos de uso: CU-35; tareas programadas: emisión mensual de cuotas (aplicación del saldo a favor)
+     * @return [idGrupo]
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idGrupo);
     }
 }

@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Parámetro de {@code PasarelaPago.crearIntencionPago}.
+ * Parámetro de {@code PasarelaPago.crearIntencionPago}: lo arma {@code ServicioPagos.iniciarPagoOnline} con la
+ * referencia externa, el concepto, el importe a pagar, las direcciones de retorno y de notificación y el
+ * vencimiento de 24 horas (RN-22).
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -14,25 +16,45 @@ import java.util.UUID;
 public class SolicitudPagoOnline {
 
     /** Referencia del pago. */
-    private UUID referenciaExterna;
+    private final UUID referenciaExterna;
 
     /** Concepto (cuota y período). */
-    private String concepto;
+    private final String concepto;
 
     /** Importe a pagar. */
-    private Dinero importe;
+    private final Dinero importe;
 
-    /** Ruta pública de retorno https://&lt;club&gt;/pagos/retorno?referencia=(uuid}, que lleva a P-26. */
-    private String urlRetorno;
+    /** Ruta pública de retorno https://&lt;club&gt;/pagos/retorno?referencia={uuid}, que lleva a P-26. */
+    private final String urlRetorno;
 
     /** URL del webhook. */
-    private String urlNotificacion;
+    private final String urlNotificacion;
 
     /** Vencimiento de la intención. */
-    private LocalDateTime vencimiento;
+    private final LocalDateTime vencimiento;
 
     /**
-     * Devuelve {@code referenciaExterna}: Referencia del pago.
+     * Agregado en la implementación (el modelo no lista el constructor): crea la solicitud.
+     *
+     * <p>Casos de uso: CU-35
+     * @param referenciaExterna Referencia.
+     * @param concepto Concepto.
+     * @param importe Importe.
+     * @param urlRetorno Retorno del navegador.
+     * @param urlNotificacion Webhook.
+     * @param vencimiento Vencimiento.
+     */
+    public SolicitudPagoOnline(UUID referenciaExterna, String concepto, Dinero importe, String urlRetorno, String urlNotificacion, LocalDateTime vencimiento) {
+        this.referenciaExterna = referenciaExterna;
+        this.concepto = concepto;
+        this.importe = importe;
+        this.urlRetorno = urlRetorno;
+        this.urlNotificacion = urlNotificacion;
+        this.vencimiento = vencimiento;
+    }
+
+    /**
+     * Devuelve {@code referenciaExterna}.
      *
      * <p>Casos de uso: CU-35
      * @return el valor del atributo
@@ -42,7 +64,7 @@ public class SolicitudPagoOnline {
     }
 
     /**
-     * Devuelve {@code concepto}: Concepto (cuota y período).
+     * Devuelve {@code concepto}.
      *
      * <p>Casos de uso: CU-35
      * @return el valor del atributo
@@ -52,7 +74,7 @@ public class SolicitudPagoOnline {
     }
 
     /**
-     * Devuelve {@code importe}: Importe a pagar.
+     * Devuelve {@code importe}.
      *
      * <p>Casos de uso: CU-35
      * @return el valor del atributo
@@ -62,7 +84,7 @@ public class SolicitudPagoOnline {
     }
 
     /**
-     * Devuelve {@code urlRetorno}: Ruta pública de retorno https://&lt;club&gt;/pagos/retorno?referencia=(uuid}, que lleva a P-26.
+     * Devuelve {@code urlRetorno}.
      *
      * <p>Casos de uso: CU-35
      * @return el valor del atributo
@@ -72,7 +94,7 @@ public class SolicitudPagoOnline {
     }
 
     /**
-     * Devuelve {@code urlNotificacion}: URL del webhook.
+     * Devuelve {@code urlNotificacion}.
      *
      * <p>Casos de uso: CU-35
      * @return el valor del atributo
@@ -82,7 +104,7 @@ public class SolicitudPagoOnline {
     }
 
     /**
-     * Devuelve {@code vencimiento}: Vencimiento de la intención.
+     * Devuelve {@code vencimiento}.
      *
      * <p>Casos de uso: CU-35
      * @return el valor del atributo

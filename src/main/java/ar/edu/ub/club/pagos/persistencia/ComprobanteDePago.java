@@ -5,46 +5,58 @@ import ar.edu.ub.club.pagos.dominio.Comprobante;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Comprobante de un pago (a lo sumo uno: UNIQUE {@code pago_id}). La usa {@code BrokerPago.cargarAsociaciones}.
+ * Consulta 59 de MODELO §11.8.4.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-35, CU-36, CU-37
  */
 public class ComprobanteDePago extends ConsultaEntidades<Comprobante> {
 
-    /** Atributo idPago. */
-    private Long idPago;
+    /** Pago. */
+    private final Long idPago;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-36, CU-37
+     * @param idPago Pago.
      */
-    public Class<Comprobante> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public ComprobanteDePago(Long idPago) {
+        this.idPago = idPago;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase del resultado: {@code Comprobante}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-36, CU-37
+     * @return Comprobante.class
+     */
+    @Override
+    public Class<Comprobante> claseResultado() {
+        return Comprobante.class;
+    }
+
+    /**
+     * Condición.
+     *
+     * <p>Casos de uso: CU-35, CU-36, CU-37
+     * @return fragmento SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE comprobante.pago_id = ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetros en orden.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-35, CU-36, CU-37
+     * @return [idPago]
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idPago);
     }
 }

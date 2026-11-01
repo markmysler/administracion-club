@@ -3,65 +3,93 @@ package ar.edu.ub.club.pagos.dominio;
 import java.time.LocalDateTime;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Estado inicial del pago online: creado al iniciar el pago (CU-35, paso 9) y a la espera del resultado de la
+ * pasarela. Redefine las cuatro transiciones: aprobar, rechazar, acreditar (cuota ya pagada, RN-21) y vencer
+ * (abandonado después de 24 horas, RN-22).
  *
  * <p>Estado concreto del patrón State.
  *
- * <p>Casos de uso: tareas programadas: vencimiento de pagos online pendientes
+ * <p>Casos de uso: CU-35; tareas programadas: vencimiento de pagos online pendientes
  */
 public class EstadoPagoPendiente extends EstadoPago {
 
+    /** Código persistido. */
+    static final String CODIGO = "PENDIENTE";
+
+    /** Instancia única. */
+    static final EstadoPagoPendiente INSTANCIA = new EstadoPagoPendiente();
+
     /**
-     * PENDIENTE: documentar.
+     * Pendiente → Aprobado; registra el momento de la aprobación.
      *
-     * <p>Casos de uso: tareas programadas: vencimiento de pagos online pendientes
-     * @param pago valor de {@code pago}
-     * @param ahora valor de {@code ahora}
+     * <p>Casos de uso: CU-35
+     * @param pago Contexto.
+     * @param ahora Momento.
      */
+    @Override
     public void aprobar(Pago pago, LocalDateTime ahora) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        pago.registrarMomento(ahora);
+        pago.cambiarEstado(EstadoPagoAprobado.INSTANCIA);
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Pendiente → Rechazado con el motivo de la pasarela (la cuota sigue impaga, RN-17).
      *
-     * <p>Casos de uso: tareas programadas: vencimiento de pagos online pendientes
-     * @param pago valor de {@code pago}
-     * @param motivo valor de {@code motivo}
+     * <p>Casos de uso: CU-35
+     * @param pago Contexto.
+     * @param motivo Motivo.
      */
+    @Override
     public void rechazar(Pago pago, String motivo) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        pago.asignarMotivo(motivo);
+        pago.cambiarEstado(EstadoPagoRechazado.INSTANCIA);
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Pendiente → Acreditado: la pasarela aprobó el pago pero la cuota ya estaba pagada (RN-21).
      *
-     * <p>Casos de uso: tareas programadas: vencimiento de pagos online pendientes
-     * @param pago valor de {@code pago}
-     * @param ahora valor de {@code ahora}
+     * <p>Casos de uso: CU-35
+     * @param pago Contexto.
+     * @param ahora Momento.
      */
+    @Override
     public void acreditar(Pago pago, LocalDateTime ahora) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        pago.registrarMomento(ahora);
+        pago.cambiarEstado(EstadoPagoAcreditado.INSTANCIA);
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Pendiente → Vencido con el motivo «Abandonado» (RN-22).
      *
      * <p>Casos de uso: tareas programadas: vencimiento de pagos online pendientes
-     * @param pago valor de {@code pago}
-     * @param motivo valor de {@code motivo}
+     * @param pago Contexto.
+     * @param motivo Motivo.
      */
+    @Override
     public void vencer(Pago pago, String motivo) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        pago.asignarMotivo(motivo);
+        pago.cambiarEstado(EstadoPagoVencido.INSTANCIA);
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Pendiente no es un estado final.
      *
-     * <p>Casos de uso: tareas programadas: vencimiento de pagos online pendientes
-     * @return el resultado
+     * <p>Casos de uso: CU-35
+     * @return false
      */
+    @Override
+    public boolean esFinal() {
+        return false;
+    }
+
+    /**
+     * Código persistido.
+     *
+     * <p>Casos de uso: todos
+     * @return el código de Pendiente
+     */
+    @Override
     public String codigo() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return CODIGO;
     }
 }

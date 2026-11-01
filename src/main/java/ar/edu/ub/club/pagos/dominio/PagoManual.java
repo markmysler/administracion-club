@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
  * Pago registrado por un administrador con un medio manual (CU-36). Lo crea {@code ProcesadorPagoManual} ya
  * aprobado.
  *
- * <p>Entidad del dominio; la persiste su broker.
+ * <p>Entidad del dominio; la persiste su broker ({@code BrokerPagoManual}: tablas {@code pago} + {@code pago_manual}).
  *
- * <p>Casos de uso: CU-36
+ * <p>Casos de uso: CU-36, CU-37
  */
 public class PagoManual extends Pago {
 
@@ -22,57 +22,88 @@ public class PagoManual extends Pago {
     private Administrador registradoPor;
 
     /**
+     * Constructor vacío que usa {@code reconstituir}.
+     *
+     * <p>Casos de uso: todos
+     */
+    private PagoManual() {
+    }
+
+    /**
+     * Agregado en la implementación: crea el pago manual ya APROBADO (lo llama {@code
+     * ProcesadorPagoManual.crearPago}; el diseño dice «crea PagoManual aprobado» sin nombrar el constructor).
+     *
+     * <p>Casos de uso: CU-36
+     * @param cuota Cuota.
+     * @param importe Importe recibido (igual al importe a pagar).
+     * @param medio Medio habilitado.
+     * @param registradoPor Administrador.
+     * @param fecha Momento del registro.
+     */
+    public PagoManual(Cuota cuota, Dinero importe, MedioPago medio, Administrador registradoPor, LocalDateTime fecha) {
+        super(cuota, importe, fecha, EstadoPagoAprobado.INSTANCIA);
+        this.medio = medio;
+        this.registradoPor = registradoPor;
+    }
+
+    /**
      * Devuelve "MANUAL".
      *
-     * <p>Casos de uso: CU-36
-     * @return el resultado
+     * <p>Casos de uso: CU-37
+     * @return "MANUAL"
      */
+    @Override
     public String origen() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "MANUAL";
     }
 
     /**
-     * Devuelve {@code medio.nombre}.
+     * Devuelve el nombre del medio utilizado.
      *
-     * <p>Casos de uso: CU-36
-     * @return el resultado
+     * <p>Casos de uso: CU-37
+     * @return {@code medio.nombre}
      */
+    @Override
     public String descripcionMedio() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return medio == null ? origen() : medio.getNombre();
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Reconstituye un pago manual leído de {@code pago} + {@code pago_manual} (operación «persistencia»).
      *
-     * <p>Casos de uso: CU-36
-     * @param id valor de {@code id}
-     * @param fecha valor de {@code fecha}
-     * @param importe valor de {@code importe}
-     * @param estado valor de {@code estado}
-     * @param motivoRechazo valor de {@code motivoRechazo}
-     * @return el resultado
+     * <p>Casos de uso: CU-36, CU-37
+     * @param id Identificador.
+     * @param fecha Momento.
+     * @param importe Importe.
+     * @param estado Estado.
+     * @param motivoRechazo Motivo (siempre null en la práctica).
+     * @return el pago sin asociaciones
      */
     public static PagoManual reconstituir(Long id, LocalDateTime fecha, Dinero importe, EstadoPago estado, String motivoRechazo) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        PagoManual p = new PagoManual();
+        p.restaurarDatos(id, fecha, importe, estado, motivoRechazo);
+        return p;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Entrega las asociaciones resueltas por {@code BrokerPagoManual}.
      *
-     * <p>Casos de uso: CU-36
-     * @param cuota valor de {@code cuota}
-     * @param medio valor de {@code medio}
-     * @param registradoPor valor de {@code registradoPor}
-     * @param comprobante valor de {@code comprobante}
+     * <p>Casos de uso: CU-36, CU-37
+     * @param cuota Cuota.
+     * @param medio Medio.
+     * @param registradoPor Administrador.
+     * @param comprobante Comprobante o null.
      */
     public void restaurarAsociaciones(Cuota cuota, MedioPago medio, Administrador registradoPor, Comprobante comprobante) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        restaurarCuotaYComprobante(cuota, comprobante);
+        this.medio = medio;
+        this.registradoPor = registradoPor;
     }
 
     /**
      * Devuelve {@code medio}: Medio utilizado.
      *
-     * <p>Casos de uso: CU-36
+     * <p>Casos de uso: CU-36, CU-37
      * @return el valor del atributo
      */
     public MedioPago getMedio() {
@@ -82,7 +113,7 @@ public class PagoManual extends Pago {
     /**
      * Devuelve {@code registradoPor}: Administrador que registró el pago.
      *
-     * <p>Casos de uso: CU-36
+     * <p>Casos de uso: CU-36, CU-37
      * @return el valor del atributo
      */
     public Administrador getRegistradoPor() {
