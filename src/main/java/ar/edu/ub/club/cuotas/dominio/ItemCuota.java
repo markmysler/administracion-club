@@ -23,6 +23,28 @@ public class ItemCuota extends EntidadPersistente {
     private Dinero importe;
 
     /**
+     * TEMPORAL (API acordada de cuotas).
+     *
+     * <p>Casos de uso: todos
+     * @param socio socio
+     * @param categoria categoría
+     * @param importe importe
+     */
+    public ItemCuota(Socio socio, CategoriaSocio categoria, Dinero importe) {
+        this.socio = socio;
+        this.categoria = categoria;
+        this.importe = importe;
+    }
+
+    /**
+     * TEMPORAL (API acordada de cuotas).
+     *
+     * <p>Casos de uso: todos
+     */
+    private ItemCuota() {
+    }
+
+    /**
      * PENDIENTE: documentar.
      *
      * <p>Casos de uso: PENDIENTE
@@ -31,7 +53,10 @@ public class ItemCuota extends EntidadPersistente {
      * @return el resultado
      */
     public static ItemCuota reconstituir(Long id, Dinero importe) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        ItemCuota i = new ItemCuota();
+        i.asignarId(id);
+        i.importe = importe;
+        return i;
     }
 
     /**
@@ -42,7 +67,8 @@ public class ItemCuota extends EntidadPersistente {
      * @param categoria valor de {@code categoria}
      */
     public void restaurarAsociaciones(Socio socio, CategoriaSocio categoria) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        this.socio = socio;
+        this.categoria = categoria;
     }
 
     /**

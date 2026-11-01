@@ -42,7 +42,9 @@ public class MovimientoSaldo extends EntidadPersistente {
      * @param cuota valor de {@code cuota}
      */
     public MovimientoSaldo(TipoMovimientoSaldo tipo, Dinero importe, Cuota cuota) {
-        // PENDIENTE
+        this.tipo = tipo;
+        this.importe = importe;
+        this.cuota = cuota;
     }
 
     /**
@@ -54,7 +56,9 @@ public class MovimientoSaldo extends EntidadPersistente {
      * @param idPago valor de {@code idPago}
      */
     public MovimientoSaldo(TipoMovimientoSaldo tipo, Dinero importe, Long idPago) {
-        // PENDIENTE
+        this.tipo = tipo;
+        this.importe = importe;
+        this.idPago = idPago;
     }
 
     /**
@@ -71,7 +75,12 @@ public class MovimientoSaldo extends EntidadPersistente {
      * @return el resultado
      */
     public static MovimientoSaldo reconstituir(Long id, Long idGrupo, LocalDateTime fecha, TipoMovimientoSaldo tipo, Dinero importe, String motivo, Long idPago) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        MovimientoSaldo m = new MovimientoSaldo(tipo, importe, idPago);
+        m.asignarId(id);
+        m.idGrupo = idGrupo;
+        m.fecha = fecha;
+        m.motivo = motivo;
+        return m;
     }
 
     /**

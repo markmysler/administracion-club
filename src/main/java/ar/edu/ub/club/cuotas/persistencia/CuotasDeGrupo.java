@@ -14,7 +14,17 @@ import java.util.List;
 public class CuotasDeGrupo extends ConsultaEntidades<Cuota> {
 
     /** Atributo idGrupo. */
-    private Long idGrupo;
+    private final Long idGrupo;
+
+    /**
+     * TEMPORAL (API acordada de cuotas).
+     *
+     * <p>Casos de uso: todos
+     * @param idGrupo grupo
+     */
+    public CuotasDeGrupo(Long idGrupo) {
+        this.idGrupo = idGrupo;
+    }
 
     /**
      * PENDIENTE: documentar.
@@ -23,7 +33,7 @@ public class CuotasDeGrupo extends ConsultaEntidades<Cuota> {
      * @return el resultado
      */
     public Class<Cuota> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return Cuota.class;
     }
 
     /**
@@ -34,7 +44,7 @@ public class CuotasDeGrupo extends ConsultaEntidades<Cuota> {
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE cuota.grupo_familiar_id = ? ORDER BY cuota.periodo";
     }
 
     /**
@@ -45,6 +55,6 @@ public class CuotasDeGrupo extends ConsultaEntidades<Cuota> {
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idGrupo);
     }
 }

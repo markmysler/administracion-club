@@ -48,7 +48,43 @@ public class Cuota extends EntidadPersistente {
      * @param fechas valor de {@code fechas}
      */
     public Cuota(String periodo, Dinero importe, FechasCuota fechas) {
-        // PENDIENTE
+        this.periodo = periodo;
+        this.importe = importe;
+        this.creditoAplicado = Dinero.cero();
+        this.fechaEmision = fechas.getEmision();
+        this.fechaVencimiento = fechas.getVencimiento();
+        this.estado = new EstadoCuotaPendiente();
+        this.items = new java.util.ArrayList<>();
+    }
+
+    /**
+     * TEMPORAL (API acordada de cuotas).
+     *
+     * <p>Casos de uso: todos
+     * @param idGrupo grupo
+     */
+    public void asignarGrupo(Long idGrupo) {
+        this.idGrupo = idGrupo;
+    }
+
+    /**
+     * TEMPORAL (API acordada de cuotas).
+     *
+     * <p>Casos de uso: todos
+     * @param item ítem
+     */
+    public void agregarItem(ItemCuota item) {
+        items.add(item);
+    }
+
+    /**
+     * TEMPORAL (API acordada de cuotas).
+     *
+     * <p>Casos de uso: todos
+     * @param saldo saldo
+     */
+    public void aplicarCredito(Dinero saldo) {
+        this.creditoAplicado = saldo.minimo(importe);
     }
 
     /**

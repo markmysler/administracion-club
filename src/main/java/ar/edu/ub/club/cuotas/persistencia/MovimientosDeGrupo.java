@@ -14,7 +14,17 @@ import java.util.List;
 public class MovimientosDeGrupo extends ConsultaEntidades<MovimientoSaldo> {
 
     /** Atributo idGrupo. */
-    private Long idGrupo;
+    private final Long idGrupo;
+
+    /**
+     * TEMPORAL (API acordada de cuotas).
+     *
+     * <p>Casos de uso: todos
+     * @param idGrupo grupo
+     */
+    public MovimientosDeGrupo(Long idGrupo) {
+        this.idGrupo = idGrupo;
+    }
 
     /**
      * PENDIENTE: documentar.
@@ -23,7 +33,7 @@ public class MovimientosDeGrupo extends ConsultaEntidades<MovimientoSaldo> {
      * @return el resultado
      */
     public Class<MovimientoSaldo> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return MovimientoSaldo.class;
     }
 
     /**
@@ -34,7 +44,7 @@ public class MovimientosDeGrupo extends ConsultaEntidades<MovimientoSaldo> {
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE movimiento_saldo.grupo_familiar_id = ? ORDER BY movimiento_saldo.fecha";
     }
 
     /**
@@ -45,6 +55,6 @@ public class MovimientosDeGrupo extends ConsultaEntidades<MovimientoSaldo> {
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idGrupo);
     }
 }
