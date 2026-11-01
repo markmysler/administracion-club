@@ -8,34 +8,36 @@ import java.util.List;
 
 /**
  * Interfaz pasiva de la pantalla P-17: Configuración de días y horario de atención y lista de feriados.
+ * Patrón MVP (Vista Pasiva): {@code PresentadorDisponibilidadClub} solo conoce esta interfaz.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-24
  */
 public interface PantallaDisponibilidadClub extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra los días y el horario vigentes y la grilla de feriados futuros (CU-24 pasos 2 y 9).
      *
      * <p>Casos de uso: CU-24
-     * @param datos valor de {@code datos}
-     * @param feriados valor de {@code feriados}
+     * @param datos días y horario
+     * @param feriados feriados futuros ordenados por fecha
      */
     void mostrarDisponibilidad(DatosDisponibilidad datos, List<FilaFeriado> feriados);
 
     /**
-     * PENDIENTE: documentar.
+     * Acota el selector de fecha del feriado a la anticipación máxima para reservar (RN-13).
      *
      * <p>Casos de uso: CU-24
-     * @param desde valor de {@code desde}
-     * @param hasta valor de {@code hasta}
+     * @param desde primera fecha elegible
+     * @param hasta última fecha elegible
      */
     void mostrarRangoCalendario(LocalDate desde, LocalDate hasta);
 
     /**
-     * PENDIENTE: documentar.
+     * Advierte las reservas afectadas por el cambio de horario (FA5, 6.1) o por el feriado (FA1, 3.3), que se
+     * conservan, y pide confirmación; al confirmar la vista reenvía la operación con {@code confirmar = true}.
      *
      * <p>Casos de uso: CU-24
-     * @param afectadas valor de {@code afectadas}
+     * @param afectadas reservas afectadas
      */
     void pedirConfirmacion(List<FilaResumenReserva> afectadas);
 }
