@@ -206,16 +206,19 @@ public class ServicioAgenda {
     }
 
     /**
-     * Devuelve las reglas vigentes ({@code get(ReglaReserva.ID_UNICO, ReglaReserva)}).
+     * Devuelve las reglas vigentes ({@code get(ReglaReserva.ID_UNICO, ReglaReserva)}). Es una lectura sin permiso
+     * específico (solo exige una sesión autenticada): la usan P-18 (administrador, CU-25) y también las pantallas del
+     * socio P-19 (acotar el calendario, CU-26) y P-21 (plazos de cancelación, CU-29), que no tienen
+     * {@code CONFIGURAR_AGENDA}. Modificar las reglas ({@code configurarReglas}) sigue exigiendo ese permiso.
      *
-     * <p>Permiso: {@code CONFIGURAR_AGENDA}.
+     * <p>Permiso: ninguno específico (cuenta autenticada).
      *
-     * <p>Casos de uso: CU-24, CU-25
+     * <p>Casos de uso: CU-25, CU-26, CU-29
      * @return {@code ReglaReserva}.
      */
     @Transactional(readOnly = true)
     public ReglaReserva consultarReglas() {
-        controlAcceso.verificar(usuarioActual.obtener(), Permiso.CONFIGURAR_AGENDA);
+        usuarioActual.obtener();
         return regla();
     }
 

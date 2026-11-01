@@ -32,6 +32,7 @@ coincidir con el código. Cada fila indica el documento afectado y el tipo: **Ca
 | G-21 | Precisión | `VistaProtegida` | `sesionActual`, `controlAcceso` protegidos | Inyectados por Spring en los atributos (`@Autowired`) para no obligar a cada vista a pasarlos al constructor | Simplicidad | 11.4.2 |
 | G-22 | Agregado | Getters y setters | No figuran en el modelo | Getters en entidades y objetos de datos; getters, setters y constructor vacío en los `Datos*`/`Filtro*`/`Criterio*` | Acceso a los atributos privados; requisito del `Binder` de Vaadin | Modelo global (nota general) |
 | G-23 | Cambio | `AlmacenTokensSesionPersistente.updateToken` | `fecha: Date` | `java.util.Date` (no `LocalDate`) | Es la firma de `PersistentTokenRepository` de Spring Security | Modelo global |
+| G-24 | Cambio | `ServicioAgenda.consultarReglas()` | Permiso CONFIGURAR_AGENDA (07B) | Sin permiso específico (cuenta autenticada) | Contradicción del diseño: sec_cu26/sec_cu29 la llaman desde pantallas del socio (P-19, P-21), que no tienen ese permiso | 07B (agenda.aplicacion), 06 |
 
 ## Cambios de los módulos
 
