@@ -19,9 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
  * servidor ({@code SecurityContextHolder}). Evita que la vista envíe el identificador del socio (RN-20): los
  * presentadores de P-05, P-24 y de reservas y pagos del socio obtienen la cuenta con {@code obtener()}.
  *
- * <p>El principal lo fija el módulo accesos al iniciar la sesión; para no depender de su forma concreta se acepta
- * un identificador numérico ({@code Long}) o un nombre de usuario (texto o {@code UserDetails}), que se resuelve
- * con {@code UsuarioPorUsername}. Es transaccional de solo lectura porque la materialización del socio (con su
+ * <p>El principal lo fija el módulo accesos al iniciar la sesión ({@code RegistroSesionVaadin}): un
+ * {@code UserDetails} cuyo nombre es el id de la cuenta en texto, igual que lee {@code UsuarioActualSesion}. Se
+ * interpreta primero como id (numérico o texto de dígitos); solo si no es numérico se busca como nombre de
+ * usuario con {@code UsuarioPorUsername} (compatibilidad). Es transaccional de solo lectura porque la materialización del socio (con su
  * categoría y su grupo) necesita el mapa de identidad de una transacción.
  *
  * <p>Casos de uso: CU-05, CU-27, CU-29, CU-30, CU-31, CU-32, CU-35
@@ -63,17 +64,14 @@ public class SocioActualSesion implements SocioActual {
             return socioPorId(numero.longValue());
         }
         String nombre = principal instanceof UserDetails detalle ? detalle.getUsername() : autenticacion.getName();
-        Optional<Usuario> cuenta = fachadaPersistencia.buscarUno(new UsuarioPorUsername(nombre));
-        if (cuenta.isPresent()) {
-            if (cuenta.get() instanceof Socio socio) {
-                return socio;
-            }
-            throw new AccesoDenegadoException("La cuenta de la sesión no es de un socio.");
-        }
         if (nombre != null && nombre.matches("[0-9]+")) {
             return socioPorId(Long.valueOf(nombre));
         }
-        throw new AccesoDenegadoException("La cuenta de la sesión no existe.");
+        Optional<Usuario> cuenta = fachadaPersistencia.buscarUno(new UsuarioPorUsername(nombre));
+        if (cuenta.isPresent() && cuenta.get() instanceof Socio socio) {
+            return socio;
+        }
+        throw new AccesoDenegadoException("La cuenta de la sesión no es de un socio.");
     }
 
     /**
