@@ -5,43 +5,54 @@ import ar.edu.ub.club.compartido.persistencia.ConsultaEntidades;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Todos los feriados del club ordenados por fecha; la usa {@code BrokerDisponibilidadClub.cargarAsociaciones}
+ * para completar {@code DisponibilidadClub.feriados}.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-24, CU-25, CU-26, CU-27, CU-28, CU-32
  */
 public class Feriados extends ConsultaEntidades<Feriado> {
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (sin parámetros).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-24, CU-25, CU-26, CU-27, CU-28, CU-32
      */
-    public Class<Feriado> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public Feriados() {
+        super();
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de los objetos que devuelve la consulta (la resuelve {@code BrokerFeriado}).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-24, CU-25, CU-26, CU-27, CU-28, CU-32
+     * @return {@code Feriado.class}
+     */
+    @Override
+    public Class<Feriado> claseResultado() {
+        return Feriado.class;
+    }
+
+    /**
+     * Orden que se agrega a {@code SELECT * FROM feriado}.
+     *
+     * <p>Casos de uso: CU-24, CU-25, CU-26, CU-27, CU-28, CU-32
+     * @return SQL sin parámetros
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "ORDER BY feriado.fecha";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sin parámetros.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-24, CU-25, CU-26, CU-27, CU-28, CU-32
+     * @return lista vacía
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of();
     }
 }

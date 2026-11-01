@@ -1,7 +1,9 @@
 package ar.edu.ub.club.recursos.aplicacion;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de comando del formulario de P-15 (CU-18 alta, CU-19 modificación): nombre, descripción y
+ * {@code activo} (con true sobre un deporte inactivo se reactiva, CU-19 FA1). Lo vincula el {@code Binder} y lo
+ * reciben {@code ServicioRecursos.registrarDeporte} y {@code modificarDeporte}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -27,7 +29,9 @@ public class DatosDeporte {
      * @param activo valor de {@code activo}
      */
     public DatosDeporte(String nombre, String descripcion, boolean activo) {
-        // PENDIENTE
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.activo = activo;
     }
 
     /**

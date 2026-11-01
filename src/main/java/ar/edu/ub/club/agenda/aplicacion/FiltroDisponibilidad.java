@@ -3,11 +3,12 @@ package ar.edu.ub.club.agenda.aplicacion;
 import java.time.LocalDate;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Filtro de la consulta de disponibilidad de P-19 (CU-26 paso 3): fecha, deporte y, opcionalmente, una cancha.
+ * Lo arma el presentador de reservas y lo recibe {@code ServicioAgenda.consultarDisponibilidad}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
  */
 public class FiltroDisponibilidad {
 
@@ -23,7 +24,7 @@ public class FiltroDisponibilidad {
     /**
      * Devuelve {@code fecha}: fecha.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
      * @return el valor del atributo
      */
     public LocalDate getFecha() {
@@ -33,7 +34,7 @@ public class FiltroDisponibilidad {
     /**
      * Asigna {@code fecha} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
      * @param fecha nuevo valor
      */
     public void setFecha(LocalDate fecha) {
@@ -43,7 +44,7 @@ public class FiltroDisponibilidad {
     /**
      * Devuelve {@code idDeporte}: idDeporte.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
      * @return el valor del atributo
      */
     public Long getIdDeporte() {
@@ -53,7 +54,7 @@ public class FiltroDisponibilidad {
     /**
      * Asigna {@code idDeporte} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
      * @param idDeporte nuevo valor
      */
     public void setIdDeporte(Long idDeporte) {
@@ -63,7 +64,7 @@ public class FiltroDisponibilidad {
     /**
      * Devuelve {@code idCancha}: idCancha.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
      * @return el valor del atributo
      */
     public Long getIdCancha() {
@@ -73,7 +74,7 @@ public class FiltroDisponibilidad {
     /**
      * Asigna {@code idCancha} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
      * @param idCancha nuevo valor
      */
     public void setIdCancha(Long idCancha) {

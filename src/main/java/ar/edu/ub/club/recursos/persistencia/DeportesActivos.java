@@ -5,43 +5,54 @@ import ar.edu.ub.club.recursos.dominio.Deporte;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Deportes activos ordenados por nombre (07C, reemplaza a {@code RepositorioDeportes.buscarActivos()}); la usan
+ * otros módulos que solo ofrecen deportes que admiten reservas (por ejemplo, reportes).
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-21, CU-26, CU-38
  */
 public class DeportesActivos extends ConsultaEntidades<Deporte> {
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (sin parámetros).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-21, CU-26, CU-38
      */
-    public Class<Deporte> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public DeportesActivos() {
+        super();
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de los objetos que devuelve la consulta (la resuelve {@code BrokerDeporte}).
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-21, CU-26, CU-38
+     * @return {@code Deporte.class}
+     */
+    @Override
+    public Class<Deporte> claseResultado() {
+        return Deporte.class;
+    }
+
+    /**
+     * Condición y orden que se agregan a {@code SELECT * FROM deporte}.
+     *
+     * <p>Casos de uso: CU-21, CU-26, CU-38
+     * @return SQL sin parámetros
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE deporte.activo = true ORDER BY deporte.nombre";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sin parámetros.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-21, CU-26, CU-38
+     * @return lista vacía
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of();
     }
 }
