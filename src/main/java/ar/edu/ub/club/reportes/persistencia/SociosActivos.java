@@ -5,55 +5,64 @@ import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto consulta de proyección n.º 69 (MODELO 11.8.4): cantidad de socios con la cuenta ACTIVA (indicador «Socios
+ * activos» de P-04, paso 5 de CU-40). Tablas: socio, usuario (herencia JOINED).
  *
- * <p>Objeto consulta (Query Object, Fowler) de proyección; lo resuelve {@code FachadaPersistencia} sin broker.
- *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-40
  */
 public class SociosActivos extends ConsultaProyeccion<Long> {
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta (sin parámetros).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
      */
-    public Class<Long> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public SociosActivos() {
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Devuelve la clase del resultado.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return {@code Long.class}
+     */
+    @Override
+    public Class<Long> claseResultado() {
+        return Long.class;
+    }
+
+    /**
+     * Lee la cantidad.
+     *
+     * <p>Casos de uso: CU-40
+     * @param fila fila del {@code ResultSet}
+     * @return cantidad de socios activos
      */
     @Override
     public Long leerFila(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fila.largo("cantidad");
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sentencia SQL.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "SELECT COUNT(*) AS cantidad FROM socio JOIN usuario ON usuario.id = socio.id"
+                + " WHERE usuario.estado = 'ACTIVA'";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sin parámetros.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return lista vacía
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of();
     }
 }

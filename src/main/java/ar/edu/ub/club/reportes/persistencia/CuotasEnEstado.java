@@ -5,58 +5,68 @@ import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto consulta de proyección n.º 70 (MODELO 11.8.4): cantidad de cuotas en un estado (Pendiente o VENCIDA para
+ * el indicador «Cuotas impagas» de P-04, paso 6 de CU-40). Tabla: cuota.
  *
- * <p>Objeto consulta (Query Object, Fowler) de proyección; lo resuelve {@code FachadaPersistencia} sin broker.
- *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-40
  */
 public class CuotasEnEstado extends ConsultaProyeccion<Long> {
 
-    /** Atributo codigoEstado. */
+    /** Código del estado de la cuota (Pendiente, VENCIDA o PAGADA). */
     private String codigoEstado;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @param codigoEstado código del estado
      */
-    public Class<Long> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public CuotasEnEstado(String codigoEstado) {
+        this.codigoEstado = codigoEstado;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Devuelve la clase del resultado.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param fila valor de {@code fila}
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return {@code Long.class}
+     */
+    @Override
+    public Class<Long> claseResultado() {
+        return Long.class;
+    }
+
+    /**
+     * Lee la cantidad.
+     *
+     * <p>Casos de uso: CU-40
+     * @param fila fila del {@code ResultSet}
+     * @return cantidad de cuotas
      */
     @Override
     public Long leerFila(FilaResultado fila) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return fila.largo("cantidad");
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Sentencia SQL.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return SQL
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "SELECT COUNT(*) AS cantidad FROM cuota WHERE cuota.estado = ?";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Parámetro: código del estado.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el resultado
+     * <p>Casos de uso: CU-40
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(codigoEstado);
     }
 }

@@ -3,101 +3,125 @@ package ar.edu.ub.club.reportes.aplicacion;
 import java.time.LocalDate;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Filtro de los reportes: período (desde y hasta, obligatorios) y, solo para el reporte de uso de canchas, deporte y
+ * cancha opcionales. Lo arma la vista con {@code FiltroFechas} y los combos y lo valida el paso {@code validarFiltro}
+ * del método plantilla {@code Reporte.generar}.
  *
- * <p>Objeto de comando o de datos de la capa de aplicación.
+ * <p>Objeto de comando de la capa de aplicación (mutable, con constructor vacío y propiedades, MODELO 11.6.2).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-38, CU-39
  */
 public class FiltroReporte {
 
-    /** Atributo desde. */
+    /** Fecha inicial del período (inclusive). */
     private LocalDate desde;
 
-    /** Atributo hasta. */
+    /** Fecha final del período (inclusive). */
     private LocalDate hasta;
 
-    /** Atributo idDeporte. */
+    /** Deporte por el que se filtra, o {@code null} para todos (solo CU-38). */
     private Long idDeporte;
 
-    /** Atributo idCancha. */
+    /** Cancha por la que se filtra, o {@code null} para todas (solo CU-38). */
     private Long idCancha;
 
     /**
-     * Devuelve {@code desde}: desde.
+     * Crea un filtro vacío (lo requiere el {@code Binder}; lo completa la vista).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38, CU-39
+     */
+    public FiltroReporte() {
+    }
+
+    /**
+     * Crea un filtro de período sin deporte ni cancha.
+     *
+     * <p>Agregado en la implementación: constructor de conveniencia para las vistas y las pruebas.
+     *
+     * <p>Casos de uso: CU-38, CU-39
+     * @param desde fecha inicial
+     * @param hasta fecha final
+     */
+    public FiltroReporte(LocalDate desde, LocalDate hasta) {
+        this.desde = desde;
+        this.hasta = hasta;
+    }
+
+    /**
+     * Devuelve la fecha inicial del período.
+     *
+     * <p>Casos de uso: CU-38, CU-39
+     * @return fecha desde
      */
     public LocalDate getDesde() {
         return desde;
     }
 
     /**
-     * Asigna {@code desde} (lo usa el {@code Binder} del formulario).
+     * Fija la fecha inicial del período.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param desde nuevo valor
+     * <p>Casos de uso: CU-38, CU-39
+     * @param desde fecha desde
      */
     public void setDesde(LocalDate desde) {
         this.desde = desde;
     }
 
     /**
-     * Devuelve {@code hasta}: hasta.
+     * Devuelve la fecha final del período.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38, CU-39
+     * @return fecha hasta
      */
     public LocalDate getHasta() {
         return hasta;
     }
 
     /**
-     * Asigna {@code hasta} (lo usa el {@code Binder} del formulario).
+     * Fija la fecha final del período.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param hasta nuevo valor
+     * <p>Casos de uso: CU-38, CU-39
+     * @param hasta fecha hasta
      */
     public void setHasta(LocalDate hasta) {
         this.hasta = hasta;
     }
 
     /**
-     * Devuelve {@code idDeporte}: idDeporte.
+     * Devuelve el deporte del filtro.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38
+     * @return id del deporte o {@code null}
      */
     public Long getIdDeporte() {
         return idDeporte;
     }
 
     /**
-     * Asigna {@code idDeporte} (lo usa el {@code Binder} del formulario).
+     * Fija el deporte del filtro.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param idDeporte nuevo valor
+     * <p>Casos de uso: CU-38
+     * @param idDeporte id del deporte o {@code null}
      */
     public void setIdDeporte(Long idDeporte) {
         this.idDeporte = idDeporte;
     }
 
     /**
-     * Devuelve {@code idCancha}: idCancha.
+     * Devuelve la cancha del filtro.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @return el valor del atributo
+     * <p>Casos de uso: CU-38
+     * @return id de la cancha o {@code null}
      */
     public Long getIdCancha() {
         return idCancha;
     }
 
     /**
-     * Asigna {@code idCancha} (lo usa el {@code Binder} del formulario).
+     * Fija la cancha del filtro.
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param idCancha nuevo valor
+     * <p>Casos de uso: CU-38
+     * @param idCancha id de la cancha o {@code null}
      */
     public void setIdCancha(Long idCancha) {
         this.idCancha = idCancha;

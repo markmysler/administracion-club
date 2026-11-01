@@ -4,38 +4,62 @@ import ar.edu.ub.club.compartido.dominio.Reloj;
 import ar.edu.ub.club.compartido.ui.PresentadorBase;
 import ar.edu.ub.club.reportes.aplicacion.ServicioDashboard;
 import ar.edu.ub.club.reportes.aplicacion.TipoReporte;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
 
 /**
- * Presentador de la pantalla P-04: Panel de inicio del administrador con los indicadores del club y accesos
- * directos a reportes.
+ * Presentador de la pantalla P-04 Panel de administración (MVP Vista Pasiva; no usa tipos de Vaadin). Obtiene la
+ * fecha del {@code Reloj}, pide los indicadores a {@code ServicioDashboard} dentro de {@code consultar(...)} y los
+ * entrega como {@code ResumenIndicadores}; atiende los accesos directos a los reportes. Diagrama sec_cu40.
  *
  * <p>Casos de uso: CU-40
  */
+@SpringComponent
+@UIScope
 public class PresentadorPanelAdministracion extends PresentadorBase<PantallaPanelAdministracion> {
 
-    /** Atributo servicioDashboard. */
-    private ServicioDashboard servicioDashboard;
+    /** Fachada del panel de administración. */
+    private final ServicioDashboard servicioDashboard;
 
-    /** Atributo reloj. */
-    private Reloj reloj;
+    /** Reloj del sistema (fecha de referencia, paso 2). */
+    private final Reloj reloj;
 
     /**
-     * {@code ServicioDashboard.obtenerIndicadores(reloj.hoy()): Indicadores} → {@code
-     * ResumenIndicadores.desde(indicadores)}
+     * Crea el presentador con sus dependencias.
+     *
+     * <p>Casos de uso: CU-40
+     * @param servicioDashboard fachada del panel
+     * @param reloj reloj del sistema
+     */
+    public PresentadorPanelAdministracion(ServicioDashboard servicioDashboard, Reloj reloj) {
+        this.servicioDashboard = servicioDashboard;
+        this.reloj = reloj;
+    }
+
+    /**
+     * Carga el panel: {@code ServicioDashboard.obtenerIndicadores(reloj.hoy())} → {@code ResumenIndicadores.desde}
+     * → {@code pantalla.mostrarIndicadores} (pasos 2 a 8).
      *
      * <p>Casos de uso: CU-40
      */
     public void cargar() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        consultar(() -> servicioDashboard.obtenerIndicadores(reloj.hoy()))
+                .map(ResumenIndicadores::desde)
+                .ifPresent(pantalla::mostrarIndicadores);
     }
 
     /**
-     * {@code navegarA("reportes/uso-canchas")} o {@code navegarA("reportes/cuotas")}
+     * Abre el reporte relacionado con el indicador elegido (pasos 9 y 10): {@code navegarA("reportes/uso-canchas")}
+     * o {@code navegarA("reportes/cuotas")}. Los reportes se abren con el mes en curso.
      *
      * <p>Casos de uso: CU-40
-     * @param tipo valor de {@code tipo}
+     * @param tipo reporte a abrir
      */
     public void alIrAReporte(TipoReporte tipo) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        if (tipo == TipoReporte.USO_CANCHAS) {
+            pantalla.navegarA("reportes/uso-canchas");
+        } else {
+            pantalla.navegarA("reportes/cuotas");
+        }
     }
 }
