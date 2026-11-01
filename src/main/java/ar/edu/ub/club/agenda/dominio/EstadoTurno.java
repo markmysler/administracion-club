@@ -1,16 +1,18 @@
 package ar.edu.ub.club.agenda.dominio;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Enumeración del estado de un turno de la grilla ({@code TurnoDisponible.estado}) que arma
+ * {@code CalendarioTurnos.generarTurnos}: libre para reservar, ocupado por una reserva confirmada (RN-12) o no
+ * disponible porque no cumple la anticipación mínima para reservar (RN-13).
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-26, CU-27, CU-28, CU-32
  */
 public enum EstadoTurno {
 
-    /** Valor LIBRE. */
+    /** El turno se puede reservar. */
     LIBRE,
-    /** Valor OCUPADO. */
+    /** Se superpone con una reserva confirmada de la cancha (RN-12). */
     OCUPADO,
-    /** Valor NO_DISPONIBLE. */
+    /** No cumple la anticipación mínima para reservar (RN-13). */
     NO_DISPONIBLE;
 }

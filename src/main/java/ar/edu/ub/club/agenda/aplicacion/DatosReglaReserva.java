@@ -3,11 +3,14 @@ package ar.edu.ub.club.agenda.aplicacion;
 import ar.edu.ub.club.agenda.dominio.ReglaReserva;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de comando de P-18 (CU-25) con los seis parámetros de reserva; lo vincula el {@code Binder} del
+ * formulario y lo recibe {@code ServicioAgenda.configurarReglas}, que delega la validación en
+ * {@code ReglaReserva.modificar} (Information Expert). Los nombres de propiedad son los campos que marca
+ * {@code ErrorNegocio}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
- * <p>Casos de uso: PENDIENTE
+ * <p>Casos de uso: CU-25
  */
 public class DatosReglaReserva {
 
@@ -30,20 +33,27 @@ public class DatosReglaReserva {
     private Integer anticipacionMinimaModificacionHoras;
 
     /**
-     * PENDIENTE: documentar.
+     * Precarga el formulario de P-18 con las reglas vigentes (CU-25 paso 2).
      *
-     * <p>Casos de uso: PENDIENTE
-     * @param regla valor de {@code regla}
-     * @return el resultado
+     * <p>Casos de uso: CU-25
+     * @param regla reglas vigentes
+     * @return datos editables
      */
     public static DatosReglaReserva desde(ReglaReserva regla) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        DatosReglaReserva datos = new DatosReglaReserva();
+        datos.anticipacionMinimaHoras = regla.getAnticipacionMinimaHoras();
+        datos.anticipacionMaximaDias = regla.getAnticipacionMaximaDias();
+        datos.duracionTurnoMinutos = regla.getDuracionTurnoMinutos();
+        datos.limiteReservasVigentesPorSocio = regla.getLimiteReservasVigentesPorSocio();
+        datos.anticipacionMinimaCancelacionHoras = regla.getAnticipacionMinimaCancelacionHoras();
+        datos.anticipacionMinimaModificacionHoras = regla.getAnticipacionMinimaModificacionHoras();
+        return datos;
     }
 
     /**
      * Devuelve {@code anticipacionMinimaHoras}: anticipacionMinimaHoras.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @return el valor del atributo
      */
     public Integer getAnticipacionMinimaHoras() {
@@ -53,7 +63,7 @@ public class DatosReglaReserva {
     /**
      * Asigna {@code anticipacionMinimaHoras} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @param anticipacionMinimaHoras nuevo valor
      */
     public void setAnticipacionMinimaHoras(Integer anticipacionMinimaHoras) {
@@ -63,7 +73,7 @@ public class DatosReglaReserva {
     /**
      * Devuelve {@code anticipacionMaximaDias}: anticipacionMaximaDias.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @return el valor del atributo
      */
     public Integer getAnticipacionMaximaDias() {
@@ -73,7 +83,7 @@ public class DatosReglaReserva {
     /**
      * Asigna {@code anticipacionMaximaDias} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @param anticipacionMaximaDias nuevo valor
      */
     public void setAnticipacionMaximaDias(Integer anticipacionMaximaDias) {
@@ -83,7 +93,7 @@ public class DatosReglaReserva {
     /**
      * Devuelve {@code duracionTurnoMinutos}: duracionTurnoMinutos.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @return el valor del atributo
      */
     public Integer getDuracionTurnoMinutos() {
@@ -93,7 +103,7 @@ public class DatosReglaReserva {
     /**
      * Asigna {@code duracionTurnoMinutos} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @param duracionTurnoMinutos nuevo valor
      */
     public void setDuracionTurnoMinutos(Integer duracionTurnoMinutos) {
@@ -103,7 +113,7 @@ public class DatosReglaReserva {
     /**
      * Devuelve {@code limiteReservasVigentesPorSocio}: limiteReservasVigentesPorSocio.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @return el valor del atributo
      */
     public Integer getLimiteReservasVigentesPorSocio() {
@@ -113,7 +123,7 @@ public class DatosReglaReserva {
     /**
      * Asigna {@code limiteReservasVigentesPorSocio} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @param limiteReservasVigentesPorSocio nuevo valor
      */
     public void setLimiteReservasVigentesPorSocio(Integer limiteReservasVigentesPorSocio) {
@@ -123,7 +133,7 @@ public class DatosReglaReserva {
     /**
      * Devuelve {@code anticipacionMinimaCancelacionHoras}: anticipacionMinimaCancelacionHoras.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @return el valor del atributo
      */
     public Integer getAnticipacionMinimaCancelacionHoras() {
@@ -133,7 +143,7 @@ public class DatosReglaReserva {
     /**
      * Asigna {@code anticipacionMinimaCancelacionHoras} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @param anticipacionMinimaCancelacionHoras nuevo valor
      */
     public void setAnticipacionMinimaCancelacionHoras(Integer anticipacionMinimaCancelacionHoras) {
@@ -143,7 +153,7 @@ public class DatosReglaReserva {
     /**
      * Devuelve {@code anticipacionMinimaModificacionHoras}: anticipacionMinimaModificacionHoras.
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @return el valor del atributo
      */
     public Integer getAnticipacionMinimaModificacionHoras() {
@@ -153,7 +163,7 @@ public class DatosReglaReserva {
     /**
      * Asigna {@code anticipacionMinimaModificacionHoras} (lo usa el {@code Binder} del formulario).
      *
-     * <p>Casos de uso: PENDIENTE
+     * <p>Casos de uso: CU-25
      * @param anticipacionMinimaModificacionHoras nuevo valor
      */
     public void setAnticipacionMinimaModificacionHoras(Integer anticipacionMinimaModificacionHoras) {

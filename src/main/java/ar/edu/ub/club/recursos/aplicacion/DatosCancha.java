@@ -1,7 +1,10 @@
 package ar.edu.ub.club.recursos.aplicacion;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de comando del formulario de P-16 (CU-21 alta, CU-22 modificación): nombre, deporte, ubicación,
+ * características, {@code activa} (con true sobre una cancha inactiva se reactiva, CU-22 FA1) y {@code confirmar}
+ * (true cuando el administrador ya aceptó cambiar el deporte de una cancha con reservas futuras, CU-22 FA6). Lo
+ * vincula el {@code Binder} y lo reciben {@code ServicioRecursos.registrarCancha} y {@code modificarCancha}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -39,7 +42,12 @@ public class DatosCancha {
      * @param confirmar valor de {@code confirmar}
      */
     public DatosCancha(String nombre, Long idDeporte, String ubicacion, String caracteristicas, boolean activa, boolean confirmar) {
-        // PENDIENTE
+        this.nombre = nombre;
+        this.idDeporte = idDeporte;
+        this.ubicacion = ubicacion;
+        this.caracteristicas = caracteristicas;
+        this.activa = activa;
+        this.confirmar = confirmar;
     }
 
     /**
