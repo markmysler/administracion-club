@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: administracion-club
+  datasource:
+    # stringtype=unspecified: los textos se envían sin tipo y PostgreSQL los convierte (columnas JSONB, UUID, etc.)
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/club?currentSchema=club&stringtype=unspecified}
+    username: ${DB_USUARIO:club}
+    password: ${DB_CLAVE:club}
+    hikari:
+      maximum-pool-size: 10
+  flyway:
+    schemas: club
+    default-schema: club
+    create-schemas: true
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PUERTO:25}
+    username: ${SMTP_USUARIO:}
+    password: ${SMTP_CLAVE:}
+  jackson:
+    time-zone: America/Argentina/Buenos_Aires
+
+server:
+  port: ${PUERTO:8080}
+  servlet:
+    session:
+      timeout: 30m
+      cookie:
+        http-only: true
+        same-site: strict
+        secure: ${COOKIE_SEGURA:false}
+
+vaadin:
+  launch-browser: false
+  # paquetes que Vaadin escanea en busca de rutas
+  allowed-packages: ar.edu.ub.club,com.vaadin
+
+club:
+  # URL pública del sistema (la usa la pasarela para urlRetorno y el correo de recuperación)
+  url-base: ${CLUB_URL_BASE:http://localhost:8080}
+  correo:
+    # simulado: CorreoSimuladoAdapter (registra el mensaje en la bitácora); smtp: CorreoSmtpAdapter
+    modo: ${CLUB_CORREO_MODO:simulado}
+    remitente: ${CLUB_CORREO_REMITENTE:no-responder@club.local}
+  pasarela:
+    mercadopago:
+      access-token: ${MP_ACCESS_TOKEN:}
+      clave-webhook: ${MP_CLAVE_WEBHOOK:}
+  remember-me:
+    clave: ${CLUB_CLAVE_REMEMBER_ME:clave-local-de-desarrollo-cambiar-en-produccion}
+
+logging:
+  level:
+    root: INFO
+    # SQL de los brokers y de los objetos consulta (útil para seguir un caso de uso en la consola)
+    ar.edu.ub.club.compartido.persistencia: DEBUG
+    org.atmosphere: WARN

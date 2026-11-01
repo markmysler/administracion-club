@@ -1,0 +1,26 @@
+/* Tema "club": Lumo con los colores del club. */
+html {
+  --lumo-primary-color: hsl(150, 60%, 32%);
+  --lumo-primary-color-50pct: hsla(150, 60%, 32%, 0.5);
+  --lumo-primary-color-10pct: hsla(150, 60%, 32%, 0.1);
+  --lumo-primary-text-color: hsl(150, 60%, 28%);
+}
+
+.nombre-club {
+  font-weight: 700;
+  margin-right: var(--lumo-space-m);
+}
+
+.titulo-pantalla {
+  font-size: var(--lumo-font-size-l);
+  margin: 0;
+  flex-grow: 1;
+}
+
+.mensaje-estado {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

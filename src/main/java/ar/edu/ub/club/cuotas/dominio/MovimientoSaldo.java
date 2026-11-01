@@ -1,0 +1,86 @@
+package ar.edu.ub.club.cuotas.dominio;
+
+import ar.edu.ub.club.compartido.dominio.Dinero;
+import ar.edu.ub.club.compartido.persistencia.EntidadPersistente;
+import java.time.LocalDateTime;
+
+/**
+ * Entidad que registra un crédito (por un pago ACREDITADO) o un débito (al aplicar saldo a una cuota) del saldo
+ * a favor de un grupo.
+ *
+ * <p>Casos de uso: todos
+ */
+public class MovimientoSaldo extends EntidadPersistente {
+
+    /** Grupo dueño del saldo (referencia por id). */
+    private Long idGrupo;
+
+    /** Momento del movimiento. */
+    private LocalDateTime fecha;
+
+    /** Crédito o débito. */
+    private TipoMovimientoSaldo tipo;
+
+    /** Importe del movimiento. */
+    private Dinero importe;
+
+    /** Descripción. */
+    private String motivo;
+
+    /** Identificador del pago que origina el crédito (referencia por id: cuotas no depende de pagos). */
+    private Long idPago;
+
+    /** Cuota a la que se aplica el débito. */
+    private Cuota cuota;
+
+    /**
+     * Crea una instancia de {@code MovimientoSaldo}.
+     *
+     * <p>Casos de uso: tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @param tipo valor de {@code tipo}
+     * @param importe valor de {@code importe}
+     * @param cuota valor de {@code cuota}
+     */
+    public MovimientoSaldo(TipoMovimientoSaldo tipo, Dinero importe, Cuota cuota) {
+        // PENDIENTE
+    }
+
+    /**
+     * Crea una instancia de {@code MovimientoSaldo}.
+     *
+     * <p>Casos de uso: tareas programadas: emisión mensual de cuotas, emisión mensual de cuotas (aplicación del saldo a favor)
+     * @param tipo valor de {@code tipo}
+     * @param importe valor de {@code importe}
+     * @param idPago valor de {@code idPago}
+     */
+    public MovimientoSaldo(TipoMovimientoSaldo tipo, Dinero importe, Long idPago) {
+        // PENDIENTE
+    }
+
+    /**
+     * PENDIENTE: documentar.
+     *
+     * <p>Casos de uso: todos
+     * @param id valor de {@code id}
+     * @param idGrupo valor de {@code idGrupo}
+     * @param fecha valor de {@code fecha}
+     * @param tipo valor de {@code tipo}
+     * @param importe valor de {@code importe}
+     * @param motivo valor de {@code motivo}
+     * @param idPago valor de {@code idPago}
+     * @return el resultado
+     */
+    public static MovimientoSaldo reconstituir(Long id, Long idGrupo, LocalDateTime fecha, TipoMovimientoSaldo tipo, Dinero importe, String motivo, Long idPago) {
+        throw new UnsupportedOperationException("PENDIENTE");
+    }
+
+    /**
+     * PENDIENTE: documentar.
+     *
+     * <p>Casos de uso: todos
+     * @param cuota valor de {@code cuota}
+     */
+    public void restaurarAsociaciones(Cuota cuota) {
+        throw new UnsupportedOperationException("PENDIENTE");
+    }
+}
