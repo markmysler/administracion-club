@@ -7,7 +7,9 @@ import ar.edu.ub.club.socios.dominio.Socio;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de datos de salida de {@code ServicioSocios.consultarSocio} (CU-04): el socio, su grupo vigente, sus
+ * reservas futuras (consulta invertida) y las cuotas de su grupo. Lo convierte {@code DetalleSocio.desde(ficha)}.
+ * Inmutable, sin comportamiento.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -37,7 +39,10 @@ public class FichaSocio {
      * @param estadoCuenta valor de {@code estadoCuenta}
      */
     public FichaSocio(Socio socio, GrupoFamiliar grupo, List<ResumenReserva> reservas, List<Cuota> estadoCuenta) {
-        // PENDIENTE
+        this.socio = socio;
+        this.grupo = grupo;
+        this.reservas = reservas;
+        this.estadoCuenta = estadoCuenta;
     }
 
     /**

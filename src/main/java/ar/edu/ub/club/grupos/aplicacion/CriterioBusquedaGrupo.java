@@ -1,7 +1,9 @@
 package ar.edu.ub.club.grupos.aplicacion;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Criterio de búsqueda de grupos familiares: texto que se compara con el DNI o el nombre de un integrante o del
+ * titular, y vigencia opcional ({@code null} = todos). Lo arman los presentadores de P-11 y P-12 y lo recibe
+ * {@code ServicioGruposFamiliares.buscarGrupos}, que arma la consulta {@code GruposPorCriterio}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -23,7 +25,8 @@ public class CriterioBusquedaGrupo {
      * @param vigente valor de {@code vigente}
      */
     public CriterioBusquedaGrupo(String texto, Boolean vigente) {
-        // PENDIENTE
+        this.texto = texto;
+        this.vigente = vigente;
     }
 
     /**

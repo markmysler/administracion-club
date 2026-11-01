@@ -4,7 +4,9 @@ import ar.edu.ub.club.socios.dominio.Socio;
 import java.time.LocalDate;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de comando del formulario de socio (P-07): datos personales, categoría y, solo en el alta, nombre de
+ * usuario y contraseña inicial (CU-16). El presentador lo entrega a {@code ServicioSocios.registrarSocio} o
+ * {@code modificarSocio}; {@code Socio} lo lee para validar y copiar los datos (Information Expert).
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -43,14 +45,33 @@ public class DatosSocio {
     private String claveInicial;
 
     /**
-     * PENDIENTE: documentar.
+     * Precarga el formulario de modificación (CU-02 paso 4) con los datos actuales del socio. No copia la clave:
+     * los datos de acceso se modifican con CU-15.
      *
-     * <p>Casos de uso: CU-01, CU-02
-     * @param socio valor de {@code socio}
-     * @return el resultado
+     * <p>Casos de uso: CU-02
+     * @param socio socio a modificar
+     * @return datos cargados con los valores actuales
      */
     public static DatosSocio desde(Socio socio) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        DatosSocio datos = new DatosSocio();
+        datos.dni = socio.getDni();
+        datos.nombre = socio.getNombre();
+        datos.apellido = socio.getApellido();
+        datos.fechaNacimiento = socio.getFechaNacimiento();
+        datos.telefono = socio.getTelefono();
+        datos.direccion = socio.getDireccion();
+        datos.email = socio.getEmail();
+        datos.idCategoria = socio.getCategoria() == null ? null : socio.getCategoria().getId();
+        datos.username = socio.getUsername();
+        return datos;
+    }
+
+    /**
+     * Constructor vacío que requiere el {@code Binder} de Vaadin (formulario de alta en blanco).
+     *
+     * <p>Casos de uso: CU-01, CU-02
+     */
+    public DatosSocio() {
     }
 
     /**

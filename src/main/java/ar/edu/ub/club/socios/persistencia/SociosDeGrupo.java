@@ -5,46 +5,59 @@ import ar.edu.ub.club.socios.dominio.Socio;
 import java.util.List;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Integrantes de un grupo familiar (socios cuyo {@code grupo_familiar_id} es el grupo). Es la consulta del
+ * {@code ProxyListaVirtual} de {@code GrupoFamiliar.integrantes} (Virtual Proxy): se ejecuta en el primer acceso.
  *
- * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
+ * <p>Objeto consulta (Query Object, Fowler) de entidades: su {@code sql()} se agrega a {@code consultaBase()} del
+ * broker de {@code Socio} y el resultado pasa por el mapa de identidad. No es un bean: se crea con {@code new}.
  *
- * <p>Casos de uso: todos
+ * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-08, CU-09, CU-10
  */
 public class SociosDeGrupo extends ConsultaEntidades<Socio> {
 
-    /** Atributo idGrupo. */
-    private Long idGrupo;
+    /** Grupo familiar. */
+    private final Long idGrupo;
 
     /**
-     * PENDIENTE: documentar.
+     * Crea la consulta con sus parámetros.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-08, CU-09, CU-10
+     * @param idGrupo grupo familiar
      */
-    public Class<Socio> claseResultado() {
-        throw new UnsupportedOperationException("PENDIENTE");
+    public SociosDeGrupo(Long idGrupo) {
+        this.idGrupo = idGrupo;
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Clase de resultado: la resuelve el broker de {@code Socio}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-08, CU-09, CU-10
+     * @return {@code Socio.class}
+     */
+    @Override
+    public Class<Socio> claseResultado() {
+        return Socio.class;
+    }
+
+    /**
+     * Condición por grupo, ordenada por apellido y nombre.
+     *
+     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-08, CU-09, CU-10
+     * @return condición y orden con parámetros {@code ?}
      */
     @Override
     public String sql() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return "WHERE socio.grupo_familiar_id = ? ORDER BY socio.apellido, socio.nombre";
     }
 
     /**
-     * PENDIENTE: documentar.
+     * Valores de los parámetros en el orden de {@code sql()}.
      *
-     * <p>Casos de uso: todos
-     * @return el resultado
+     * <p>Casos de uso: CU-03, CU-04, CU-05, CU-07, CU-08, CU-09, CU-10
+     * @return parámetros
      */
     @Override
     public List<Object> parametros() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        return List.of(idGrupo);
     }
 }
