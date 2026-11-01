@@ -3,7 +3,7 @@ package ar.edu.ub.club.socios.aplicacion;
 import ar.edu.ub.club.socios.dominio.Socio;
 
 /**
- * Interfaz que resuelve el socio autenticado. Su implementación {@code SocioActualSesion} (socios.aplicacion)
+ * Interfaz (puerto) que resuelve el socio autenticado. Su implementación {@code SocioActualSesion} (socios.aplicacion)
  * obtiene el socio con {@code fachadaPersistencia.get(id, Socio)}; si la cuenta no es de un socio lanza {@code
  * AccesoDenegadoException}. Evita que la vista envíe el identificador del socio (RN-20).
  *

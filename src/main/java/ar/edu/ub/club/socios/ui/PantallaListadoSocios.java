@@ -6,12 +6,14 @@ import java.util.List;
 /**
  * Interfaz pasiva de la pantalla P-06: Listado y búsqueda de socios con acceso a la ficha y al alta.
  *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
  * <p>Casos de uso: CU-01, CU-04
  */
 public interface PantallaListadoSocios extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra los socios encontrados.
      *
      * <p>Casos de uso: CU-04
      * @param filas valor de {@code filas}

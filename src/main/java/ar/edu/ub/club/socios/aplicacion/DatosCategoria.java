@@ -3,7 +3,8 @@ package ar.edu.ub.club.socios.aplicacion;
 import ar.edu.ub.club.compartido.dominio.Dinero;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Objeto de comando del formulario de categorías (P-10): nombre, importe y estado que el presentador entrega a
+ * {@code ServicioSocios.registrarCategoria} o {@code modificarCategoria}.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *
@@ -29,7 +30,9 @@ public class DatosCategoria {
      * @param activa valor de {@code activa}
      */
     public DatosCategoria(String nombre, Dinero importe, boolean activa) {
-        // PENDIENTE
+        this.nombre = nombre;
+        this.importe = importe;
+        this.activa = activa;
     }
 
     /**
@@ -93,10 +96,11 @@ public class DatosCategoria {
     }
 
     /**
-     * Constructor vacío que requiere el {@code Binder} de Vaadin.
+     * Constructor vacío que requiere el {@code Binder} de Vaadin (alta: categoría activa por omisión).
      *
      * <p>Casos de uso: CU-06
      */
     public DatosCategoria() {
+        this.activa = true;
     }
 }

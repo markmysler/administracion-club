@@ -7,12 +7,16 @@ import java.util.List;
 /**
  * Interfaz pasiva de la pantalla P-10: Listado de categorías con alta y edición en línea.
  *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
  * <p>Casos de uso: CU-06
  */
 public interface PantallaCategorias extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra el listado de categorías con nombre, importe y estado.
      *
      * <p>Casos de uso: CU-06
      * @param filas valor de {@code filas}
@@ -20,7 +24,7 @@ public interface PantallaCategorias extends PantallaBase {
     void mostrarCategorias(List<FilaCategoria> filas);
 
     /**
-     * PENDIENTE: documentar.
+     * Abre el formulario de la categoría, vacío (alta) o con los datos actuales.
      *
      * <p>Casos de uso: CU-06
      * @param datos valor de {@code datos}

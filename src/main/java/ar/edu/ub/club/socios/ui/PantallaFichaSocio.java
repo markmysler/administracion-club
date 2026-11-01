@@ -8,12 +8,18 @@ import java.util.List;
  * Interfaz pasiva de la pantalla P-08: Ficha del socio con su grupo, cuotas y reservas futuras; acciones
  * modificar, ver grupo, asociar a otro grupo y desactivar.
  *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
+ * <p>Interfaz pasiva del patrón MVP (Vista Pasiva): la implementa la vista y la usa el presentador.
+ *
  * <p>Casos de uso: CU-02, CU-03, CU-04, CU-07
  */
 public interface PantallaFichaSocio extends PantallaBase {
 
     /**
-     * PENDIENTE: documentar.
+     * Muestra la ficha del socio.
      *
      * <p>Casos de uso: CU-03, CU-04
      * @param detalle valor de {@code detalle}
@@ -21,7 +27,7 @@ public interface PantallaFichaSocio extends PantallaBase {
     void mostrarFicha(DetalleSocio detalle);
 
     /**
-     * PENDIENTE: documentar.
+     * Crea y abre el diálogo de baja P-09.
      *
      * <p>Casos de uso: CU-03, CU-04
      * @param idSocio valor de {@code idSocio}
@@ -32,7 +38,7 @@ public interface PantallaFichaSocio extends PantallaBase {
     void abrirDesactivacion(Long idSocio, String nombre, String dni, List<OpcionSeleccion> candidatosTitular);
 
     /**
-     * PENDIENTE: documentar.
+     * Crea y abre el diálogo de asociación a otro grupo P-12.
      *
      * <p>Casos de uso: CU-03, CU-04
      * @param idSocio valor de {@code idSocio}

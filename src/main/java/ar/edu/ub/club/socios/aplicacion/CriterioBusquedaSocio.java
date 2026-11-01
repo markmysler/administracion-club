@@ -3,7 +3,9 @@ package ar.edu.ub.club.socios.aplicacion;
 import ar.edu.ub.club.accesos.dominio.EstadoCuenta;
 
 /**
- * PENDIENTE: documentar responsabilidad.
+ * Criterio de búsqueda de socios (texto que se compara con DNI, nombre o apellido, y estado de la cuenta).
+ * Lo vincula el formulario de búsqueda de P-06 y P-11 y lo recibe {@code ServicioSocios.buscarSocios}, que arma
+ * con él la consulta {@code SociosPorCriterio}. Ambos campos son opcionales.
  *
  * <p>Objeto de comando o de datos de la capa de aplicación.
  *

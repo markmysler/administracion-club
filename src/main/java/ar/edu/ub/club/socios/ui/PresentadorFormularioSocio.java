@@ -1,50 +1,122 @@
 package ar.edu.ub.club.socios.ui;
 
+import ar.edu.ub.club.compartido.ui.OpcionSeleccion;
 import ar.edu.ub.club.compartido.ui.PresentadorBase;
 import ar.edu.ub.club.socios.aplicacion.DatosSocio;
+import ar.edu.ub.club.socios.aplicacion.FichaSocio;
 import ar.edu.ub.club.socios.aplicacion.ServicioSocios;
+import ar.edu.ub.club.socios.dominio.CategoriaSocio;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * Presentador de la pantalla P-07: Formulario de alta y modificación de socio.
+ * Presentador de P-07 (formulario de alta y modificación de socio). En el alta incluye usuario, correo y
+ * contraseña inicial; el tipo de cuenta no es un campo porque queda fijado al crear un {@code Socio} (CU-16).
+ *
+ * <p>Presentador del patrón MVP (Vista Pasiva): no usa tipos de Vaadin; llama a la fachada dentro de
+ * {@code consultar(...)}; los {@code ErrorNegocio} con campo se marcan en el formulario
+ * ({@code PresentadorBase} → {@code pantalla.marcarCampo}).
  *
  * <p>Casos de uso: CU-01, CU-02, CU-16
  */
+@SpringComponent
+@UIScope
 public class PresentadorFormularioSocio extends PresentadorBase<PantallaFormularioSocio> {
 
-    /** Atributo servicioSocios. */
-    private ServicioSocios servicioSocios;
+    /** Fachada de socios. */
+    private final ServicioSocios servicioSocios;
 
-    /** Atributo idSocio. */
+    /** Socio que se modifica ({@code null} en el alta). */
     private Long idSocio;
 
     /**
-     * {@code ServicioSocios.listarCategorias()} (→ {@code OpcionSeleccion}); con id: {@code
-     * ServicioSocios.consultarSocio(idSocio): FichaSocio} → {@code DatosSocio.desde(ficha.socio)}
+     * Crea el presentador (inyección por constructor).
      *
-     * <p>Casos de uso: CU-01, CU-02, CU-16
-     * @param idSocio valor de {@code idSocio}
+     * <p>Casos de uso: ninguno (configuración)
+     * @param servicioSocios fachada de socios
+     */
+    public PresentadorFormularioSocio(ServicioSocios servicioSocios) {
+        this.servicioSocios = servicioSocios;
+    }
+
+    /**
+     * {@code ServicioSocios.listarCategorias()} → opciones de las categorías activas (y la actual del socio en la
+     * modificación); con id, {@code ServicioSocios.consultarSocio(idSocio)} → {@code DatosSocio.desde(ficha.socio)};
+     * sin id, un {@code DatosSocio} vacío. Sin categorías activas no habilita el alta (CU-01 FA1).
+     *
+     * <p>Casos de uso: CU-01, CU-02
+     * @param idSocio socio a modificar o {@code null} para el alta
      */
     public void cargar(Long idSocio) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        this.idSocio = idSocio;
+        Optional<List<CategoriaSocio>> categorias = consultar(servicioSocios::listarCategorias);
+        if (categorias.isEmpty()) {
+            return;
+        }
+        if (idSocio == null) {
+            List<OpcionSeleccion> opciones = opcionesDe(categorias.get(), null);
+            if (opciones.isEmpty()) {
+                pantalla.mostrarError("Primero debe configurarse una categoría de socio activa (CU-06).");
+                return;
+            }
+            pantalla.mostrarCategorias(opciones);
+            pantalla.mostrarFormulario(new DatosSocio(), true);
+            return;
+        }
+        Optional<FichaSocio> ficha = consultar(() -> servicioSocios.consultarSocio(idSocio));
+        if (ficha.isPresent()) {
+            DatosSocio datos = DatosSocio.desde(ficha.get().getSocio());
+            pantalla.mostrarCategorias(opcionesDe(categorias.get(), datos.getIdCategoria()));
+            pantalla.mostrarFormulario(datos, false);
+        }
     }
 
     /**
-     * alta {@code ServicioSocios.registrarSocio(datos): Socio}; modificación {@code
-     * ServicioSocios.modificarSocio(idSocio, datos): Socio}; luego {@code navegarA("socios/ficha/" + id)}
+     * Alta: {@code ServicioSocios.registrarSocio(datos)}; modificación: {@code ServicioSocios.modificarSocio(idSocio,
+     * datos)}; luego informa y navega a la ficha ({@code socios/ficha/id}).
      *
      * <p>Casos de uso: CU-01, CU-02, CU-16
-     * @param datos valor de {@code datos}
+     * @param datos datos leídos del formulario (ya validados en su formato por {@code FormularioEntidad.leer()})
      */
     public void alGuardar(DatosSocio datos) {
-        throw new UnsupportedOperationException("PENDIENTE");
+        if (idSocio == null) {
+            consultar(() -> servicioSocios.registrarSocio(datos)).ifPresent(socio -> {
+                pantalla.mostrarMensaje("Socio registrado.");
+                pantalla.navegarA("socios/ficha/" + socio.getId());
+            });
+        } else {
+            consultar(() -> servicioSocios.modificarSocio(idSocio, datos)).ifPresent(socio -> {
+                pantalla.mostrarMensaje("Datos del socio guardados. Si cambió la categoría, el nuevo importe se "
+                        + "aplica desde la próxima cuota emitida.");
+                pantalla.navegarA("socios/ficha/" + socio.getId());
+            });
+        }
     }
 
     /**
-     * vuelve a la ficha o a {@code socios}
+     * Descarta los datos: vuelve a la ficha (modificación) o al listado (alta).
      *
-     * <p>Casos de uso: CU-01, CU-02, CU-16
+     * <p>Casos de uso: CU-01, CU-02
      */
     public void alCancelar() {
-        throw new UnsupportedOperationException("PENDIENTE");
+        pantalla.navegarA(idSocio == null ? "socios" : "socios/ficha/" + idSocio);
+    }
+
+    /**
+     * Opciones del selector: categorías activas más la categoría actual del socio aunque esté inactiva.
+     *
+     * <p>Casos de uso: CU-01, CU-02
+     * @param categorias todas las categorías
+     * @param idActual categoría actual o {@code null}
+     * @return opciones (id, «nombre»)
+     */
+    private static List<OpcionSeleccion> opcionesDe(List<CategoriaSocio> categorias, Long idActual) {
+        return categorias.stream()
+                .filter(c -> c.estaActiva() || Objects.equals(c.getId(), idActual))
+                .map(c -> new OpcionSeleccion(c.getId(), c.getNombre()))
+                .toList();
     }
 }
