@@ -16,6 +16,11 @@ public class GruposVigentesSinCuota extends ConsultaEntidades<GrupoFamiliar> {
     /** Atributo periodo. */
     private String periodo;
 
+    /** TEMPORAL (constructor acordado; lo implementa el agente socios). <p>Casos de uso: todos */
+    public GruposVigentesSinCuota(String periodo) {
+        this.periodo = periodo;
+    }
+
     /**
      * PENDIENTE: documentar.
      *
