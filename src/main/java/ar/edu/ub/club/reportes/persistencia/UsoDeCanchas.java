@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 64 (MODELO 11.8.4): por deporte y cancha, cantidad de reservas CONFIRMADAS y
+ * Objeto consulta de proyección n.º 56 (Entrega 7C): por deporte y cancha, cantidad de reservas CONFIRMADAS y
  * FINALIZADAS del período, horas reservadas y porcentaje de ocupación sobre las horas de atención del club en el
  * período (días de {@code dia_atencion} que no son {@code feriado}, por la duración de {@code disponibilidad_club}).
  * Incluye las canchas activas sin reservas (en cero, FA2) y las inactivas que tuvieron reservas. Filtros opcionales de

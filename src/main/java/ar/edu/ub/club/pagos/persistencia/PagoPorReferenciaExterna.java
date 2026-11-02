@@ -10,7 +10,7 @@ import java.util.Objects;
  * Pago online por su referencia externa (UNIQUE). Con bloqueo ({@code FOR UPDATE}) la usa {@code
  * ServicioPagos.confirmarResultadoPasarela}: dos notificaciones simultáneas del mismo pago se procesan en serie
  * (idempotencia). Sin bloqueo la usa {@code consultarPagoOnline}, que corre en una transacción de solo lectura
- * (PostgreSQL no admite {@code FOR UPDATE} en ella). Consulta 54 de MODELO §11.8.4.
+ * (PostgreSQL no admite {@code FOR UPDATE} en ella). Consulta 47 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

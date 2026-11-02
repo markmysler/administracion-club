@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Cuotas de un grupo familiar, de la más reciente a la más antigua. La usan {@code
  * ServicioCuotas.consultarCuotasDeGrupo} (P-25, P-30) y el proxy {@code GrupoFamiliar.cuotas} de {@code
- * BrokerGrupoFamiliar}. Consulta 47 de MODELO §11.8.4.
+ * BrokerGrupoFamiliar}. Consulta 41 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

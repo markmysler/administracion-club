@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 67 (MODELO 11.8.4): suma del importe de los pagos APROBADOS cuya fecha (en la
+ * Objeto consulta de proyección n.º 59 (Entrega 7C): suma del importe de los pagos APROBADOS cuya fecha (en la
  * hora local del club) está entre dos días (indicador «Cobrado en el mes» de P-04, paso 4 de CU-40). Tabla: pago.
  *
  * <p>Casos de uso: CU-40

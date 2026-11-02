@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 71 (MODELO 11.8.4): las {@code limite} canchas con más reservas CONFIRMADAS o
+ * Objeto consulta de proyección n.º 63 (Entrega 7C): las {@code limite} canchas con más reservas CONFIRMADAS o
  * FINALIZADAS entre dos fechas, con sus horas y su ocupación (indicador «Canchas más utilizadas» de P-04, paso 7 de
  * CU-40). Tablas: reserva, cancha, deporte, disponibilidad_club, dia_atencion, feriado.
  *

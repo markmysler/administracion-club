@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 68 (MODELO 11.8.4): cantidad de cuotas distintas con un pago APROBADO cuya fecha
+ * Objeto consulta de proyección n.º 60 (Entrega 7C): cantidad de cuotas distintas con un pago APROBADO cuya fecha
  * (hora local del club) está entre dos días (indicador «cuotas pagadas en el mes» de P-04, paso 4 de CU-40). Los
  * pagos ACREDITADOS no cuentan: no pagan una cuota, generan saldo a favor (RN-21). Tabla: pago.
  *

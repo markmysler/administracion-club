@@ -5,8 +5,8 @@ import ar.edu.ub.club.pagos.dominio.MedioPago;
 import java.util.List;
 
 /**
- * Medio de pago por nombre, sin distinguir mayúsculas (CU-34 FA1: el nombre es único). Consulta 63 de MODELO
- * §11.8.4.
+ * Medio de pago por nombre, sin distinguir mayúsculas (CU-34 FA1: el nombre es único). Consulta 55 de la
+ * Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

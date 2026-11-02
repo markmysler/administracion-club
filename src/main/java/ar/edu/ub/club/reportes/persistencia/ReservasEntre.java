@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 66 (MODELO 11.8.4): cantidad de reservas CONFIRMADAS o FINALIZADAS con fecha
+ * Objeto consulta de proyección n.º 58 (Entrega 7C): cantidad de reservas CONFIRMADAS o FINALIZADAS con fecha
  * entre dos días (indicadores «Reservas de hoy» y «Semana» de P-04, paso 3 de CU-40). Tabla: reserva.
  *
  * <p>Casos de uso: CU-40

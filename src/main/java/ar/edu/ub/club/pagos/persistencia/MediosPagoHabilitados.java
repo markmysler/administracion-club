@@ -5,8 +5,8 @@ import ar.edu.ub.club.pagos.dominio.MedioPago;
 import java.util.List;
 
 /**
- * Medios de pago manuales habilitados, por nombre (los que admite un pago nuevo, CU-36). Consulta 62 de MODELO
- * §11.8.4.
+ * Medios de pago manuales habilitados, por nombre (los que admite un pago nuevo, CU-36). Consulta 54 de la
+ * Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

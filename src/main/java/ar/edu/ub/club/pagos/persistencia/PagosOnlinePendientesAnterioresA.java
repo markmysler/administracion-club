@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Pagos online pendientes creados antes del límite (ahora − 24 h; índice {@code ix_pago_estado_fecha}). La usa
- * {@code ServicioPagos.vencerPagosPendientes} (RN-22). Consulta 58 de MODELO §11.8.4.
+ * {@code ServicioPagos.vencerPagosPendientes} (RN-22). Consulta 50 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

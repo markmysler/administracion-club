@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Comprobante de un pago (a lo sumo uno: UNIQUE {@code pago_id}). La usa {@code BrokerPago.cargarAsociaciones}.
- * Consulta 59 de MODELO §11.8.4.
+ * Consulta 51 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

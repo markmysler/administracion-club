@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Movimientos de saldo a favor de un grupo, del más reciente al más antiguo. La usan {@code
  * ServicioCuotas.consultarSaldo} y el proxy {@code GrupoFamiliar.movimientos} de {@code BrokerGrupoFamiliar}.
- * Consulta 52 de MODELO §11.8.4.
+ * Consulta 45 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Siguiente número correlativo de comprobante: {@code nextval('comprobante_numero_seq')}. La usa {@code
- * GeneradorComprobante}, que le da el formato C-00000001. Consulta 60 de MODELO §11.8.4.
+ * GeneradorComprobante}, que le da el formato C-00000001. Consulta 52 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) de proyección; lo resuelve {@code FachadaPersistencia} sin broker.
  *

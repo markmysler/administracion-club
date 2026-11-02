@@ -12,7 +12,7 @@ import java.util.List;
  * Pagos del club que cumplen el filtro (rango de fechas, período de la cuota, estado y grupo), del más reciente
  * al más antiguo. Consulta polimórfica sobre {@code Pago}: se ejecuta en el broker de cada subclase y la unión se
  * ordena con {@code comparador()}. La usa {@code ServicioPagos.consultarPagos} con CONSULTAR_PAGOS_CLUB. El
- * WHERE se arma solo con los filtros no nulos. Consulta 56 de MODELO §11.8.4.
+ * WHERE se arma solo con los filtros no nulos. Consulta 48 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

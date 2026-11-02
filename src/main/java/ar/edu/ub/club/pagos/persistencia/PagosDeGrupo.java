@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Pagos de las cuotas de un grupo con el filtro (el grupo es el del socio de la sesión, RN-20: se ignora el
  * {@code idGrupo} del filtro), del más reciente al más antiguo. Consulta polimórfica sobre {@code Pago}. La usa
- * {@code ServicioPagos.consultarPagos} con CONSULTAR_PAGOS_PROPIOS. Consulta 57 de MODELO §11.8.4.
+ * {@code ServicioPagos.consultarPagos} con CONSULTAR_PAGOS_PROPIOS. Consulta 49 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

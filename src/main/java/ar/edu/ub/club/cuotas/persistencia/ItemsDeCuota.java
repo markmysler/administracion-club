@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Ítems de una cuota; la ejecuta el {@code ProxyListaVirtual} de {@code Cuota.items} en el primer acceso
- * (Virtual Proxy). Consulta 51 de MODELO §11.8.4.
+ * (Virtual Proxy). Consulta 44 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

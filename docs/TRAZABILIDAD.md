@@ -29,20 +29,21 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 | 3 | PresentadorListadoSocios | VistaListadoSocios | `navegarA("socios/formulario")` | [VistaListadoSocios.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaListadoSocios.java) |
 | 4 | VistaListadoSocios | VistaFormularioSocio | `navega a P-07 (alta)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
 | 5 | VistaFormularioSocio | PresentadorFormularioSocio | `cargar(null)` | [PresentadorFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFormularioSocio.java) |
-| 6 | PresentadorFormularioSocio | ServicioSocios | `listarCategorias()` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
-| 7 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarCategorias(opciones: List<OpcionSeleccion>) (paso 2)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 8 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarFormulario(new DatosSocio(), true)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 9 | Administrador | VistaFormularioSocio | `elige Cancelar` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 10 | VistaFormularioSocio | PresentadorFormularioSocio | `alCancelar()` | [PresentadorFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFormularioSocio.java) |
-| 11 | PresentadorFormularioSocio | VistaFormularioSocio | `navegarA("socios")` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 12 | Administrador | VistaFormularioSocio | `elige Guardar` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 13 | VistaFormularioSocio | VistaFormularioSocio | `FormularioEntidad .leer() (paso 4)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 14 | VistaFormularioSocio | PresentadorFormularioSocio | `alGuardar(datos: DatosSocio)` | [PresentadorFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFormularioSocio.java) |
-| 15 | PresentadorFormularioSocio | ServicioSocios | `registrarSocio(datos) (dentro de ejecutar)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
-| 16 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarMensaje("Socio registrado")` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 17 | PresentadorFormularioSocio | VistaFormularioSocio | `navegarA("socios/ficha/" + s.id)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 18 | PresentadorFormularioSocio | VistaFormularioSocio | `marcarCampo(campo, mensaje)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
-| 19 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarError(mensaje genérico con código)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 6 | PresentadorFormularioSocio | ServicioSocios | `listarCategoriasActivas()` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
+| 7 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarError("Primero debe configurarse una categoría de socio activa (CU-06).")` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 8 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarCategorias(opciones: List<OpcionSeleccion>) (paso 2)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 9 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarFormulario(new DatosSocio(), true)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 10 | Administrador | VistaFormularioSocio | `elige Cancelar` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 11 | VistaFormularioSocio | PresentadorFormularioSocio | `alCancelar()` | [PresentadorFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFormularioSocio.java) |
+| 12 | PresentadorFormularioSocio | VistaFormularioSocio | `navegarA("socios")` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 13 | Administrador | VistaFormularioSocio | `elige Guardar` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 14 | VistaFormularioSocio | VistaFormularioSocio | `FormularioEntidad .leer() (paso 4)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 15 | VistaFormularioSocio | PresentadorFormularioSocio | `alGuardar(datos: DatosSocio)` | [PresentadorFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFormularioSocio.java) |
+| 16 | PresentadorFormularioSocio | ServicioSocios | `registrarSocio(datos) (dentro de ejecutar)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
+| 17 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarMensaje("Socio registrado")` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 18 | PresentadorFormularioSocio | VistaFormularioSocio | `navegarA("socios/ficha/" + s.id)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 19 | PresentadorFormularioSocio | VistaFormularioSocio | `marcarCampo(campo, mensaje)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 20 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarError(mensaje genérico con código)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
 
 ### `sec_cu01_p2.puml` — CU-01 Administrador registra socio (parte 2: registrarSocio, validaciones y CU-16)
 
@@ -56,13 +57,23 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 | 6 | ServicioSocios | CodificadorClave | `codificar(clave)` | [CodificadorClave.java](../src/main/java/ar/edu/ub/club/accesos/dominio/CodificadorClave.java) |
 | 7 | ServicioSocios | Socio | `«create» (datos, categoria, hash): estado ACTIVA, intentosFallidos 0` | [Socio.java](../src/main/java/ar/edu/ub/club/socios/dominio/Socio.java) |
 
-### `sec_cu01_p3.puml` — CU-01 Administrador registra socio (parte 3: registrarSocio, grupo y auditoría)
+### `sec_cu01_p3.puml` — CU-01 Administrador registra socio (parte 3: grupo unipersonal, guardado y auditoría)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
 |---|---|---|---|---|
-| 1 | ServicioSocios | FachadaPersistencia«Singleton» | `put(s)` |  |
-| 2 | ServicioSocios | ServicioGruposFamiliares | `crearGrupoUnipersonal(s) (paso 9)` | [ServicioGruposFamiliares.java](../src/main/java/ar/edu/ub/club/grupos/aplicacion/ServicioGruposFamiliares.java) |
-| 3 | ServicioSocios | ServicioAuditoria | `registrar(usuario, "ALTA", "Socio", s.id, detalle) (paso 11)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 1 | ServicioSocios | ServicioGruposFamiliares | `crearGrupoUnipersonal(s) (paso 9)` | [ServicioGruposFamiliares.java](../src/main/java/ar/edu/ub/club/grupos/aplicacion/ServicioGruposFamiliares.java) |
+| 2 | ServicioGruposFamiliares | GrupoFamiliar | `«create» (fechaCreacion = hoy, vigente = true)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 3 | ServicioGruposFamiliares | GrupoFamiliar | `agregarIntegrante(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 4 | GrupoFamiliar | Socio | `asignarGrupoFamiliar(this)` | [Socio.java](../src/main/java/ar/edu/ub/club/socios/dominio/Socio.java) |
+| 5 | ServicioGruposFamiliares | GrupoFamiliar | `cambiarTitular(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 6 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(g)` |  |
+| 7 | FachadaPersistencia«Singleton» | GrupoFamiliar | `esNuevo()` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 8 | FachadaPersistencia«Singleton» | BrokerGrupoFamiliar | `insertar(g) (brokerDe(GrupoFamiliar))` | [BrokerGrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/persistencia/BrokerGrupoFamiliar.java) |
+| 9 | BrokerGrupoFamiliar | BrokerGrupoFamiliar | `valoresInsercion(g): titular_id = NULL y vigente = false (s todavía no tiene id)` | [BrokerGrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/persistencia/BrokerGrupoFamiliar.java) |
+| 10 | BrokerGrupoFamiliar | BrokerGrupoFamiliar | `guardarPartes(g, true)` | [BrokerGrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/persistencia/BrokerGrupoFamiliar.java) |
+| 11 | BrokerGrupoFamiliar | FachadaPersistencia«Singleton» | `put(s) (integrante cargado)` |  |
+| 12 | BrokerGrupoFamiliar | BrokerGrupoFamiliar | `ejecutarActualizacion("UPDATE grupo_familiar SET titular_id = ?, vigente = ? WHERE id = ?", List.of(titular, true, g))` | [BrokerGrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/persistencia/BrokerGrupoFamiliar.java) |
+| 13 | ServicioSocios | ServicioAuditoria | `registrar(usuario, "ALTA", "Socio", s.id, detalle) (paso 11)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 
 ## CU-02 Administrador modifica datos de socio
 
@@ -86,9 +97,9 @@ Cadena general (MVP + Facade + Database Broker): `Vista*` (evento de Vaadin) →
 | 3 | PresentadorFichaSocio | VistaFichaSocio | `navegarA("socios/ formulario/" + id)` | [VistaFichaSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFichaSocio.java) |
 | 4 | VistaFichaSocio | VistaFormularioSocio | `navega a P-07 (modificación)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
 | 5 | VistaFormularioSocio | PresentadorFormularioSocio | `cargar(idSocio) (paso 4)` | [PresentadorFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFormularioSocio.java) |
-| 6 | PresentadorFormularioSocio | ServicioSocios | `listarCategorias()` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
+| 6 | PresentadorFormularioSocio | ServicioSocios | `listarCategoriasActivas()` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
 | 7 | PresentadorFormularioSocio | ServicioSocios | `consultarSocio(idSocio)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
-| 8 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarCategorias(opciones)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
+| 8 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarCategorias(opcionesDe( categorias, ficha.socio.categoria))` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
 | 9 | PresentadorFormularioSocio | VistaFormularioSocio | `mostrarFormulario(DatosSocio .desde(ficha.socio), false)` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
 | 10 | Administrador | VistaFormularioSocio | `elige Cancelar` | [VistaFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFormularioSocio.java) |
 | 11 | VistaFormularioSocio | PresentadorFormularioSocio | `alCancelar()` | [PresentadorFormularioSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFormularioSocio.java) |
@@ -139,13 +150,16 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | 1 | Administrador | VistaFichaSocio | `elige Desactivar (paso 1)` | [VistaFichaSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFichaSocio.java) |
 | 2 | VistaFichaSocio | PresentadorFichaSocio | `alDesactivar()` | [PresentadorFichaSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFichaSocio.java) |
 | 3 | PresentadorFichaSocio | VistaFichaSocio | `abrirDesactivacion(idSocio, nombre, dni, candidatosTitular)` | [VistaFichaSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFichaSocio.java) |
-| 4 | VistaFichaSocio | DialogoDesactivarSocio | `«create» y abrir() (P-09)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
-| 5 | DialogoDesactivarSocio | PresentadorDesactivarSocio | `alAbrir(idSocio, nombre, dni, candidatosTitular)` | [PresentadorDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorDesactivarSocio.java) |
-| 6 | PresentadorDesactivarSocio | DialogoDesactivarSocio | `mostrarSocio(nombre, dni)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
-| 7 | PresentadorDesactivarSocio | ServicioSocios | `desactivarSocio(idSocio, null, false)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
-| 8 | PresentadorDesactivarSocio | DialogoDesactivarSocio | `mostrarError(mensaje)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
-| 9 | PresentadorDesactivarSocio | DialogoDesactivarSocio | `mostrarAfectadas(reservas: List<FilaResumenReserva>, candidatosTitular)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
-| 10 | Administrador | DialogoDesactivarSocio | `elige Cancelar` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 4 | VistaFichaSocio | DialogoDesactivarSocio | `«create»(presentadorDesactivar)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 5 | VistaFichaSocio | DialogoDesactivarSocio | `addListener(DialogoResuelto Evento, recargar la ficha)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 6 | VistaFichaSocio | DialogoDesactivarSocio | `abrir(idSocio, nombre, dni, candidatosTitular) (P-09)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 7 | DialogoDesactivarSocio | DialogoDesactivarSocio | `abrir()` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 8 | DialogoDesactivarSocio | PresentadorDesactivarSocio | `alAbrir(idSocio, nombre, dni, candidatosTitular)` | [PresentadorDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorDesactivarSocio.java) |
+| 9 | PresentadorDesactivarSocio | DialogoDesactivarSocio | `mostrarSocio(nombre, dni)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 10 | PresentadorDesactivarSocio | ServicioSocios | `desactivarSocio(idSocio, null, false)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
+| 11 | PresentadorDesactivarSocio | DialogoDesactivarSocio | `mostrarError(mensaje)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 12 | PresentadorDesactivarSocio | DialogoDesactivarSocio | `mostrarAfectadas(reservas: List<FilaResumenReserva>, candidatosTitular)` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
+| 13 | Administrador | DialogoDesactivarSocio | `elige Cancelar` | [DialogoDesactivarSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/DialogoDesactivarSocio.java) |
 
 ### `sec_cu03_p2.puml` — CU-03 Administrador desactiva socio (parte 2: confirmación, de la vista a la fachada)
 
@@ -169,8 +183,9 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | 2 | ServicioSocios | FachadaPersistencia«Singleton» | `get(id, Socio)` |  |
 | 3 | ServicioSocios | Socio | `estaActiva() (paso 2)` | [Socio.java](../src/main/java/ar/edu/ub/club/socios/dominio/Socio.java) |
 | 4 | ServicioSocios | FachadaPersistencia«Singleton» | `buscarUno(GrupoVigente DeSocio(id))` |  |
-| 5 | ServicioSocios | GrupoFamiliar | `integrantesActivos() (paso 3)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 6 | ServicioSocios | ConsultaReservasFuturas | `buscarFuturasDeSocio(id) (paso 4)` | [ConsultaReservasFuturas.java](../src/main/java/ar/edu/ub/club/compartido/dominio/ConsultaReservasFuturas.java) |
+| 5 | ServicioSocios | GrupoFamiliar | `esTitular(s) (paso 3)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 6 | ServicioSocios | GrupoFamiliar | `tieneOtrosIntegrantesActivos(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 7 | ServicioSocios | ConsultaReservasFuturas | `buscarFuturasDeSocio(id) (paso 4)` | [ConsultaReservasFuturas.java](../src/main/java/ar/edu/ub/club/compartido/dominio/ConsultaReservasFuturas.java) |
 
 ### `sec_cu03_p4.puml` — CU-03 Administrador desactiva socio (parte 4: ServicioSocios.desactivarSocio, confirmación)
 
@@ -226,8 +241,11 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | 3 | ServicioSocios | FachadaPersistencia«Singleton» | `buscarUno(GrupoVigente DeSocio(id)) (paso 6)` |  |
 | 4 | ServicioSocios | GrupoFamiliar | `integrantesActivos()` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
 | 5 | ServicioSocios | ConsultaReservasFuturas | `buscarFuturasDeSocio(id) (paso 7)` | [ConsultaReservasFuturas.java](../src/main/java/ar/edu/ub/club/compartido/dominio/ConsultaReservasFuturas.java) |
-| 6 | ServicioSocios | GrupoFamiliar | `tieneCuotaVencida() (paso 8)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 7 | ServicioSocios | FichaSocio | `«create» (s, g, reservas, estadoCuenta)` | [FichaSocio.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/FichaSocio.java) |
+| 6 | ServicioSocios | GrupoFamiliar | `getCuotas() (paso 8)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 7 | ServicioSocios | ServicioSocios | `cuota.getItems() (carga los ítems)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
+| 8 | ServicioSocios | ServicioSocios | `estadoCuenta = cuotas ordenadas por período descendente` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
+| 9 | ServicioSocios | GrupoFamiliar | `saldoAFavor()` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 10 | ServicioSocios | FichaSocio | `«create» (s, g, reservas, estadoCuenta)` | [FichaSocio.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/FichaSocio.java) |
 
 ## CU-05 Socio consulta perfil e historial propio
 
@@ -327,13 +345,14 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
 |---|---|---|---|---|
 | 1 | PresentadorCategorias | ServicioSocios | `registrarCategoria(datos) o modificarCategoria(id, datos)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
-| 2 | ServicioSocios | FachadaPersistencia«Singleton» | `contar(CategoriaPor Nombre(nombre)) (paso 7)` |  |
-| 3 | ServicioSocios | CategoriaSocio | `«create» (nombre, importe, activa)` | [CategoriaSocio.java](../src/main/java/ar/edu/ub/club/socios/dominio/CategoriaSocio.java) |
-| 4 | ServicioSocios | FachadaPersistencia«Singleton» | `get(id, CategoriaSocio)` |  |
-| 5 | ServicioSocios | FachadaPersistencia«Singleton» | `contar(SociosActivos DeCategoria(id))` |  |
-| 6 | ServicioSocios | CategoriaSocio | `modificar(nombre, importe, activa)` | [CategoriaSocio.java](../src/main/java/ar/edu/ub/club/socios/dominio/CategoriaSocio.java) |
-| 7 | ServicioSocios | FachadaPersistencia«Singleton» | `put(c) (paso 9)` |  |
-| 8 | ServicioSocios | ServicioAuditoria | `registrar(usuario, "ALTA" o "MODIFICACION", "CategoriaSocio", c.id, detalle) (paso 10)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 2 | ServicioSocios | ServicioSocios | `verificarNombreLibre(nombre, idPropio) (paso 7; idPropio null en el alta, id en la modificación)` | [ServicioSocios.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/ServicioSocios.java) |
+| 3 | ServicioSocios | FachadaPersistencia«Singleton» | `buscar(CategoriaPor Nombre(nombre))` |  |
+| 4 | ServicioSocios | CategoriaSocio | `«create» (nombre, importe, activa)` | [CategoriaSocio.java](../src/main/java/ar/edu/ub/club/socios/dominio/CategoriaSocio.java) |
+| 5 | ServicioSocios | FachadaPersistencia«Singleton» | `get(id, CategoriaSocio)` |  |
+| 6 | ServicioSocios | FachadaPersistencia«Singleton» | `contar(SociosActivos DeCategoria(id))` |  |
+| 7 | ServicioSocios | CategoriaSocio | `modificar(nombre, importe, activa)` | [CategoriaSocio.java](../src/main/java/ar/edu/ub/club/socios/dominio/CategoriaSocio.java) |
+| 8 | ServicioSocios | FachadaPersistencia«Singleton» | `put(c) (paso 9)` |  |
+| 9 | ServicioSocios | ServicioAuditoria | `registrar(usuario, "ALTA" o "MODIFICACION", "CategoriaSocio", c.id, detalle) (paso 10)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 
 ## CU-07 Administrador asocia socio a grupo familiar
 
@@ -356,16 +375,19 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | 1 | Administrador | VistaFichaSocio | `Asociar a grupo familiar (paso 1)` | [VistaFichaSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFichaSocio.java) |
 | 2 | VistaFichaSocio | PresentadorFichaSocio | `alAsociarAGrupo()` | [PresentadorFichaSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/PresentadorFichaSocio.java) |
 | 3 | PresentadorFichaSocio | VistaFichaSocio | `abrirAsociacion( idSocio, nombre, dni, idGrupo, grupoActual, null)` | [VistaFichaSocio.java](../src/main/java/ar/edu/ub/club/socios/ui/VistaFichaSocio.java) |
-| 4 | VistaFichaSocio | DialogoAsociarSocio | `«create» y abrir() (P-12, paso 2)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
-| 5 | DialogoAsociarSocio | PresentadorAsociarSocio | `alAbrir(idSocio, nombre, dni, idGrupoActual, grupoActual, null)` | [PresentadorAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/PresentadorAsociarSocio.java) |
-| 6 | PresentadorAsociarSocio | DialogoAsociarSocio | `mostrarSocio(nombre, dni, grupoActual)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
-| 7 | Administrador | DialogoAsociarSocio | `ingresa el texto y elige Buscar (paso 3)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
-| 8 | DialogoAsociarSocio | PresentadorAsociarSocio | `alBuscar(texto)` | [PresentadorAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/PresentadorAsociarSocio.java) |
-| 9 | PresentadorAsociarSocio | ServicioGruposFamiliares | `buscarGrupos(new Criterio BusquedaGrupo(texto, true))` | [ServicioGruposFamiliares.java](../src/main/java/ar/edu/ub/club/grupos/aplicacion/ServicioGruposFamiliares.java) |
-| 10 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `buscar(GruposPorCriterio( texto, vigente))` |  |
-| 11 | PresentadorAsociarSocio | PresentadorAsociarSocio | `FilaGrupo.desde(r)` | [PresentadorAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/PresentadorAsociarSocio.java) |
-| 12 | PresentadorAsociarSocio | DialogoAsociarSocio | `mostrarGrupos(filas)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
-| 13 | Administrador | DialogoAsociarSocio | `elige una fila: grupo destino (paso 5)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 4 | VistaFichaSocio | DialogoAsociarSocio | `«create»(presentadorAsociar)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 5 | VistaFichaSocio | DialogoAsociarSocio | `addListener(DialogoResuelto Evento, recargar la ficha)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 6 | VistaFichaSocio | DialogoAsociarSocio | `abrir(idSocio, nombre, dni, idGrupoActual, grupoActual, null) (P-12, paso 2)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 7 | DialogoAsociarSocio | DialogoAsociarSocio | `abrir()` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 8 | DialogoAsociarSocio | PresentadorAsociarSocio | `alAbrir(idSocio, nombre, dni, idGrupoActual, grupoActual, null)` | [PresentadorAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/PresentadorAsociarSocio.java) |
+| 9 | PresentadorAsociarSocio | DialogoAsociarSocio | `mostrarSocio(nombre, dni, grupoActual)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 10 | Administrador | DialogoAsociarSocio | `ingresa el texto y elige Buscar (paso 3)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 11 | DialogoAsociarSocio | PresentadorAsociarSocio | `alBuscar(texto)` | [PresentadorAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/PresentadorAsociarSocio.java) |
+| 12 | PresentadorAsociarSocio | ServicioGruposFamiliares | `buscarGrupos(new Criterio BusquedaGrupo(texto, true))` | [ServicioGruposFamiliares.java](../src/main/java/ar/edu/ub/club/grupos/aplicacion/ServicioGruposFamiliares.java) |
+| 13 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `buscar(GruposPorCriterio( texto, vigente))` |  |
+| 14 | PresentadorAsociarSocio | PresentadorAsociarSocio | `FilaGrupo.desde(r)` | [PresentadorAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/PresentadorAsociarSocio.java) |
+| 15 | PresentadorAsociarSocio | DialogoAsociarSocio | `mostrarGrupos(filas)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
+| 16 | Administrador | DialogoAsociarSocio | `elige una fila: grupo destino (paso 5)` | [DialogoAsociarSocio.java](../src/main/java/ar/edu/ub/club/grupos/ui/DialogoAsociarSocio.java) |
 
 ### `sec_cu07_p2.puml` — CU-07 Administrador asocia socio a grupo familiar (parte 2: confirmación, de la vista a la fachada)
 
@@ -388,11 +410,14 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | 3 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `buscarUno(GrupoVigente DeSocio(idSocio))` |  |
 | 4 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `get(idGrupoDestino, GrupoFamiliar)` |  |
 | 5 | ServicioGruposFamiliares | GrupoFamiliar | `integrantesActivos() (paso 7)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 6 | ServicioGruposFamiliares | GrupoFamiliar | `quitarIntegrante(s) (paso 10)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 7 | ServicioGruposFamiliares | GrupoFamiliar | `agregarIntegrante(s) (paso 11)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 8 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(origen)` |  |
-| 9 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(destino) (paso 12)` |  |
-| 10 | ServicioGruposFamiliares | ServicioAuditoria | `registrar(usuario, "MODIFICACION", "GrupoFamiliar", destino.id, detalle) (paso 13)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 6 | ServicioGruposFamiliares | GrupoFamiliar | `esTitular(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 7 | ServicioGruposFamiliares | GrupoFamiliar | `tieneOtrosIntegrantesActivos(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 8 | ServicioGruposFamiliares | GrupoFamiliar | `quitarIntegrante(s) (paso 10)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 9 | ServicioGruposFamiliares | GrupoFamiliar | `agregarIntegrante(s) (paso 11)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 10 | GrupoFamiliar | Socio | `asignarGrupoFamiliar(destino)` | [Socio.java](../src/main/java/ar/edu/ub/club/socios/dominio/Socio.java) |
+| 11 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(origen)` |  |
+| 12 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(destino) (paso 12)` |  |
+| 13 | ServicioGruposFamiliares | ServicioAuditoria | `registrar(usuario, "MODIFICACION", "GrupoFamiliar", destino.id, detalle) (paso 13)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 
 ## CU-08 Administrador cambia titular de grupo familiar
 
@@ -466,13 +491,15 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | 2 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `get(idGrupo, GrupoFamiliar)` |  |
 | 3 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `get(idSocio, Socio)` |  |
 | 4 | ServicioGruposFamiliares | GrupoFamiliar | `integrantesActivos() (paso 2)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 5 | ServicioGruposFamiliares | GrupoFamiliar | `quitarIntegrante(s) (paso 6)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 6 | ServicioGruposFamiliares | GrupoFamiliar | `«create» (fechaCreacion = hoy, vigente = true)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 7 | ServicioGruposFamiliares | GrupoFamiliar | `agregarIntegrante(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 8 | ServicioGruposFamiliares | GrupoFamiliar | `cambiarTitular(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 9 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(nuevo)` |  |
-| 10 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(g) (paso 8)` |  |
-| 11 | ServicioGruposFamiliares | ServicioAuditoria | `registrar(usuario, "MODIFICACION", "GrupoFamiliar", g.id, detalle) (paso 9)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 5 | ServicioGruposFamiliares | GrupoFamiliar | `esTitular(s) (paso 3)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 6 | ServicioGruposFamiliares | GrupoFamiliar | `quitarIntegrante(s) (paso 6)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 7 | ServicioGruposFamiliares | GrupoFamiliar | `«create» (fechaCreacion = hoy, vigente = true)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 8 | ServicioGruposFamiliares | GrupoFamiliar | `agregarIntegrante(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 9 | GrupoFamiliar | Socio | `asignarGrupoFamiliar(nuevo)` | [Socio.java](../src/main/java/ar/edu/ub/club/socios/dominio/Socio.java) |
+| 10 | ServicioGruposFamiliares | GrupoFamiliar | `cambiarTitular(s)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 11 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(nuevo)` |  |
+| 12 | ServicioGruposFamiliares | FachadaPersistencia«Singleton» | `put(g) (paso 8)` |  |
+| 13 | ServicioGruposFamiliares | ServicioAuditoria | `registrar(usuario, "MODIFICACION", "GrupoFamiliar", g.id, detalle) (paso 9)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 
 ## CU-10 Administrador consulta grupo familiar
 
@@ -533,18 +560,24 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 |---|---|---|---|---|
 | 1 | Usuario(SociooAdministrador) | VistaInicioSesion | `completa usuario y clave, marca o no la casilla y elige Ingresar (paso 3)` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
 | 2 | VistaInicioSesion | PresentadorInicioSesion | `alIngresar(username, clave, mantenerSesion)` | [PresentadorInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/PresentadorInicioSesion.java) |
-| 3 | PresentadorInicioSesion | ServicioAccesos | `iniciarSesion( username, clave, mantenerSesion) (dentro de ejecutar)` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
-| 4 | PresentadorInicioSesion | RegistroSesionVaadin«RegistroSesionWeb» | `iniciar(s)` |  |
-| 5 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `cambia el id de sesión (changeSessionId)` |  |
-| 6 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `guarda el SecurityContext en la sesión HTTP (en memoria)` |  |
-| 7 | RegistroSesionVaadin«RegistroSesionWeb» | SessionRegistry«SpringSecurity» | `registerNewSession( idSesion, principal)` |  |
-| 8 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `escribe la cookie remember-me de 30 días (HttpOnly, Secure, SameSite=Strict)` |  |
-| 9 | PresentadorInicioSesion | VistaInicioSesion | `navegarA("panel")` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
-| 10 | PresentadorInicioSesion | VistaInicioSesion | `navegarA("inicio")` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
-| 11 | PresentadorInicioSesion | VistaInicioSesion | `mostrarError(mensaje)` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
-| 12 | Usuario(SociooAdministrador) | VistaInicioSesion | `elige «Olvidé mi contraseña»` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
-| 13 | VistaInicioSesion | PresentadorInicioSesion | `alOlvidarClave()` | [PresentadorInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/PresentadorInicioSesion.java) |
-| 14 | PresentadorInicioSesion | VistaInicioSesion | `navegarA("recuperar-clave")` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 3 | PresentadorInicioSesion | ServicioAccesos | `iniciarSesion( username, clave, mantenerSesion) (dentro de consultar)` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
+| 4 | PresentadorInicioSesion | VistaInicioSesion | `limpiarClave()` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 5 | PresentadorInicioSesion | RegistroSesionVaadin«RegistroSesionWeb» | `iniciar(s) (dentro de ejecutar)` |  |
+| 6 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `cambia el id de sesión (changeSessionId)` |  |
+| 7 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `guarda el SecurityContext en la sesión HTTP (en memoria)` |  |
+| 8 | RegistroSesionVaadin«RegistroSesionWeb» | SessionRegistry«SpringSecurity» | `registerNewSession( idSesion, principal)` |  |
+| 9 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `escribe la cookie remember-me de 30 días (HttpOnly, Secure, SameSite=Strict)` |  |
+| 10 | PresentadorInicioSesion | VistaInicioSesion | `mostrarError(mensaje)` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 11 | PresentadorInicioSesion | VistaInicioSesion | `habilitarEnvio(true)` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 12 | PresentadorInicioSesion | VistaInicioSesion | `mostrarMensaje("Bienvenido/a, " + s.nombreVisible + ".")` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 13 | PresentadorInicioSesion | VistaInicioSesion | `navegarA("panel")` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 14 | PresentadorInicioSesion | VistaInicioSesion | `navegarA("inicio")` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 15 | PresentadorInicioSesion | VistaInicioSesion | `mostrarError(mensaje)` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 16 | PresentadorInicioSesion | VistaInicioSesion | `limpiarClave()` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 17 | PresentadorInicioSesion | VistaInicioSesion | `habilitarEnvio(true)` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 18 | Usuario(SociooAdministrador) | VistaInicioSesion | `elige «Olvidé mi contraseña»` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
+| 19 | VistaInicioSesion | PresentadorInicioSesion | `alOlvidarClave()` | [PresentadorInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/PresentadorInicioSesion.java) |
+| 20 | PresentadorInicioSesion | VistaInicioSesion | `navegarA("recuperar-clave")` | [VistaInicioSesion.java](../src/main/java/ar/edu/ub/club/accesos/ui/VistaInicioSesion.java) |
 
 ### `sec_cu11_p2.puml` — CU-11 Usuario inicia sesión (parte 2: ServicioAccesos.iniciarSesion, pasos 4 a 6)
 
@@ -552,12 +585,13 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 |---|---|---|---|---|
 | 1 | PresentadorInicioSesion | ServicioAccesos | `iniciarSesion(username, clave, mantenerSesion)` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
 | 2 | ServicioAccesos | Reloj | `ahora()` | [Reloj.java](../src/main/java/ar/edu/ub/club/compartido/dominio/Reloj.java) |
-| 3 | ServicioAccesos | FachadaPersistencia«Singleton» | `buscarUno(UsuarioPor Username(username)) (paso 4)` |  |
+| 3 | ServicioAccesos | FachadaPersistencia«Singleton» | `buscarUno(UsuarioPor Username(username.strip())) (paso 4)` |  |
 | 4 | ServicioAccesos | Usuario{SociooAdministrador} | `estaBloqueada(ahora) (paso 5)` |  |
 | 5 | ServicioAccesos | Usuario{SociooAdministrador} | `autenticar(clave, codificadorClave) (paso 6)` |  |
 | 6 | Usuario{SociooAdministrador} | CodificadorClave | `coincide(clave, passwordHash)` | [CodificadorClave.java](../src/main/java/ar/edu/ub/club/accesos/dominio/CodificadorClave.java) |
 | 7 | ServicioAccesos | Usuario{SociooAdministrador} | `registrarIntentoFallido( ahora)` |  |
 | 8 | ServicioAccesos | FachadaPersistencia«Singleton» | `put(u)` |  |
+| 9 | ServicioAccesos | Usuario{SociooAdministrador} | `estaBloqueada(ahora)` |  |
 
 ### `sec_cu11_p3.puml` — CU-11 Usuario inicia sesión (parte 3: ServicioAccesos.iniciarSesion, pasos 7 a 10)
 
@@ -571,7 +605,7 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 | 6 | ServicioAccesos | Usuario{SociooAdministrador} | `admiteSesionPersistente() (Socio: true; Admin.: false)` |  |
 | 7 | ServicioAccesos | GestorSesiones | `emitirTokenPersistente(u)` | [GestorSesiones.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/GestorSesiones.java) |
 | 8 | GestorSesiones | FachadaPersistencia«Singleton» | `put(token)` |  |
-| 9 | ServicioAccesos | SesionUsuario | `agrega el token persistente` | [SesionUsuario.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/SesionUsuario.java) |
+| 9 | ServicioAccesos | SesionUsuario | `agregarTokenPersistente( valorCookie)` | [SesionUsuario.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/SesionUsuario.java) |
 
 ### `sec_cu11_p4.puml` — CU-11 Usuario inicia sesión (parte 4: ingreso con sesión persistente, FA1 y FA2)
 
@@ -614,16 +648,18 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 |---|---|---|---|---|
 | 1 | Usuario(SociooAdministrador) | MenuNavegacion | `elige «Cerrar sesión» (P-35, paso 1)` | [MenuNavegacion.java](../src/main/java/ar/edu/ub/club/compartido/ui/MenuNavegacion.java) |
 | 2 | MenuNavegacion | MenuNavegacion | `alCerrarSesion()` | [MenuNavegacion.java](../src/main/java/ar/edu/ub/club/compartido/ui/MenuNavegacion.java) |
-| 3 | MenuNavegacion | PresentadorCierreSesion«AccionCierreSesion» | `cerrarSesion()` |  |
-| 4 | PresentadorCierreSesion«AccionCierreSesion» | ServicioAccesos | `consultarSesionActual()` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
-| 5 | PresentadorCierreSesion«AccionCierreSesion» | ServicioAccesos | `cerrarSesion(sesion)` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
-| 6 | ServicioAccesos | GestorSesiones | `revocarTokensDe( usuario) (paso 3)` | [GestorSesiones.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/GestorSesiones.java) |
-| 7 | ServicioAccesos | ServicioAccesos | `registra el cierre en la bitácora técnica` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
-| 8 | PresentadorCierreSesion«AccionCierreSesion» | RegistroSesionVaadin«RegistroSesionWeb» | `cerrar() (pasos 2 y 4)` |  |
-| 9 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `SecurityContextLogoutHandler .logout(...)` |  |
-| 10 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `invalida la sesión HTTP y la VaadinSession (sale del SessionRegistry)` |  |
-| 11 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `borra la cookie remember-me` |  |
-| 12 | MenuNavegacion | MenuNavegacion | `UI.getPage().setLocation( "inicio-sesion")` | [MenuNavegacion.java](../src/main/java/ar/edu/ub/club/compartido/ui/MenuNavegacion.java) |
+| 3 | MenuNavegacion | MenuNavegacion | `UI.getCurrent().getPage() .setLocation("inicio-sesion")` | [MenuNavegacion.java](../src/main/java/ar/edu/ub/club/compartido/ui/MenuNavegacion.java) |
+| 4 | MenuNavegacion | PresentadorCierreSesion«AccionCierreSesion» | `cerrarSesion()` |  |
+| 5 | PresentadorCierreSesion«AccionCierreSesion» | ServicioAccesos | `consultarSesionActual()` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
+| 6 | PresentadorCierreSesion«AccionCierreSesion» | ServicioAccesos | `cerrarSesion(sesion)` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
+| 7 | ServicioAccesos | FachadaPersistencia«Singleton» | `get(sesion.idUsuario, Usuario)` |  |
+| 8 | ServicioAccesos | GestorSesiones | `revocarTokensDe( usuario) (paso 3)` | [GestorSesiones.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/GestorSesiones.java) |
+| 9 | ServicioAccesos | ServicioAccesos | `registra el cierre en la bitácora técnica` | [ServicioAccesos.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/ServicioAccesos.java) |
+| 10 | PresentadorCierreSesion«AccionCierreSesion» | RegistroSesionVaadin«RegistroSesionWeb» | `cerrar() (finally; pasos 2 y 4)` |  |
+| 11 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `UI.getCurrent().getPage() .setLocation("inicio-sesion")` |  |
+| 12 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `servicioRecordarme .borrarCookie(request, response)` |  |
+| 13 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `SecurityContextLogoutHandler .logout(request, response, autenticacion)` |  |
+| 14 | RegistroSesionVaadin«RegistroSesionWeb» | RegistroSesionVaadin«RegistroSesionWeb» | `invalida la sesión HTTP y cierra la VaadinSession (sale del SessionRegistry)` |  |
 
 ## CU-13 Usuario recupera contraseña
 
@@ -924,9 +960,9 @@ Incluido en CU-14: `ServicioAccesos.crearAdministrador` → `contar(UsuarioPorUs
 | 8 | PresentadorDeportes | ServicioRecursos | `modificarDeporte( id, datos)` | [ServicioRecursos.java](../src/main/java/ar/edu/ub/club/recursos/aplicacion/ServicioRecursos.java) |
 | 9 | ServicioRecursos | FachadaPersistencia«Singleton» | `get(id, Deporte)` |  |
 | 10 | ServicioRecursos | FachadaPersistencia«Singleton» | `contar(DeportePorNombre( nombre, id))` |  |
-| 11 | ServicioRecursos | Deporte | `activar()` | [Deporte.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Deporte.java) |
+| 11 | PresentadorDeportes | VistaDeportes | `marcarCampo("nombre", mensaje)` | [VistaDeportes.java](../src/main/java/ar/edu/ub/club/recursos/ui/VistaDeportes.java) |
 | 12 | ServicioRecursos | Deporte | `modificar(nombre, descripcion)` | [Deporte.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Deporte.java) |
-| 13 | PresentadorDeportes | VistaDeportes | `marcarCampo("nombre", mensaje)` | [VistaDeportes.java](../src/main/java/ar/edu/ub/club/recursos/ui/VistaDeportes.java) |
+| 13 | ServicioRecursos | Deporte | `activar()` | [Deporte.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Deporte.java) |
 | 14 | ServicioRecursos | FachadaPersistencia«Singleton» | `put(d)` |  |
 | 15 | ServicioRecursos | ServicioAuditoria | `registrar(usuario, MODIFICACION, "Deporte", id, detalle) (paso 7)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 | 16 | PresentadorDeportes | PresentadorDeportes | `cargar()` | [PresentadorDeportes.java](../src/main/java/ar/edu/ub/club/recursos/ui/PresentadorDeportes.java) |
@@ -1084,12 +1120,12 @@ Antes de confirmar la baja, socios/recursos/agenda usan `ConsultaReservasFuturas
 |---|---|---|---|---|
 | 1 | PresentadorCanchas | ServicioRecursos | `modificarCancha( id, datos)` | [ServicioRecursos.java](../src/main/java/ar/edu/ub/club/recursos/aplicacion/ServicioRecursos.java) |
 | 2 | ServicioRecursos | FachadaPersistencia«Singleton» | `get(id, Cancha)` |  |
-| 3 | ServicioRecursos | Cancha | `activar()` | [Cancha.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Cancha.java) |
-| 4 | ServicioRecursos | FachadaPersistencia«Singleton» | `contar(CanchaPorNombre( nombre, id))` |  |
-| 5 | ServicioRecursos | FachadaPersistencia«Singleton» | `get(idDeporte, Deporte)` |  |
-| 6 | ServicioRecursos | Deporte | `estaActivo() (paso 6)` | [Deporte.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Deporte.java) |
-| 7 | ServicioRecursos | ConsultaReservasFuturas | `buscarFuturasDe Cancha(id) (paso 7)` | [ConsultaReservasFuturas.java](../src/main/java/ar/edu/ub/club/compartido/dominio/ConsultaReservasFuturas.java) |
-| 8 | ServicioRecursos | Cancha | `modificar(nombre, d, ubicacion, caracteristicas)` | [Cancha.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Cancha.java) |
+| 3 | ServicioRecursos | FachadaPersistencia«Singleton» | `contar(CanchaPorNombre( nombre, id)) (paso 5)` |  |
+| 4 | ServicioRecursos | FachadaPersistencia«Singleton» | `get(idDeporte, Deporte)` |  |
+| 5 | ServicioRecursos | Deporte | `estaActivo() (paso 6)` | [Deporte.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Deporte.java) |
+| 6 | ServicioRecursos | ConsultaReservasFuturas | `buscarFuturasDe Cancha(id) (paso 7)` | [ConsultaReservasFuturas.java](../src/main/java/ar/edu/ub/club/compartido/dominio/ConsultaReservasFuturas.java) |
+| 7 | ServicioRecursos | Cancha | `modificar(nombre, d, ubicacion, caracteristicas)` | [Cancha.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Cancha.java) |
+| 8 | ServicioRecursos | Cancha | `activar()` | [Cancha.java](../src/main/java/ar/edu/ub/club/recursos/dominio/Cancha.java) |
 | 9 | ServicioRecursos | FachadaPersistencia«Singleton» | `put(c) (paso 8)` |  |
 | 10 | ServicioRecursos | ServicioAuditoria | `registrar(usuario, MODIFICACION, "Cancha", id, detalle) (paso 9)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 
@@ -1337,8 +1373,9 @@ Botón «Consultar» → `VistaDisponibilidadCanchas.filtro()` → `PresentadorD
 | 4 | ServicioAgenda | FachadaPersistencia«Singleton» | `get(DisponibilidadClub. ID_UNICO, DisponibilidadClub)` |  |
 | 5 | ServicioAgenda | DisponibilidadClub | `atiende(fecha) (paso 5)` | [DisponibilidadClub.java](../src/main/java/ar/edu/ub/club/agenda/dominio/DisponibilidadClub.java) |
 | 6 | ServicioAgenda | FachadaPersistencia«Singleton» | `buscar(CanchasDeDeporte( idDeporte)) (paso 6)` |  |
-| 7 | ServicioAgenda | ConsultaTurnosOcupados | `turnosOcupados( cancha.id, fecha) (paso 7)` | [ConsultaTurnosOcupados.java](../src/main/java/ar/edu/ub/club/agenda/dominio/ConsultaTurnosOcupados.java) |
-| 8 | ServicioAgenda | CalendarioTurnos | `generarTurnos(cancha, fecha, d, regla, ocupados)` | [CalendarioTurnos.java](../src/main/java/ar/edu/ub/club/agenda/dominio/CalendarioTurnos.java) |
+| 7 | ServicioAgenda | ServicioAgenda | `cancha.estaDisponibleParaReservar() y (filtro.idCancha = null o filtro.idCancha = cancha.id)` | [ServicioAgenda.java](../src/main/java/ar/edu/ub/club/agenda/aplicacion/ServicioAgenda.java) |
+| 8 | ServicioAgenda | ConsultaTurnosOcupados | `turnosOcupados( cancha.id, fecha) (paso 7)` | [ConsultaTurnosOcupados.java](../src/main/java/ar/edu/ub/club/agenda/dominio/ConsultaTurnosOcupados.java) |
+| 9 | ServicioAgenda | CalendarioTurnos | `generarTurnos(cancha, fecha, d, regla, ocupados)` | [CalendarioTurnos.java](../src/main/java/ar/edu/ub/club/agenda/dominio/CalendarioTurnos.java) |
 
 ### `sec_cu26_p3.puml` — CU-26 Consulta de disponibilidad (parte 3: CalendarioTurnos.generarTurnos)
 
@@ -1389,36 +1426,43 @@ Acción «Reservar» → `PresentadorDisponibilidadCanchas.alElegirTurno` → `V
 | 1 | Socio | VistaDisponibilidadCanchas | `elige un turno libre` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
 | 2 | VistaDisponibilidadCanchas | PresentadorDisponibilidadCanchas | `alElegirTurno(turno)` | [PresentadorDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorDisponibilidadCanchas.java) |
 | 3 | PresentadorDisponibilidadCanchas | VistaDisponibilidadCanchas | `abrirConfirmacion( turno, null)` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
-| 4 | VistaDisponibilidadCanchas | DialogoConfirmarReserva | `«create»; abrir()` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
-| 5 | DialogoConfirmarReserva | PresentadorConfirmarReserva | `alAbrir(turno, null)` | [PresentadorConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorConfirmarReserva.java) |
-| 6 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `mostrarTurno(turno, null)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
-| 7 | Socio | DialogoConfirmarReserva | `Confirmar (paso 3)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
-| 8 | DialogoConfirmarReserva | PresentadorConfirmarReserva | `alConfirmar()` | [PresentadorConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorConfirmarReserva.java) |
-| 9 | PresentadorConfirmarReserva | SocioActual | `obtener()` | [SocioActual.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/SocioActual.java) |
-| 10 | PresentadorConfirmarReserva | ServicioReservas | `reservarOnline(socio, turno.idCancha, turno.aTurno())` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
-| 11 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `cerrarConExito()` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
-| 12 | DialogoConfirmarReserva | VistaDisponibilidadCanchas | `DialogoResueltoEvento` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
-| 13 | VistaDisponibilidadCanchas | PresentadorDisponibilidadCanchas | `alConsultar(filtro)` | [PresentadorDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorDisponibilidadCanchas.java) |
-| 14 | PresentadorDisponibilidadCanchas | VistaDisponibilidadCanchas | `mostrarTurnos(filas); mostrarMensaje("…")` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
-| 15 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `mostrarError(motivo)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
-| 16 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `mostrarError(mensaje)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
-| 17 | DialogoConfirmarReserva | VistaDisponibilidadCanchas | `al cerrar, la vista anfitriona recarga` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
+| 4 | VistaDisponibilidadCanchas | DialogoConfirmarReserva | `«create»(presentadorConfirmar, turno, null)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 5 | VistaDisponibilidadCanchas | DialogoConfirmarReserva | `addListener(DialogoResuelto Evento, mostrarMensaje)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 6 | VistaDisponibilidadCanchas | DialogoConfirmarReserva | `alCerrar(() -> presentador .alConsultar(filtro()))` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 7 | VistaDisponibilidadCanchas | DialogoConfirmarReserva | `abrir()` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 8 | DialogoConfirmarReserva | PresentadorConfirmarReserva | `alAbrir(turno, null)` | [PresentadorConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorConfirmarReserva.java) |
+| 9 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `mostrarTurno(turno, null)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 10 | Socio | DialogoConfirmarReserva | `Confirmar (paso 3)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 11 | DialogoConfirmarReserva | PresentadorConfirmarReserva | `alConfirmar()` | [PresentadorConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorConfirmarReserva.java) |
+| 12 | PresentadorConfirmarReserva | SocioActual | `obtener()` | [SocioActual.java](../src/main/java/ar/edu/ub/club/socios/aplicacion/SocioActual.java) |
+| 13 | PresentadorConfirmarReserva | ServicioReservas | `reservarOnline(socio, turno.idCancha, turno.aTurno())` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 14 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `cerrarConExito()` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 15 | DialogoConfirmarReserva | VistaDisponibilidadCanchas | `DialogoResueltoEvento` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
+| 16 | VistaDisponibilidadCanchas | VistaDisponibilidadCanchas | `mostrarMensaje("La reserva quedó confirmada.")` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
+| 17 | DialogoConfirmarReserva | VistaDisponibilidadCanchas | `al cerrar (alCerrar)` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
 | 18 | VistaDisponibilidadCanchas | PresentadorDisponibilidadCanchas | `alConsultar(filtro)` | [PresentadorDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorDisponibilidadCanchas.java) |
-| 19 | Socio | DialogoConfirmarReserva | `cierra el diálogo` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 19 | PresentadorDisponibilidadCanchas | VistaDisponibilidadCanchas | `mostrarTurnos(filas)` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
+| 20 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `mostrarError(motivo)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 21 | PresentadorConfirmarReserva | DialogoConfirmarReserva | `mostrarError(mensaje)` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
+| 22 | DialogoConfirmarReserva | VistaDisponibilidadCanchas | `al cerrar (alCerrar), la vista anfitriona recarga` | [VistaDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaDisponibilidadCanchas.java) |
+| 23 | VistaDisponibilidadCanchas | PresentadorDisponibilidadCanchas | `alConsultar(filtro)` | [PresentadorDisponibilidadCanchas.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorDisponibilidadCanchas.java) |
+| 24 | Socio | DialogoConfirmarReserva | `cierra el diálogo` | [DialogoConfirmarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/DialogoConfirmarReserva.java) |
 
 ### `sec_cu27_p2.puml` — CU-27 Socio reserva cancha online (parte 2: ServicioReservas.reservarOnline)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
 |---|---|---|---|---|
 | 1 | PresentadorConfirmarReserva | ServicioReservas | `reservarOnline(socio, idCancha, turno)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
-| 2 | ServicioReservas | FachadaPersistencia«Singleton» | `get(idCancha, Cancha)` |  |
-| 3 | ServicioReservas | ServicioReservas | `s = new SolicitudReserva( socio, cancha, turno, null, ALTA, SOCIO, reloj.ahora()) (paso 4)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
-| 4 | ServicioReservas | FabricaCadenaValidacion | `crearCadena(s)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
-| 5 | ServicioReservas | ValidadorReserva | `validar(s)` | [ValidadorReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/ValidadorReserva.java) |
-| 6 | ServicioReservas | Reserva | `«create» (socio, cancha, turno, registradaPor: socio, ahora)` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
-| 7 | ServicioReservas | Reserva | `confirmar()` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
-| 8 | ServicioReservas | FachadaPersistencia«Singleton» | `put(r) (paso 12)` |  |
-| 9 | ServicioReservas | PublicadorEventosReserva | `publicar(ReservaConfirmada Evento(r, socio, ahora))` | [PublicadorEventosReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/PublicadorEventosReserva.java) |
+| 2 | ServicioReservas | ServicioReservas | `registrarAlta(socio, idCancha, turno, socio, SOCIO)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 3 | ServicioReservas | FachadaPersistencia«Singleton» | `buscarUno(SocioParaReserva( socio.id))` |  |
+| 4 | ServicioReservas | FachadaPersistencia«Singleton» | `get(idCancha, Cancha)` |  |
+| 5 | ServicioReservas | ServicioReservas | `s = new SolicitudReserva( titular, cancha, turno, null, ALTA, SOCIO, reloj.ahora()) (paso 4)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 6 | ServicioReservas | FabricaCadenaValidacion | `crearCadena(s)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
+| 7 | ServicioReservas | ValidadorReserva | `validar(s)` | [ValidadorReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/ValidadorReserva.java) |
+| 8 | ServicioReservas | Reserva | `«create» (titular, cancha, turno, registradaPor: socio, ahora)` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
+| 9 | ServicioReservas | Reserva | `confirmar()` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
+| 10 | ServicioReservas | FachadaPersistencia«Singleton» | `put(r) (paso 12)` |  |
+| 11 | ServicioReservas | PublicadorEventosReserva | `publicar(ReservaConfirmada Evento(r, socio, ahora))` | [PublicadorEventosReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/PublicadorEventosReserva.java) |
 
 ### `sec_cu27_p3.puml` — CU-27 (parte 3: FabricaCadenaValidacion.crearCadena arma la cadena)
 
@@ -1431,9 +1475,10 @@ Acción «Reservar» → `PresentadorDisponibilidadCanchas.alElegirTurno` → `V
 | 5 | FabricaCadenaValidacion | FachadaPersistencia«Singleton» | `get(ReglaReserva.ID_UNICO, ReglaReserva)` |  |
 | 6 | FabricaCadenaValidacion | FachadaPersistencia«Singleton» | `buscar(ReservasFuturasDeSocio( s.socio.id, s.ahora))` |  |
 | 7 | FabricaCadenaValidacion | ConsultaTurnosOcupados | `turnosOcupados( s.cancha.id, s.turno.fecha)` | [ConsultaTurnosOcupados.java](../src/main/java/ar/edu/ub/club/agenda/dominio/ConsultaTurnosOcupados.java) |
-| 8 | FabricaCadenaValidacion | FabricaCadenaValidacion | `excluye s.reservaOriginal de vigentes y su turno de ocupados` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
-| 9 | FabricaCadenaValidacion | FabricaCadenaValidacion | `v1 = new ValidadorSocioHabilitado(grupo) v2 = new ValidadorRecursoActivo() v3 = new ValidadorHorarioClub( disponibilidad, feriados) v4 = new ValidadorDuracionTurno( regla, disponibilidad) v5 = new ValidadorAnticipacion(regla) v6 = new ValidadorLimiteReservas( regla, vigentes) v7 = new ValidadorTurnoLibre(ocupados)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
-| 10 | FabricaCadenaValidacion | FabricaCadenaValidacion | `v1.enlazar(v2).enlazar(v3) .enlazar(v4).enlazar(v5) .enlazar(v6).enlazar(v7)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
+| 8 | FabricaCadenaValidacion | FabricaCadenaValidacion | `vigentes.removeIf(r -> r.id = s.reservaOriginal.id)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
+| 9 | FabricaCadenaValidacion | FabricaCadenaValidacion | `ocupados = ocupadosSinOriginal( s, ocupados)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
+| 10 | FabricaCadenaValidacion | FabricaCadenaValidacion | `v1 = new ValidadorSocioHabilitado(grupo) v2 = new ValidadorRecursoActivo() v3 = new ValidadorHorarioClub( disponibilidad, feriados) v4 = new ValidadorDuracionTurno( regla, disponibilidad) v5 = new ValidadorAnticipacion(regla) v6 = new ValidadorLimiteReservas( regla, vigentes) v7 = new ValidadorTurnoLibre(ocupados)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
+| 11 | FabricaCadenaValidacion | FabricaCadenaValidacion | `v1.enlazar(v2); v2.enlazar(v3); v3.enlazar(v4); v4.enlazar(v5); v5.enlazar(v6); v6.enlazar(v7)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
 
 ### `sec_cu27_p4.puml` — CU-27 (parte 4: recorrido de la cadena de validadores)
 
@@ -1688,7 +1733,11 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 | 8 | PresentadorModificarReserva | ServicioAgenda | `consultarReglas()` | [ServicioAgenda.java](../src/main/java/ar/edu/ub/club/agenda/aplicacion/ServicioAgenda.java) |
 | 9 | PresentadorModificarReserva | PresentadorModificarReserva | `detalle = DetalleReserva. desde(r, List.of(), regla); guarda version` | [PresentadorModificarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorModificarReserva.java) |
 | 10 | PresentadorModificarReserva | ServicioRecursos | `listarCanchas( detalle.idDeporte)` | [ServicioRecursos.java](../src/main/java/ar/edu/ub/club/recursos/aplicacion/ServicioRecursos.java) |
-| 11 | PresentadorModificarReserva | VistaModificarReserva | `mostrarReserva(detalle, canchas)` | [VistaModificarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaModificarReserva.java) |
+| 11 | PresentadorModificarReserva | PresentadorModificarReserva | `filtra estaDisponibleParaReservar() y arma OpcionSeleccion` | [PresentadorModificarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorModificarReserva.java) |
+| 12 | PresentadorModificarReserva | VistaModificarReserva | `mostrarReserva(detalle, canchas)` | [VistaModificarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaModificarReserva.java) |
+| 13 | PresentadorModificarReserva | PresentadorModificarReserva | `informarSiNoModificable(detalle)` | [PresentadorModificarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/PresentadorModificarReserva.java) |
+| 14 | PresentadorModificarReserva | VistaModificarReserva | `mostrarError("La reserva ya no está confirmada y no puede modificarse.")` | [VistaModificarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaModificarReserva.java) |
+| 15 | PresentadorModificarReserva | VistaModificarReserva | `mostrarError("Faltan menos de … horas para el turno: … puede cancelarla con motivo.")` | [VistaModificarReserva.java](../src/main/java/ar/edu/ub/club/reservas/ui/VistaModificarReserva.java) |
 
 ### `sec_cu32_p2.puml` — CU-32 Administrador modifica reserva (parte 2: de la vista a la fachada)
 
@@ -1710,15 +1759,19 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
 |---|---|---|---|---|
 | 1 | ServicioReservas | FachadaPersistencia«Singleton» | `get(idReserva, Reserva)` |  |
-| 2 | ServicioReservas | FachadaPersistencia«Singleton» | `get(idNuevaCancha, Cancha)` |  |
-| 3 | ServicioReservas | ServicioReservas | `s = new Solicitud Reserva(r.socio, nuevaCancha, nuevoTurno, r, MODIFICACION, ADMINISTRADOR, ahora) (paso 6)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
-| 4 | ServicioReservas | FabricaCadenaValidacion | `crearCadena(s)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
-| 5 | ServicioReservas | ValidadorReserva | `validar(s)` | [ValidadorReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/ValidadorReserva.java) |
-| 6 | ServicioReservas | ServicioReservas | `turnoAnterior = r.turno; canchaAnterior = r.cancha` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
-| 7 | ServicioReservas | Reserva | `modificar(nuevoTurno, nuevaCancha, ahora) (paso 14)` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
-| 8 | Reserva | EstadoReservaConfirmada | `modificar(r, nuevoTurno, nuevaCancha, ahora)` | [EstadoReservaConfirmada.java](../src/main/java/ar/edu/ub/club/reservas/dominio/EstadoReservaConfirmada.java) |
-| 9 | ServicioReservas | FachadaPersistencia«Singleton» | `put(r)` |  |
-| 10 | ServicioReservas | PublicadorEventosReserva | `publicar(Reserva ModificadaEvento (r, admin, ahora, turnoAnterior, canchaAnterior))` | [PublicadorEventosReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/PublicadorEventosReserva.java) |
+| 2 | ServicioReservas | Reserva | `esVigente(ahora)` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
+| 3 | ServicioReservas | FachadaPersistencia«Singleton» | `get(ReglaReserva.ID_UNICO, ReglaReserva)` |  |
+| 4 | ServicioReservas | ServicioReservas | `verificarPlazo(r, regla.anticipacion MinimaModificacionHoras, ahora, mensaje)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 5 | ServicioReservas | FachadaPersistencia«Singleton» | `buscarUno(SocioParaReserva( r.socio.id))` |  |
+| 6 | ServicioReservas | FachadaPersistencia«Singleton» | `get(idNuevaCancha, Cancha)` |  |
+| 7 | ServicioReservas | ServicioReservas | `s = new Solicitud Reserva(r.socio, nuevaCancha, nuevoTurno, r, MODIFICACION, ADMINISTRADOR, ahora) (paso 6)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 8 | ServicioReservas | FabricaCadenaValidacion | `crearCadena(s)` | [FabricaCadenaValidacion.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/FabricaCadenaValidacion.java) |
+| 9 | ServicioReservas | ValidadorReserva | `validar(s)` | [ValidadorReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/ValidadorReserva.java) |
+| 10 | ServicioReservas | ServicioReservas | `turnoAnterior = r.turno; canchaAnterior = r.cancha` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 11 | ServicioReservas | Reserva | `modificar(nuevoTurno, nuevaCancha, ahora) (paso 14)` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
+| 12 | Reserva | EstadoReservaConfirmada | `modificar(r, nuevoTurno, nuevaCancha, ahora)` | [EstadoReservaConfirmada.java](../src/main/java/ar/edu/ub/club/reservas/dominio/EstadoReservaConfirmada.java) |
+| 13 | ServicioReservas | FachadaPersistencia«Singleton» | `put(r)` |  |
+| 14 | ServicioReservas | PublicadorEventosReserva | `publicar(Reserva ModificadaEvento (r, admin, ahora, turnoAnterior, canchaAnterior))` | [PublicadorEventosReserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/PublicadorEventosReserva.java) |
 
 ## CU-33 Administrador cancela reserva
 
@@ -1798,11 +1851,16 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 | 1 | Administrador | VistaMediosPago | `cambia medios o pasarela y elige Guardar (paso 3; FA1 agrega un medio)` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
 | 2 | VistaMediosPago | FormularioEntidad | `leer() (paso 4)` | [FormularioEntidad.java](../src/main/java/ar/edu/ub/club/compartido/ui/FormularioEntidad.java) |
 | 3 | VistaMediosPago | PresentadorMediosPago | `alGuardar(datos)` | [PresentadorMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorMediosPago.java) |
-| 4 | PresentadorMediosPago | ServicioPagos | `configurarMedios YPasarela(datos)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 5 | PresentadorMediosPago | VistaMediosPago | `mostrarConfiguracion( datos, pasarela)` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
-| 6 | PresentadorMediosPago | VistaMediosPago | `mostrarMensaje( "Configuración guardada")` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
-| 7 | PresentadorMediosPago | VistaMediosPago | `marcarCampo( campo, mensaje)` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
-| 8 | VistaMediosPago | FormularioEntidad | `marcarError( campo, mensaje)` | [FormularioEntidad.java](../src/main/java/ar/edu/ub/club/compartido/ui/FormularioEntidad.java) |
+| 4 | PresentadorMediosPago | PresentadorMediosPago | `pidioHabilitada = datos.habilitada` | [PresentadorMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorMediosPago.java) |
+| 5 | PresentadorMediosPago | ServicioPagos | `configurarMedios YPasarela(datos) (dentro de ejecutar)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 6 | PresentadorMediosPago | ServicioPagos | `consultarMediosYPasarela()` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 7 | PresentadorMediosPago | VistaMediosPago | `mostrarConfiguracion(DatosConfiguracion Pagos.desde(config), ResumenPasarela .desde(config.pasarela))` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
+| 8 | PresentadorMediosPago | VistaMediosPago | `mostrarMensaje("Configuración guardada. Pagos online habilitados")` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
+| 9 | PresentadorMediosPago | VistaMediosPago | `mostrarMensaje("Configuración guardada. El pago online no se ofrecerá")` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
+| 10 | PresentadorMediosPago | VistaMediosPago | `mostrarError("Las credenciales deben cargarse … la pasarela quedó deshabilitada")` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
+| 11 | PresentadorMediosPago | VistaMediosPago | `mostrarError("La pasarela rechazó la configuración: quedó deshabilitada. …")` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
+| 12 | PresentadorMediosPago | VistaMediosPago | `marcarCampo( campo, mensaje)` | [VistaMediosPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaMediosPago.java) |
+| 13 | VistaMediosPago | FormularioEntidad | `marcarError( campo, mensaje)` | [FormularioEntidad.java](../src/main/java/ar/edu/ub/club/compartido/ui/FormularioEntidad.java) |
 
 ### `sec_cu34_p3.puml` — CU-34 (parte 3:\nServicioPagos.configurarMediosYPasarela)
 
@@ -1810,16 +1868,21 @@ canchaAnterior))` → `navegarA("reservas-club")`; conflicto → `PresentadorMod
 |---|---|---|---|---|
 | 1 | PresentadorMediosPago | ServicioPagos | `configurarMedios YPasarela(datos)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
 | 2 | ServicioPagos | FachadaPersistencia«Singleton» | `contar(MedioPago PorNombre(nombre))` |  |
-| 3 | ServicioPagos | FachadaPersistencia«Singleton» | `put(«create» MedioPago(nombre))` |  |
-| 4 | ServicioPagos | FachadaPersistencia«Singleton» | `get(id, MedioPago)` |  |
-| 5 | ServicioPagos | FachadaPersistencia«Singleton» | `put(medio) (paso 5)` |  |
-| 6 | ServicioPagos | FachadaPersistencia«Singleton» | `get(ConfiguracionPasarela.ID_UNICO, ConfiguracionPasarela)` |  |
-| 7 | ServicioPagos | ConfiguracionPasarela | `habilitada = false` | [ConfiguracionPasarela.java](../src/main/java/ar/edu/ub/club/pagos/dominio/ConfiguracionPasarela.java) |
-| 8 | ServicioPagos | ConfiguracionPasarela | `habilitada = false` | [ConfiguracionPasarela.java](../src/main/java/ar/edu/ub/club/pagos/dominio/ConfiguracionPasarela.java) |
-| 9 | ServicioPagos | PasarelaPago | `validarConfiguracion(c) (paso 7)` | [PasarelaPago.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaPago.java) |
-| 10 | ServicioPagos | ConfiguracionPasarela | `habilitada = resultado (paso 9; false en FA5)` | [ConfiguracionPasarela.java](../src/main/java/ar/edu/ub/club/pagos/dominio/ConfiguracionPasarela.java) |
-| 11 | ServicioPagos | FachadaPersistencia«Singleton» | `put(c)` |  |
-| 12 | ServicioPagos | ServicioAuditoria | `registrar(admin, "MODIFICACION", "ConfiguracionPasarela", id, detalle) (paso 10)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 3 | ServicioPagos | MedioPago | `«create»(nombre)` | [MedioPago.java](../src/main/java/ar/edu/ub/club/pagos/dominio/MedioPago.java) |
+| 4 | ServicioPagos | MedioPago | `cambiarHabilitado( d.habilitado)` | [MedioPago.java](../src/main/java/ar/edu/ub/club/pagos/dominio/MedioPago.java) |
+| 5 | ServicioPagos | FachadaPersistencia«Singleton» | `put(m)` |  |
+| 6 | ServicioPagos | FachadaPersistencia«Singleton» | `get(d.id, MedioPago)` |  |
+| 7 | ServicioPagos | MedioPago | `cambiarHabilitado( d.habilitado)` | [MedioPago.java](../src/main/java/ar/edu/ub/club/pagos/dominio/MedioPago.java) |
+| 8 | ServicioPagos | FachadaPersistencia«Singleton» | `put(m)` |  |
+| 9 | ServicioPagos | FachadaPersistencia«Singleton» | `get(ConfiguracionPasarela.ID_UNICO, ConfiguracionPasarela)` |  |
+| 10 | ServicioPagos | ServicioPagos | `modo = datos.modo (SIMULADA si es nulo); credenciales = SIMULADA o pasarelaMercadoPago.tieneCredenciales()` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 11 | ServicioPagos | ServicioPagos | `habilitada = false` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 12 | ServicioPagos | ConfiguracionPasarela | `configurar(modo, true, credenciales)` | [ConfiguracionPasarela.java](../src/main/java/ar/edu/ub/club/pagos/dominio/ConfiguracionPasarela.java) |
+| 13 | ServicioPagos | ServicioPagos | `adaptadorDe(modo) (paso 7)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 14 | ServicioPagos | PasarelaPago | `validarConfiguracion(c)` | [PasarelaPago.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaPago.java) |
+| 15 | ServicioPagos | ConfiguracionPasarela | `configurar(modo, habilitada, credenciales) (paso 9; FA3, FA4: habilitada = false)` | [ConfiguracionPasarela.java](../src/main/java/ar/edu/ub/club/pagos/dominio/ConfiguracionPasarela.java) |
+| 16 | ServicioPagos | FachadaPersistencia«Singleton» | `put(c)` |  |
+| 17 | ServicioPagos | ServicioAuditoria | `registrar(admin, "MODIFICACION", "ConfiguracionPasarela", c.id, detalle) (paso 10)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 
 ## CU-35 Socio (titular) paga cuota societaria online
 
@@ -1896,7 +1959,7 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 5 | ProcesadorPagoOnline | PagoOnline | `«create» PagoOnline(c, importe, referenciaExterna: UUID nuevo, fecha: ahora)` | [PagoOnline.java](../src/main/java/ar/edu/ub/club/pagos/dominio/PagoOnline.java) |
 | 6 | ProcesadorPagoOnline | FachadaPersistencia«Singleton» | `put(p)` |  |
 
-### `sec_cu35_p5.puml` — CU-35 (parte 5: pago en el simulador P-27 y webhook,\nmodo SIMULADA, pasos 13-14)
+### `sec_cu35_p5.puml` — CU-35 (parte 5: pago en el simulador P-27 y confirmación\nen proceso, modo SIMULADA, pasos 13-14)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
 |---|---|---|---|---|
@@ -1907,10 +1970,11 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 5 | Socio(titular) | VistaSimuladorPasarela | `elige Aprobar o Rechazar (paso 13)` | [VistaSimuladorPasarela.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaSimuladorPasarela.java) |
 | 6 | VistaSimuladorPasarela | PresentadorSimuladorPasarela | `alResolver(aprobar)` | [PresentadorSimuladorPasarela.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorSimuladorPasarela.java) |
 | 7 | PresentadorSimuladorPasarela | PasarelaSimuladaAdapter | `resolverPago( idPreferencia, aprobar)` | [PasarelaSimuladaAdapter.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaSimuladaAdapter.java) |
-| 8 | PasarelaSimuladaAdapter | PasarelaSimuladaAdapter | `registra el resultado y genera idPagoPasarela` | [PasarelaSimuladaAdapter.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaSimuladaAdapter.java) |
-| 9 | PasarelaSimuladaAdapter | WebhookPasarelaController | `POST /api/pasarela/ notificaciones (paso 14)` | [WebhookPasarelaController.java](../src/main/java/ar/edu/ub/club/pagos/web/WebhookPasarelaController.java) |
-| 10 | WebhookPasarelaController | ServicioPagos | `confirmarResultado Pasarela( idPagoPasarela)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 11 | PresentadorSimuladorPasarela | VistaSimuladorPasarela | `redirigirA(urlRetorno)` | [VistaSimuladorPasarela.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaSimuladorPasarela.java) |
+| 8 | PasarelaSimuladaAdapter | PasarelaSimuladaAdapter | `obtenerIntencion(idPreferencia)` | [PasarelaSimuladaAdapter.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaSimuladaAdapter.java) |
+| 9 | PasarelaSimuladaAdapter | PasarelaSimuladaAdapter | `idPagoPasarela = "SIM-…"; resultados.put(idPagoPasarela, new ResultadoPasarela(…))` | [PasarelaSimuladaAdapter.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaSimuladaAdapter.java) |
+| 10 | PasarelaSimuladaAdapter | ServicioPagos | `servicioPagos.getObject() .confirmarResultadoPasarela( idPagoPasarela) (paso 14)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 11 | PasarelaSimuladaAdapter | PasarelaSimuladaAdapter | `resueltas.put(idPreferencia, idPagoPasarela)` | [PasarelaSimuladaAdapter.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaSimuladaAdapter.java) |
+| 12 | PresentadorSimuladorPasarela | VistaSimuladorPasarela | `redirigirA(urlRetorno)` | [VistaSimuladorPasarela.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaSimuladorPasarela.java) |
 
 ### `sec_cu35_p6.puml` — CU-35 (parte 6: pago en Mercado Pago, webhook y abandono,\npasos 13-14 y FA7)
 
@@ -1925,9 +1989,13 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
 |---|---|---|---|---|
 | 1 | WebhookPasarelaController | ServicioPagos | `confirmarResultado Pasarela( idPagoPasarela)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 2 | ServicioPagos | PasarelaPago | `obtenerResultado( idPagoPasarela) (paso 15)` | [PasarelaPago.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaPago.java) |
-| 3 | ServicioPagos | FachadaPersistencia«Singleton» | `buscarUno(PagoPor ReferenciaExterna( referencia)) (FOR UPDATE)` |  |
-| 4 | ServicioPagos | ServicioAuditoria | `registrar(null, "ANOMALIA_PAGO", "Pago", null, detalle)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 2 | ServicioPagos | FachadaPersistencia«Singleton» | `get(ConfiguracionPasarela.ID_UNICO, ConfiguracionPasarela)` |  |
+| 3 | ServicioPagos | ServicioPagos | `pasarelaActiva(config) (adaptador según config.modo)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 4 | ServicioPagos | PasarelaPago | `obtenerResultado( idPagoPasarela) (paso 15)` | [PasarelaPago.java](../src/main/java/ar/edu/ub/club/pagos/integracion/PasarelaPago.java) |
+| 5 | ServicioPagos | ServicioAuditoria | `registrar(null, "ANOMALIA_PAGO", "Pago", null, detalle)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 6 | ServicioPagos | FachadaPersistencia«Singleton» | `buscarUno(PagoPor ReferenciaExterna( referencia, true))` |  |
+| 7 | ServicioPagos | ServicioAuditoria | `registrar(null, "ANOMALIA_PAGO", "Pago", p.id o null, detalle)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
+| 8 | ServicioPagos | ServicioPagos | `aplicarResultado(p, resultado, reloj.ahora())` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
 
 ### `sec_cu35_p8.puml` — CU-35 (parte 8: aplicación del resultado: State del pago,\ncomprobante y saldo a favor, pasos 18-22)
 
@@ -1962,7 +2030,7 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 5 | VistaResultadoPago | PresentadorResultadoPago | `alEntrar(referencia)` | [PresentadorResultadoPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorResultadoPago.java) |
 | 6 | PresentadorResultadoPago | UsuarioActual | `obtener()` | [UsuarioActual.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/UsuarioActual.java) |
 | 7 | PresentadorResultadoPago | ServicioPagos | `consultarPagoOnline( usuario, referencia)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 8 | ServicioPagos | FachadaPersistencia«Singleton» | `buscarUno(PagoPor ReferenciaExterna( referencia))` |  |
+| 8 | ServicioPagos | FachadaPersistencia«Singleton» | `buscarUno(PagoPor ReferenciaExterna( referencia, false))` |  |
 | 9 | ServicioPagos | ServicioPagos | `p del grupo del usuario (RN-20)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
 | 10 | PresentadorResultadoPago | VistaResultadoPago | `mostrarEstado( ResumenPagoOnline .desde(p))` | [VistaResultadoPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaResultadoPago.java) |
 | 11 | PresentadorResultadoPago | PresentadorResultadoPago | `planificador .schedule(this:: consultar, 3 s)` | [PresentadorResultadoPago.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorResultadoPago.java) |
@@ -1988,16 +2056,20 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 |---|---|---|---|---|
 | 1 | Administrador | VistaPagoManual | `abre P-30` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
 | 2 | VistaPagoManual | PresentadorPagoManual | `cargar()` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
-| 3 | PresentadorPagoManual | ServicioPagos | `consultarMedios YPasarela()` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 4 | PresentadorPagoManual | VistaPagoManual | `mostrarMedios(opciones) (solo medios habilitados)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
-| 5 | Administrador | VistaPagoManual | `ingresa DNI o nombre (paso 1)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
-| 6 | VistaPagoManual | PresentadorPagoManual | `alBuscarGrupo(texto)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
-| 7 | PresentadorPagoManual | ServicioGruposFamiliares | `buscarGrupos(new Criterio BusquedaGrupo(texto, true))` | [ServicioGruposFamiliares.java](../src/main/java/ar/edu/ub/club/grupos/aplicacion/ServicioGruposFamiliares.java) |
-| 8 | PresentadorPagoManual | VistaPagoManual | `mostrarGrupos(filas) (FilaGrupo.desde(r))` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
-| 9 | Administrador | VistaPagoManual | `elige un grupo (paso 3)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
-| 10 | VistaPagoManual | PresentadorPagoManual | `alElegirGrupo(idGrupo)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
-| 11 | PresentadorPagoManual | ServicioCuotas | `consultarCuotas DeGrupo(idGrupo)` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
-| 12 | PresentadorPagoManual | VistaPagoManual | `mostrarCuotas(filas) (FilaCuota.desde(c, false), solo impagas)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 3 | PresentadorPagoManual | ServicioPagos | `listarMedios Habilitados()` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 4 | PresentadorPagoManual | VistaPagoManual | `mostrarMedios(opciones) (OpcionSeleccion por nombre)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 5 | PresentadorPagoManual | VistaPagoManual | `mostrarError("Debe habilitarse un medio manual (CU-34)")` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 6 | Administrador | VistaPagoManual | `ingresa DNI o nombre (paso 1)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 7 | VistaPagoManual | PresentadorPagoManual | `alBuscarGrupo(texto)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
+| 8 | PresentadorPagoManual | ServicioGruposFamiliares | `buscarGrupos(new Criterio BusquedaGrupo(texto, true))` | [ServicioGruposFamiliares.java](../src/main/java/ar/edu/ub/club/grupos/aplicacion/ServicioGruposFamiliares.java) |
+| 9 | PresentadorPagoManual | VistaPagoManual | `mostrarGrupos(filas) (FilaGrupo.desde(r))` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 10 | PresentadorPagoManual | VistaPagoManual | `mostrarMensaje( "No hay coincidencias")` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 11 | Administrador | VistaPagoManual | `elige un grupo (paso 3)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 12 | VistaPagoManual | PresentadorPagoManual | `alElegirGrupo(idGrupo)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
+| 13 | PresentadorPagoManual | PresentadorPagoManual | `this.idGrupo = idGrupo` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
+| 14 | PresentadorPagoManual | ServicioCuotas | `consultarCuotas DeGrupo(idGrupo)` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
+| 15 | PresentadorPagoManual | VistaPagoManual | `mostrarCuotas(filas) (FilaCuota.desde(c, false), solo las que admitePago())` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 16 | PresentadorPagoManual | VistaPagoManual | `mostrarMensaje( "El grupo no tiene deuda")` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
 
 ### `sec_cu36_p2.puml` — CU-36 Administrador registra pago manual\n(parte 2: de la vista a la fachada, pasos 5-14)
 
@@ -2009,11 +2081,11 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 4 | DialogoConfirmacion | VistaPagoManual | `alConfirmar` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
 | 5 | VistaPagoManual | PresentadorPagoManual | `alRegistrar(idCuota, idMedio, importe)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
 | 6 | PresentadorPagoManual | UsuarioActual | `obtener Administrador()` | [UsuarioActual.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/UsuarioActual.java) |
-| 7 | PresentadorPagoManual | ServicioPagos | `registrarPagoManual( admin, idCuota, idMedio, importe)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 8 | PresentadorPagoManual | VistaPagoManual | `navegarA("pagos/comprobante/" + idComprobante) (paso 14)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 7 | PresentadorPagoManual | ServicioPagos | `registrarPagoManual( admin, idCuota, idMedio, importe) (dentro de consultar)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 8 | PresentadorPagoManual | VistaPagoManual | `navegarA("pagos/comprobante/" + p.comprobante.id) (paso 14)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
 | 9 | PresentadorPagoManual | VistaPagoManual | `mostrarError(motivo)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
-| 10 | PresentadorPagoManual | PresentadorPagoManual | `alElegirGrupo(idGrupo)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
-| 11 | PresentadorPagoManual | VistaPagoManual | `mostrarError(mensaje)` | [VistaPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagoManual.java) |
+| 10 | PresentadorPagoManual | PresentadorPagoManual | `cargar() (recarga los medios)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
+| 11 | PresentadorPagoManual | PresentadorPagoManual | `alElegirGrupo(idGrupo) (recarga las cuotas)` | [PresentadorPagoManual.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagoManual.java) |
 | 12 | Administrador | DialogoConfirmacion | `Cancelar` | [DialogoConfirmacion.java](../src/main/java/ar/edu/ub/club/compartido/ui/DialogoConfirmacion.java) |
 
 ### `sec_cu36_p3.puml` — CU-36 (parte 3: ServicioPagos.registrarPagoManual, pasos 6-13)
@@ -2052,12 +2124,17 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 2 | VistaPagosComprobantes | FiltroFechas | `valor()` | [FiltroFechas.java](../src/main/java/ar/edu/ub/club/compartido/ui/FiltroFechas.java) |
 | 3 | VistaPagosComprobantes | PresentadorPagosComprobantes | `cargar(filtro)` | [PresentadorPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagosComprobantes.java) |
 | 4 | PresentadorPagosComprobantes | UsuarioActual | `obtener()` | [UsuarioActual.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/UsuarioActual.java) |
-| 5 | PresentadorPagosComprobantes | ServicioPagos | `consultarPagos( usuario, filtro)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 6 | ServicioPagos | ServicioPagos | `alcance según usuario.obtener Permisos() (paso 2)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
-| 7 | ServicioPagos | FachadaPersistencia«Singleton» | `buscar(PagosPor Filtro(filtro))` |  |
-| 8 | ServicioPagos | FachadaPersistencia«Singleton» | `buscarUno(GrupoVigente DeSocio(idSocio))` |  |
-| 9 | ServicioPagos | FachadaPersistencia«Singleton» | `buscar(PagosDeGrupo( grupo.id, filtro))` |  |
-| 10 | PresentadorPagosComprobantes | VistaPagosComprobantes | `mostrarPagos(filas) (FilaPago.desde(p): origen() y descripcionMedio())` | [VistaPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagosComprobantes.java) |
+| 5 | PresentadorPagosComprobantes | PresentadorPagosComprobantes | `esSocio = controlAcceso.tienePermiso( usuario, CONSULTAR_PAGOS_PROPIOS)` | [PresentadorPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagosComprobantes.java) |
+| 6 | PresentadorPagosComprobantes | VistaPagosComprobantes | `mostrarFiltroGrupo(!esSocio)` | [VistaPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagosComprobantes.java) |
+| 7 | PresentadorPagosComprobantes | ServicioPagos | `consultarPagos( usuario, filtro)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 8 | ServicioPagos | ServicioPagos | `alcance según usuario.obtener Permisos() (paso 2)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 9 | ServicioPagos | FachadaPersistencia«Singleton» | `buscar(PagosPor Filtro(filtro))` |  |
+| 10 | ServicioPagos | FachadaPersistencia«Singleton» | `buscarUno(GrupoVigente DeSocio(idSocio))` |  |
+| 11 | ServicioPagos | FachadaPersistencia«Singleton» | `buscar(PagosDeGrupo( grupo.id, filtro))` |  |
+| 12 | PresentadorPagosComprobantes | VistaPagosComprobantes | `mostrarPagos(filas) (FilaPago.desde(p): origen() y descripcionMedio())` | [VistaPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagosComprobantes.java) |
+| 13 | PresentadorPagosComprobantes | VistaPagosComprobantes | `mostrarMensaje("No hay pagos registrados" o "Ningún pago cumple el filtro")` | [VistaPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagosComprobantes.java) |
+| 14 | PresentadorPagosComprobantes | PresentadorPagosComprobantes | `cargarSaldo(filtro.idGrupo)` | [PresentadorPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/PresentadorPagosComprobantes.java) |
+| 15 | PresentadorPagosComprobantes | VistaPagosComprobantes | `mostrarSaldo(null)` | [VistaPagosComprobantes.java](../src/main/java/ar/edu/ub/club/pagos/ui/VistaPagosComprobantes.java) |
 
 ### `sec_cu37_p2.puml` — CU-37 (parte 2: saldo a favor del grupo, paso 5)
 
@@ -2136,7 +2213,10 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 5 | ReporteUsoCanchas | ReporteUsoCanchas | `obtenerDatos(filtro)` | [ReporteUsoCanchas.java](../src/main/java/ar/edu/ub/club/reportes/aplicacion/ReporteUsoCanchas.java) |
 | 6 | ReporteUsoCanchas | ConsultasReportes | `usoCanchas(filtro)` | [ConsultasReportes.java](../src/main/java/ar/edu/ub/club/reportes/persistencia/ConsultasReportes.java) |
 | 7 | ReporteUsoCanchas | ReporteUsoCanchas | `calcularTotales(filas) (paso 6: reservas, horas y % de ocupación sobre las horas de atención)` | [ReporteUsoCanchas.java](../src/main/java/ar/edu/ub/club/reportes/aplicacion/ReporteUsoCanchas.java) |
-| 8 | ReporteUsoCanchas | ReporteUsoCanchas | `armarResultado(filas, totales) (paso 7; totales en cero si no hay filas, FA2)` | [ReporteUsoCanchas.java](../src/main/java/ar/edu/ub/club/reportes/aplicacion/ReporteUsoCanchas.java) |
+| 8 | ReporteUsoCanchas | ReporteUsoCanchas | `armarResultado(filas, totales, filtro) (privado; paso 7)` | [ReporteUsoCanchas.java](../src/main/java/ar/edu/ub/club/reportes/aplicacion/ReporteUsoCanchas.java) |
+| 9 | ReporteUsoCanchas | ReporteUsoCanchas | `armarResultado(filas, totales)` | [ReporteUsoCanchas.java](../src/main/java/ar/edu/ub/club/reportes/aplicacion/ReporteUsoCanchas.java) |
+| 10 | ReporteUsoCanchas | ReporteUsoCanchas | `titulo(), columnas() y celdas(fila) por cada fila` | [ReporteUsoCanchas.java](../src/main/java/ar/edu/ub/club/reportes/aplicacion/ReporteUsoCanchas.java) |
+| 11 | ReporteUsoCanchas | ReporteUsoCanchas | `new ResultadoReporte(titulo, filtro, columnas, celdas, totales)` | [ReporteUsoCanchas.java](../src/main/java/ar/edu/ub/club/reportes/aplicacion/ReporteUsoCanchas.java) |
 
 ### `sec_cu38_p4.puml` — CU-38 (parte 4: ServicioReportes.exportarReporte\ncon Strategy de exportación, paso 9)
 
@@ -2288,13 +2368,16 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 |---|---|---|---|---|
 | 1 | ServicioPagos | ServicioCuotas | `registrarCredito(idGrupo, importe, idPago)` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
 | 2 | ServicioCuotas | MovimientoSaldo | `«create» (CREDITO, importe, idPago)` | [MovimientoSaldo.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/MovimientoSaldo.java) |
-| 3 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(m)` |  |
-| 4 | ServicioCuotas | ServicioCuotas | `aplicarSaldoA Pendientes(grupo)` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
-| 5 | ServicioCuotas | FachadaPersistencia«Singleton» | `buscarUno( SaldoDeGrupo(idGrupo))` |  |
-| 6 | ServicioCuotas | FachadaPersistencia«Singleton» | `buscar(CuotasImpagas DeGrupo(idGrupo)) [más antigua primero]` |  |
-| 7 | ServicioCuotas | Cuota | `importeAPagar()` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
-| 8 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(«create» Movimiento Saldo(DEBITO, importe, c))` |  |
-| 9 | ServicioCuotas | ApplicationEventPublisher | `publishEvent(CuotaCubierta ConSaldoEvento(c.id, idGrupo, importe, ahora))` |  |
+| 3 | ServicioCuotas | MovimientoSaldo | `asignarGrupo(idGrupo)` | [MovimientoSaldo.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/MovimientoSaldo.java) |
+| 4 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(m)` |  |
+| 5 | ServicioCuotas | FachadaPersistencia«Singleton» | `get(idGrupo, GrupoFamiliar)` |  |
+| 6 | ServicioCuotas | ServicioCuotas | `aplicarSaldoA Pendientes(grupo)` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
+| 7 | ServicioCuotas | FachadaPersistencia«Singleton» | `buscarUno( SaldoDeGrupo(grupo.id))` |  |
+| 8 | ServicioCuotas | FachadaPersistencia«Singleton» | `buscar(CuotasImpagas DeGrupo(grupo.id)) [más antigua primero]` |  |
+| 9 | ServicioCuotas | Cuota | `importeAPagar()` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
+| 10 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(new MovimientoSaldo( DEBITO, importe, c))` |  |
+| 11 | ServicioCuotas | ServicioCuotas | `saldo = saldo.restar(importe)` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
+| 12 | ServicioCuotas | ApplicationEventPublisher | `publishEvent(CuotaCubierta ConSaldoEvento(c.id, grupo.id, importe, ahora))` |  |
 
 ### `sec_tmp_disparo.puml` — Eventos temporales: disparo de las tareas programadas
 
@@ -2308,22 +2391,30 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 6 | PlanificadorReservas | ServicioReservas | `finalizarReservas Cumplidas()` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
 | 7 | PlanificadordeSpring(@Scheduled) | PlanificadorPagos | `vencerPagos Pendientes()` | [PlanificadorPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/PlanificadorPagos.java) |
 | 8 | PlanificadorPagos | ServicioPagos | `vencerPagos Pendientes(ahora)` | [ServicioPagos.java](../src/main/java/ar/edu/ub/club/pagos/aplicacion/ServicioPagos.java) |
+| 9 | PlanificadordeSpring(@Scheduled) | PlanificadorSesiones | `eliminarTokens Vencidos()` | [PlanificadorSesiones.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/PlanificadorSesiones.java) |
+| 10 | PlanificadorSesiones | AlmacenTokensSesionPersistente | `eliminarVencidos( reloj.ahora())` | [AlmacenTokensSesionPersistente.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/AlmacenTokensSesionPersistente.java) |
 
 ### `sec_tmp_emision_p1.puml` — Emisión mensual de cuotas (parte 1: ServicioCuotas.emitirCuotasDelMes)
 
 | # | Desde | Hacia (clase) | Mensaje | Archivo |
 |---|---|---|---|---|
-| 1 | ServicioCuotas | FachadaPersistencia«Singleton» | `buscar(GruposVigentes SinCuota(periodo))` |  |
-| 2 | ServicioCuotas | FachadaPersistencia«Singleton» | `buscarUno( SaldoDeGrupo(g.id))` |  |
-| 3 | ServicioCuotas | GrupoFamiliar | `emitirCuota(periodo, fechas, saldo)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 4 | GrupoFamiliar | GrupoFamiliar | `calcularImporte Cuota()` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
-| 5 | GrupoFamiliar | Cuota | `«create» (periodo, importe, fechas)` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
-| 6 | GrupoFamiliar | Cuota | `agrega ItemCuota(socio, categoria, importe)` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
-| 7 | GrupoFamiliar | Cuota | `creditoAplicado = min(saldo, importe)` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
-| 8 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(c)` |  |
-| 9 | ServicioCuotas | MovimientoSaldo | `«create» (DEBITO, c.creditoAplicado, c)` | [MovimientoSaldo.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/MovimientoSaldo.java) |
-| 10 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(m)` |  |
-| 11 | ServicioCuotas | ApplicationEventPublisher | `publishEvent(CuotaCubierta ConSaldoEvento(c.id, g.id, importe, ahora))` |  |
+| 1 | ServicioCuotas | TransactionTemplate(REQUIRES_NEW) | `execute(estado -> …)` |  |
+| 2 | TransactionTemplate(REQUIRES_NEW) | FachadaPersistencia«Singleton» | `buscar(GruposVigentes SinCuota(periodo))` |  |
+| 3 | ServicioCuotas | TransactionTemplate(REQUIRES_NEW) | `executeWithoutResult(estado -> emitirCuotaDeGrupo(idGrupo, periodo))` |  |
+| 4 | TransactionTemplate(REQUIRES_NEW) | ServicioCuotas | `emitirCuotaDeGrupo( idGrupo, periodo)` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
+| 5 | ServicioCuotas | FachadaPersistencia«Singleton» | `get(idGrupo, GrupoFamiliar)` |  |
+| 6 | ServicioCuotas | FachadaPersistencia«Singleton» | `buscarUno( SaldoDeGrupo(idGrupo))` |  |
+| 7 | ServicioCuotas | GrupoFamiliar | `emitirCuota(periodo, FechasCuota.delPeriodo(periodo), saldo)` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 8 | GrupoFamiliar | GrupoFamiliar | `calcularImporte Cuota()` | [GrupoFamiliar.java](../src/main/java/ar/edu/ub/club/grupos/dominio/GrupoFamiliar.java) |
+| 9 | GrupoFamiliar | Cuota | `«create» (periodo, importe, fechas)` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
+| 10 | GrupoFamiliar | Cuota | `asignarGrupo(g.id)` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
+| 11 | GrupoFamiliar | Cuota | `agregarItem(new ItemCuota(socio, socio.categoria, categoria.importe))` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
+| 12 | GrupoFamiliar | Cuota | `aplicarCredito(saldo)` | [Cuota.java](../src/main/java/ar/edu/ub/club/cuotas/dominio/Cuota.java) |
+| 13 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(c)` |  |
+| 14 | ServicioCuotas | FachadaPersistencia«Singleton» | `put(new MovimientoSaldo(DEBITO, c.creditoAplicado, c))` |  |
+| 15 | ServicioCuotas | ApplicationEventPublisher | `publishEvent(CuotaCubierta ConSaldoEvento(c.id, idGrupo, c.creditoAplicado, ahora))` |  |
+| 16 | ServicioCuotas | ServicioCuotas | `registra en la bitácora; se reintenta en la próxima ejecución` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
+| 17 | ServicioCuotas | ServicioCuotas | `emitidas++` | [ServicioCuotas.java](../src/main/java/ar/edu/ub/club/cuotas/aplicacion/ServicioCuotas.java) |
 
 ### `sec_tmp_emision_p2.puml` — Emisión mensual de cuotas (parte 2: RegistradorPagoConSaldo)
 
@@ -2344,10 +2435,26 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 |---|---|---|---|---|
 | 1 | PlanificadorReservas | ServicioReservas | `finalizarReservasCumplidas()` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
 | 2 | ServicioReservas | FachadaPersistencia«Singleton» | `buscar(ReservasCumplidas( reloj.ahora()))` |  |
-| 3 | ServicioReservas | Reserva | `finalizar()` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
-| 4 | Reserva | EstadoReservaConfirmada | `finalizar(r)` | [EstadoReservaConfirmada.java](../src/main/java/ar/edu/ub/club/reservas/dominio/EstadoReservaConfirmada.java) |
-| 5 | EstadoReservaConfirmada | Reserva | `cambiarEstado(EstadoReservaFinalizada)` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
-| 6 | ServicioReservas | FachadaPersistencia«Singleton» | `put(r)` |  |
+| 3 | ServicioReservas | TransactionTemplate(REQUIRES_NEW) | `execute(estado -> finalizarEnTransaccion(r.id))` |  |
+| 4 | TransactionTemplate(REQUIRES_NEW) | ServicioReservas | `finalizarEnTransaccion(idReserva)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 5 | ServicioReservas | FachadaPersistencia«Singleton» | `get(idReserva, Reserva)` |  |
+| 6 | ServicioReservas | Reserva | `finalizar()` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
+| 7 | Reserva | EstadoReservaConfirmada | `finalizar(r)` | [EstadoReservaConfirmada.java](../src/main/java/ar/edu/ub/club/reservas/dominio/EstadoReservaConfirmada.java) |
+| 8 | EstadoReservaConfirmada | Reserva | `cambiarEstado( EstadoReserva.desdeCodigo("FINALIZADA"))` | [Reserva.java](../src/main/java/ar/edu/ub/club/reservas/dominio/Reserva.java) |
+| 9 | ServicioReservas | FachadaPersistencia«Singleton» | `put(r)` |  |
+| 10 | ServicioReservas | ServicioReservas | `registra en la bitácora (sin escribir)` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+| 11 | ServicioReservas | ServicioReservas | `finalizadas++` | [ServicioReservas.java](../src/main/java/ar/edu/ub/club/reservas/aplicacion/ServicioReservas.java) |
+
+### `sec_tmp_tokens_vencidos.puml` — Limpieza de tokens de sesión persistente vencidos (PlanificadorSesiones.eliminarTokensVencidos, 03:00)
+
+| # | Desde | Hacia (clase) | Mensaje | Archivo |
+|---|---|---|---|---|
+| 1 | PlanificadorSesiones | PlanificadorSesiones | `eliminarTokensVencidos()` | [PlanificadorSesiones.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/PlanificadorSesiones.java) |
+| 2 | PlanificadorSesiones | Reloj | `ahora()` | [Reloj.java](../src/main/java/ar/edu/ub/club/compartido/dominio/Reloj.java) |
+| 3 | PlanificadorSesiones | AlmacenTokensSesionPersistente | `eliminarVencidos(ahora)` | [AlmacenTokensSesionPersistente.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/AlmacenTokensSesionPersistente.java) |
+| 4 | AlmacenTokensSesionPersistente | FachadaPersistencia«Singleton» | `buscar(TokensSesionVencidos(ahora))` |  |
+| 5 | AlmacenTokensSesionPersistente | FachadaPersistencia«Singleton» | `eliminar(t)` |  |
+| 6 | PlanificadorSesiones | PlanificadorSesiones | `registra la cantidad en la bitácora técnica` | [PlanificadorSesiones.java](../src/main/java/ar/edu/ub/club/accesos/aplicacion/PlanificadorSesiones.java) |
 
 ### `sec_tmp_vencer_cuotas.puml` — Vencimiento de cuotas (ServicioCuotas.marcarCuotasVencidas, día 11)
 
@@ -2451,12 +2558,17 @@ P-26 (sec_cu35_p9): `RetornoPasarelaController.retornar` → `VistaResultadoPago
 | 2 | PublicadorEventosReserva | AuditorReservas | `alOcurrir(e)` | [AuditorReservas.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/AuditorReservas.java) |
 | 3 | AuditorReservas | ServicioAuditoria | `registrar(e.usuario, accion, "Reserva", id, detalle)` | [ServicioAuditoria.java](../src/main/java/ar/edu/ub/club/auditoria/aplicacion/ServicioAuditoria.java) |
 | 4 | PublicadorEventosReserva | NotificadorReservas | `alOcurrir(e)` | [NotificadorReservas.java](../src/main/java/ar/edu/ub/club/notificaciones/aplicacion/NotificadorReservas.java) |
-| 5 | NotificadorReservas | Notificacion | `«create» (socio, reserva, tipo, mensaje)` | [Notificacion.java](../src/main/java/ar/edu/ub/club/notificaciones/dominio/Notificacion.java) |
-| 6 | NotificadorReservas | FachadaPersistencia«Singleton» | `put(n)` |  |
-| 7 | NotificadorReservas | ServicioCorreo | `enviar(MensajeCorreo)` | [ServicioCorreo.java](../src/main/java/ar/edu/ub/club/notificaciones/integracion/ServicioCorreo.java) |
-| 8 | NotificadorReservas | Notificacion | `marcarEnviada()` | [Notificacion.java](../src/main/java/ar/edu/ub/club/notificaciones/dominio/Notificacion.java) |
-| 9 | NotificadorReservas | Notificacion | `marcarFallida(detalle)` | [Notificacion.java](../src/main/java/ar/edu/ub/club/notificaciones/dominio/Notificacion.java) |
-| 10 | NotificadorReservas | FachadaPersistencia«Singleton» | `put(n)` |  |
+| 5 | NotificadorReservas | TransactionSynchronizationManager | `registerSynchronization( afterCommit → notificar DespuesDelCommit(e))` |  |
+| 6 | TransactionSynchronizationManager | NotificadorReservas | `afterCommit()` | [NotificadorReservas.java](../src/main/java/ar/edu/ub/club/notificaciones/aplicacion/NotificadorReservas.java) |
+| 7 | NotificadorReservas | NotificadorReservas | `notificarDespuesDelCommit(e)` | [NotificadorReservas.java](../src/main/java/ar/edu/ub/club/notificaciones/aplicacion/NotificadorReservas.java) |
+| 8 | NotificadorReservas | TransactionTemplate(REQUIRES_NEW) | `executeWithoutResult( estado -> enviar(e))` |  |
+| 9 | TransactionTemplate(REQUIRES_NEW) | NotificadorReservas | `enviar(e)` | [NotificadorReservas.java](../src/main/java/ar/edu/ub/club/notificaciones/aplicacion/NotificadorReservas.java) |
+| 10 | NotificadorReservas | Notificacion | `«create» (socio, reserva, tipo, cuerpo)` | [Notificacion.java](../src/main/java/ar/edu/ub/club/notificaciones/dominio/Notificacion.java) |
+| 11 | NotificadorReservas | FachadaPersistencia«Singleton» | `put(n)` |  |
+| 12 | NotificadorReservas | ServicioCorreo | `enviar(new MensajeCorreo( socio.email, asunto(tipo), cuerpo))` | [ServicioCorreo.java](../src/main/java/ar/edu/ub/club/notificaciones/integracion/ServicioCorreo.java) |
+| 13 | NotificadorReservas | Notificacion | `marcarEnviada()` | [Notificacion.java](../src/main/java/ar/edu/ub/club/notificaciones/dominio/Notificacion.java) |
+| 14 | NotificadorReservas | Notificacion | `marcarFallida(detalle)` | [Notificacion.java](../src/main/java/ar/edu/ub/club/notificaciones/dominio/Notificacion.java) |
+| 15 | NotificadorReservas | FachadaPersistencia«Singleton» | `put(n)` |  |
 
 ### `sec_comun_peticion.puml` — Interacción común: petición de la vista y manejo de errores
 

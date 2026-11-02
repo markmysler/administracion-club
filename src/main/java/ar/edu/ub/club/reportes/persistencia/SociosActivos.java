@@ -5,7 +5,7 @@ import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 69 (MODELO 11.8.4): cantidad de socios con la cuenta ACTIVA (indicador «Socios
+ * Objeto consulta de proyección n.º 61 (Entrega 7C): cantidad de socios con la cuenta ACTIVA (indicador «Socios
  * activos» de P-04, paso 5 de CU-40). Tablas: socio, usuario (herencia JOINED).
  *
  * <p>Casos de uso: CU-40

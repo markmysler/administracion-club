@@ -7,7 +7,7 @@ import ar.edu.ub.club.reportes.aplicacion.FiltroReporte;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 65 (MODELO 11.8.4): cuotas emitidas en el período ({@code cuota.fecha_emision}
+ * Objeto consulta de proyección n.º 57 (Entrega 7C): cuotas emitidas en el período ({@code cuota.fecha_emision}
  * entre desde y hasta) agrupadas por grupo familiar, con el titular, las cuotas adeudadas (Pendiente y VENCIDA) y su
  * deuda con el importe a pagar ({@code importe - credito_aplicado}, RN-21), y además las cobradas (PAGADA) y las
  * vencidas para los totales. Orden por deuda descendente. Tablas: cuota, grupo_familiar, socio.

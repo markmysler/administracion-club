@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * Saldo a favor de un grupo: suma de créditos menos suma de débitos de {@code movimiento_saldo} (RN-21; 0 si no
- * hay movimientos). La usa {@code ServicioCuotas} en la emisión y al aplicar un crédito. Consulta 53 de MODELO
- * §11.8.4.
+ * hay movimientos). La usa {@code ServicioCuotas} en la emisión y al aplicar un crédito. Consulta 46 de la
+ * Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) de proyección; lo resuelve {@code FachadaPersistencia} sin broker.
  *

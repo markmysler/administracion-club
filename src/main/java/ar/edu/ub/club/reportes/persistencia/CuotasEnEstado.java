@@ -5,7 +5,7 @@ import ar.edu.ub.club.compartido.persistencia.FilaResultado;
 import java.util.List;
 
 /**
- * Objeto consulta de proyección n.º 70 (MODELO 11.8.4): cantidad de cuotas en un estado (Pendiente o VENCIDA para
+ * Objeto consulta de proyección n.º 62 (Entrega 7C): cantidad de cuotas en un estado (Pendiente o VENCIDA para
  * el indicador «Cuotas impagas» de P-04, paso 6 de CU-40). Tabla: cuota.
  *
  * <p>Casos de uso: CU-40

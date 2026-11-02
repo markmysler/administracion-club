@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Cuotas pendientes cuya fecha de vencimiento es anterior a la fecha de proceso (usa el índice {@code
- * ix_cuota_estado_vencimiento}). La usa {@code ServicioCuotas.marcarCuotasVencidas}. Consulta 49 de MODELO §11.8.4.
+ * ix_cuota_estado_vencimiento}). La usa {@code ServicioCuotas.marcarCuotasVencidas}. Consulta 42 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *

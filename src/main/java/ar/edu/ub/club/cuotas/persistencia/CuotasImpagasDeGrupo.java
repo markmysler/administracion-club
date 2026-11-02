@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Cuotas impagas (Pendiente o VENCIDA) de un grupo, de la más antigua a la más reciente. La usa {@code
  * ServicioCuotas.aplicarSaldoAPendientes} para cancelar con saldo a favor la cuota impaga más antigua (RN-21).
- * Consulta 50 de MODELO §11.8.4.
+ * Consulta 43 de la Entrega 7C.
  *
  * <p>Objeto consulta (Query Object, Fowler) que devuelve objetos persistentes; lo resuelve el broker de su clase de resultado.
  *
