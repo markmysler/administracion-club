@@ -1,0 +1,87 @@
+package ar.edu.ub.club.socios.aplicacion;
+
+import ar.edu.ub.club.compartido.dominio.ResumenReserva;
+import ar.edu.ub.club.cuotas.dominio.Cuota;
+import ar.edu.ub.club.grupos.dominio.GrupoFamiliar;
+import ar.edu.ub.club.socios.dominio.Socio;
+import java.util.List;
+
+/**
+ * Objeto de datos de salida de {@code ServicioSocios.consultarSocio} (CU-04): el socio, su grupo vigente, sus
+ * reservas futuras (consulta invertida) y las cuotas de su grupo. Lo convierte {@code DetalleSocio.desde(ficha)}.
+ * Inmutable, sin comportamiento.
+ *
+ * <p>Objeto de comando o de datos de la capa de aplicación.
+ *
+ * <p>Casos de uso: CU-04
+ */
+public class FichaSocio {
+
+    /** Atributo socio. */
+    private Socio socio;
+
+    /** Atributo grupo. */
+    private GrupoFamiliar grupo;
+
+    /** Atributo reservas. */
+    private List<ResumenReserva> reservas;
+
+    /** Atributo estadoCuenta. */
+    private List<Cuota> estadoCuenta;
+
+    /**
+     * Crea una instancia de {@code FichaSocio}.
+     *
+     * <p>Casos de uso: CU-04
+     * @param socio valor de {@code socio}
+     * @param grupo valor de {@code grupo}
+     * @param reservas valor de {@code reservas}
+     * @param estadoCuenta valor de {@code estadoCuenta}
+     */
+    public FichaSocio(Socio socio, GrupoFamiliar grupo, List<ResumenReserva> reservas, List<Cuota> estadoCuenta) {
+        this.socio = socio;
+        this.grupo = grupo;
+        this.reservas = reservas;
+        this.estadoCuenta = estadoCuenta;
+    }
+
+    /**
+     * Devuelve {@code socio}: socio.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public Socio getSocio() {
+        return socio;
+    }
+
+    /**
+     * Devuelve {@code grupo}: grupo.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public GrupoFamiliar getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * Devuelve {@code reservas}: reservas.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public List<ResumenReserva> getReservas() {
+        return reservas;
+    }
+
+    /**
+     * Devuelve {@code estadoCuenta}: estadoCuenta.
+     *
+     * <p>Casos de uso: CU-04
+     * @return el valor del atributo
+     */
+    public List<Cuota> getEstadoCuenta() {
+        return estadoCuenta;
+    }
+}
